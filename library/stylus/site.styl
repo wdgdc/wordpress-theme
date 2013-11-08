@@ -1,0 +1,105 @@
+@import "_mixins"
+@import "_wordpress"
+
+// Global selectors
+
+body
+	font 14px/1.5 font_opensans
+
+a
+	color #03a9cb
+	text-decoration underline
+	
+	&:hover
+		text-decoration none
+
+nav ul
+	list-style none
+	margin 0
+	padding 0
+
+h1
+h2
+h3
+h4
+h5
+h6
+	font-weight opensans_semibold
+	letter-spacing -.03em
+	line-height 1.1
+	margin .5em 0
+	
+	&:first-child
+		margin-top 0
+
+h5
+h6
+	font-size 1em
+
+h3
+h4
+h5
+	font-weight opensans_bold
+
+h5
+h6
+	font-style italic
+
+hr
+	border 0
+	border-top 1px solid #d5d5d5
+	margin 2em 0
+
+ol
+ul
+dd
+	padding-left 2em
+	margin-left 0
+
+li
+dd
+	margin-bottom 0.5em
+
+blockquote
+	background #eee
+	border-left 5px solid #ccc
+	margin 1.5em
+	padding .5em 1em
+
+	p
+		margin .5em 0 !important
+
+table
+	background #eee
+	
+	thead
+		background #666
+		color #fff
+
+	tfoot
+		background #ccc
+		color #FFF
+
+	td
+		padding 6px
+	
+	tr:nth-child(2n)
+		background #f9f9f9
+
+
+// Classes
+
+print_mixin_classes()
+print_wordpress_classes()
+
+.wrap
+	margin 0 auto
+	max-width 960px
+	position relative
+
+
+// IDs
+
+#overflow
+	overflow hidden
+	position relative
