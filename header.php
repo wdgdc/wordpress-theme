@@ -9,7 +9,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title><?php bloginfo('name'); ?> <?php wp_title('&raquo;'); ?></title>
+	<title><?php wp_title(''); ?></title>
 	
 	<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.png">
 	<!--[if IE]>
@@ -17,11 +17,6 @@
 	<![endif]-->
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<script>
-		var STYLESHEET_DIRECTORY = '<?php bloginfo('stylesheet_directory'); ?>',
-		    VENDOR_DIRECTORY     = '<?php echo get_bloginfo('stylesheet_directory') . '/library/vendor'; ?>';
-	</script>
 
 	<?php wp_head(); ?>
 </head>

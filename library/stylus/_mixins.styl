@@ -133,6 +133,9 @@ noselect()
 nomargin()
 	margin 0 !important
 
+// percent
+percent($number, $container = 1000)
+	unit($number / $container * 100, '%')
 
 print_mixin_classes()
 	.ir

@@ -78,11 +78,12 @@ function bones_custom_admin_footer() {
 // Custom admin stylesheet
 add_action('admin_enqueue_scripts', 'bones_admin_enqueue_scripts');
 function bones_admin_enqueue_scripts() {
-	$filepath = get_stylesheet_directory_uri() . '/library/stylus/admin.css';
+	$filepath = get_stylesheet_directory() . '/library/css/admin.css';
+	$fileurl  = get_stylesheet_directory_uri() . '/library/css/admin.css';
 	
 	if (!file_exists($filepath)) {
 		return;
 	}
 	
-	wp_enqueue_style('admin-css', $filepath);
+	wp_enqueue_style('admin-css', $fileurl);
 }

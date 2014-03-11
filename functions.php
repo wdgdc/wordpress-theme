@@ -1,5 +1,23 @@
 <?php
 
+// LIBRARY & VENDOR DIRECTORY CONSTANTS
+
+define('LIBRARY_DIRECTORY', get_stylesheet_directory_uri() . '/library');
+define('VENDOR_DIRECTORY', LIBRARY_DIRECTORY . '/vendor');
+
+add_action('wp_head', function() {
+?>
+	<script>
+		var ROOT_DIRECTORY       = '<?php bloginfo('url'); ?>',
+		    STYLESHEET_DIRECTORY = '<?php bloginfo('stylesheet_directory'); ?>',
+		    LIBRARY_DIRECTORY    = '<?php bloginfo('stylesheet_directory'); ?>/library',
+		    VENDOR_DIRECTORY     = '<?php bloginfo('stylesheet_directory'); ?>/library/vendor',
+		    AJAX_URL             = '<?php echo admin_url('admin-ajax.php'); ?>',
+		    ajaxurl              = '<?php echo admin_url('admin-ajax.php'); ?>';
+	</script>
+<?php
+}, 1);
+
 /************* INCLUDE NEEDED FILES ***************/
 
 /*
@@ -52,9 +70,9 @@ add_image_size( 'bones-thumb-300', 300, 100, true );
 // Sidebars & Widgetizes Areas
 function bones_register_sidebars() {
 	register_sidebar(array(
-		'id'            => 'sidebar1',
-		'name'          => __( 'Sidebar 1', 'bonestheme' ),
-		'description'   => __( 'The first (primary) sidebar.', 'bonestheme' ),
+		'id'            => 'sidebar',
+		'name'          => __( 'Sidebar', 'bonestheme' ),
+		'description'   => __( 'The sidebar.', 'bonestheme' ),
 		'before_widget' => '<div id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h4 class="widgettitle">',
@@ -72,7 +90,7 @@ function bones_comments( $comment, $args, $depth ) {
 	?>
 		<li <?php comment_class(); ?>>
 			<article id="comment-<?php comment_ID(); ?>" class="clearfix">
-				<header class="comment-author vcard">
+				<header class="comment-author vcard Media clearfix">
 					<?php
 					/*
 						this is the new responsive optimized comment image. It used the new HTML5 data-attribute to display comment gravatars on larger screens only. What this means is that on larger posts, mobile sites don't have a ton of requests for comment images. This makes load time incredibly fast! If you'd like to change it back, just replace it with the regular wordpress gravatar call:
@@ -84,11 +102,13 @@ function bones_comments( $comment, $args, $depth ) {
 						// create variable
 						$bgauthemail = get_comment_author_email();
 					?>
-					<img data-gravatar="http://www.gravatar.com/avatar/<?php echo md5( $bgauthemail ); ?>?s=32" class="load-gravatar avatar avatar-48 photo" height="32" width="32" src="<?php echo get_template_directory_uri(); ?>/library/images/nothing.gif" />
+					<img data-gravatar="http://www.gravatar.com/avatar/<?php echo md5( $bgauthemail ); ?>?s=32" class="load-gravatar avatar avatar-48 photo Media-left" height="32" width="32" src="<?php echo get_template_directory_uri(); ?>/library/images/nothing.gif" />
 					<!-- end custom gravatar call -->
-					<?php printf(__( '<cite class="fn">%s</cite>', 'bonestheme' ), get_comment_author_link()) ?>
-					<time datetime="<?php echo comment_time('Y-m-j'); ?>"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php comment_time(__( 'F jS, Y', 'bonestheme' )); ?> </a></time>
-					<?php edit_comment_link(__( '(Edit)', 'bonestheme' ),'  ','') ?>
+					<div class="Media-body">
+						<?php printf(__( '<cite class="fn">%s</cite>', 'bonestheme' ), get_comment_author_link()) ?>
+						<time datetime="<?php echo comment_time('Y-m-j'); ?>"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php comment_time(__( 'F jS, Y', 'bonestheme' )); ?> </a></time>
+						<?php edit_comment_link(__( '(Edit)', 'bonestheme' ),'  ','') ?>
+					</div>
 				</header>
 				<?php if ($comment->comment_approved == '0') : ?>
 					<div class="alert alert-info">
@@ -119,6 +139,35 @@ function bones_wpsearch($form) {
 } // don't remove this bracket!
 
 
+// Excerpt customization
+function child_excerpt($text = '', $excerpt_length = 55) {
+	if ( is_int($text) ) {
+		$excerpt_length = $text;
+		$text           = '';
+	}
+
+	$raw_excerpt = $text;
+
+	if ( $text == '' )
+		$text = get_the_content('');
+
+	$text = strip_shortcodes( $text );
+	$text = apply_filters('the_content', $text);
+	$text = str_replace(']]>', ']]&gt;', $text);
+
+	$text = wp_trim_words( $text, $excerpt_length, '' );
+
+	if ( in_array( substr($text, -1), array(',', '.') ) ) {
+		$text = substr($text, 0, -1);
+	}
+
+	$text .= apply_filters('excerpt_more', '...');
+	$text = apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
+	$text = apply_filters('the_excerpt', $text);
+
+	return $text;
+}
+
 
 /************* POST CLASS NAMES *****************/
 
@@ -136,3 +185,9 @@ add_filter('previous_posts_link_attributes', function() {
 add_filter('next_posts_link_attributes', function() {
 	return 'class="next-posts-link posts-link"';
 });
+
+
+
+if (!isset( $content_width)) {
+	$content_width = 750;
+}
