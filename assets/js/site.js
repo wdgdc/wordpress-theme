@@ -7,7 +7,6 @@ var $body     = $(document.body);
 var Site = window.Site = {
 	// initialize the script
 	init: function() {
-
 	}
 };
 

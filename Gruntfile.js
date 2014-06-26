@@ -1,6 +1,22 @@
 module.exports = function(grunt) {
 
 	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+
+		project: {
+			assets: '<%= project.root %>/assets',
+			css   : '<%= project.assets %>/css',
+			fonts : '<%= project.assets %>/fonts',
+			img   : '<%= project.assets %>/img',
+			inc   : '<%= project.root %>/includes',
+			js    : '<%= project.assets %>/js',
+			lang  : '<%= project.root %>/languages',
+			less  : '<%= project.assets %>/less',
+			root  : __dirname,
+			sass  : '<%= project.assets %>/scss',
+			stylus: '<%= project.assets %>/stylus',
+			vendor: '<%= project.assets %>/vendor'
+		},
 
 		// Run watch and shell in parallel
 		concurrent: {
@@ -15,143 +31,162 @@ module.exports = function(grunt) {
 		// Watches for changes and runs tasks
 		watch: {
 			options: {
-				livereload: true
+				livereload: true,
+				spawn     : false
 			},
-			stylesheets: {
-				files  : ['library/css/**/*.css']
+			less: {
+				files: ['<%= project.less %>/**/*.less'],
+				tasks: ['less']
 			},
-			scripts: {
-				files  : ['library/js/**/*.js'],
-				tasks  : ['jshint']
+			sass: {
+				files: ['<%= project.sass %>/**/*.scss'],
+				tasks: ['sass']
+			},
+			stylus: {
+				files: ['<%= project.stylus %>/**/*.styl'],
+				tasks: ['stylus']
+			},
+			css: {
+				files: ['<%= project.css %>/**/*.css'],
+				tasks: ['autoprefixer', 'modernizr']
+			},
+			img: {
+				files: ['<%= project.img %>/**/*.{png,jpg,jpeg,gif,svg}'],
+				tasks: ['newer:imagemin']
+			},
+			js: {
+				files: ['<%= project.js %>/**/*.js'],
+				tasks: ['jshint', 'modernizr']
 			},
 			php: {
-				files  : ['**/*.php']
+				files: ['<%= project.root %>/**/*.php'],
+				tasks: ['phplint']
 			}
 		},
 
-		// JsHint your javascript
+		autoprefixer: {
+			all: {
+				expand : true,
+				flatten: true,
+				src    : '<%= project.css %>/**/*.css',
+				dest   : '<%= project.css %>'
+			}
+		},
+
+		// JSHint your javascript
 		jshint: {
-			all    : ['library/js/*.js'],
+			all: {
+				src: ['<%= project.js %>/**/*.js', '!**/*.min.js']
+			},
 			options: {
-				browser  : true,
-				curly    : false,
-				eqeqeq   : false,
-				eqnull   : true,
-				expr     : true,
-				immed    : true,
-				newcap   : true,
-				noarg    : true,
-				smarttabs: true,
-				sub      : true,
-				undef    : false
+				jshintrc: true
 			}
 		},
 
 		// Image min
 		imagemin: {
-			production: {
+			all: {
 				files: [{
 					expand: true,
-					cwd: 'library/images',
-					src: '**/*.{png,jpg,jpeg}',
-					dest: 'library/images'
+					cwd: '<%= project.img %>',
+					src: '**/*.{png,jpg,jpeg,gif,svg}',
+					dest: '<%= project.img %>'
 				}]
 			}
 		},
 
-		// SVG min
-		svgmin: {
-			production: {
-				files: [{
-					expand: true,
-					cwd   : 'library/images',
-					src   : '**/*.svg',
-					dest  : 'library/images'
-				}]
-			}
-		},
-
-		// Dev and production build for stylus
+		// Stylus compilation
 		stylus: {
 			all: {
 				files: [{
-					src : ['library/stylus/**/*.styl', '!**/_*.styl'],
-					dest: 'library/css'
-				}]
-			},
-			production: {
-				options: {
-					compress: true
-				}
-			},
-			dev: {
+					expand: true,
+					cwd : '<%= project.stylus %>',
+					src : ['**/*.styl', '!**/_*.styl'],
+					dest: '<%= project.css %>',
+					ext : '.css'
+				}],
 				options: {
 					compress: false
 				}
 			}
 		},
 
-		// Shell
-		shell: {
-			stylus: {
-				command: function() {
-					var filesConfig = grunt.config('stylus.all.files');
-					var files       = [];
-					var out         = '';
-					var include     = '';
-
-					filesConfig.forEach(function(file) {
-						files = files.concat(grunt.file.expand(file.src));
-						out   = '--out ' + file.dest;
-						include = file.cwd;
-					});
-
-					var compress = grunt.config('stylus.dev.options.compress') ? '--compress' : '';
-					var cmd      = 'node node_modules/stylus/bin/stylus --use nib --watch ' + [compress, out, files.join(' ')].join(' ');
-
-					return cmd;
+		// custom modernizr
+		modernizr: {
+			all: {
+				devFile: '<%= project.vendor %>/modernizr/modernizr.js',
+				outputFile: '<%= project.vendor %>/modernizr/modernizr-custom.js',
+				extensibility: {
+					domprefixes: true,
+					prefixes   : true
 				},
-				options: {
-					failOnError: true,
-					stdout: true,
-					sterr: true
+				files: {
+					src: ['<%= project.css %>/**/*.css', '<%= project.js %>/**/*.js']
 				}
 			}
 		}
+
+		// Shell
+		// shell: {
+		// 	stylus: {
+		// 		command: function() {
+		// 			var filesConfig = grunt.config('stylus.all.files');
+		// 			var files       = [];
+		// 			var out         = '';
+		// 			var include     = '';
+
+		// 			filesConfig.forEach(function(file) {
+		// 				files = files.concat(grunt.file.expand(file.src));
+		// 				out   = '--out ' + file.dest;
+		// 				include = file.cwd;
+		// 			});
+
+		// 			var compress = grunt.config('stylus.dev.options.compress') ? '--compress' : '';
+		// 			var cmd      = 'node node_modules/stylus/bin/stylus --use nib --watch ' + [compress, out, files.join(' ')].join(' ');
+
+		// 			return cmd;
+		// 		}
+		// 	}
+		// }
 	});
 
 
 	// Load up tasks
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+	// grunt.loadNpmTasks('grunt-concurrent');
+	// grunt.loadNpmTasks('grunt-shell');
+	// grunt.loadNpmTasks('grunt-svgmin');
+	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-svgmin');
-	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-concurrent');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-stylus');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-modernizr');
+	grunt.loadNpmTasks('grunt-newer');
 
 
 	// Run bower install
-	grunt.registerTask('bower-install', function() {
-		var done  = this.async();
-		var bower = require('bower').commands;
-		bower.install().on('end', function(data) {
-			done();
-		}).on('data', function(data) {
-			console.log(data);
-		}).on('error', function(err) {
-			console.error(err);
-			done();
-		});
-	});
+	// grunt.registerTask('bower-install', function() {
+	// 	var done  = this.async();
+	// 	var bower = require('bower').commands;
+	// 	bower.install().on('end', function(data) {
+	// 		done();
+	// 	}).on('data', function(data) {
+	// 		console.log(data);
+	// 	}).on('error', function(err) {
+	// 		console.error(err);
+	// 		done();
+	// 	});
+	// });
 
 
 	// Default task
-	grunt.registerTask('default', ['concurrent']);
+	// grunt.registerTask('default', ['concurrent']);
+	// grunt.registerTask('default', ['watch']);
 
 	// Build task
-	grunt.registerTask('build', ['jshint', 'stylus:production', 'imagemin:production', 'svgmin:production']);
+	grunt.registerTask('build', ['stylus', 'autoprefixer', 'modernizr', 'imagemin', 'svgmin']);
 
 	// Template Setup Task
-	grunt.registerTask('setup', ['stylus:dev', 'bower-install']);
+	// grunt.registerTask('setup', ['stylus:dev', 'bower-install']);
 
 };

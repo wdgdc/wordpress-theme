@@ -1,12 +1,12 @@
 {
   "name": "wdg-wordpress-theme",
   "dependencies": {
-    "console-polyfill": "~0.1.1",
+    "console-polyfill": "*",
     "iosOrientationFix": "*",
-    "isMobile": "~0.3.1",
-    "jquery": "~1.11.0",
-    "modernizr": "~2.7.1",
+    "isMobile": "*",
+    "jquery": "1.x.x",
+    "modernizr": "2.x.x",
     "mrmrs-colors": "*",
-    "normalize-css": "~3.0.0"
+    "normalize-css": "3.x.x"
   }
 }

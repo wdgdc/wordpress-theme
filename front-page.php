@@ -15,7 +15,11 @@ get_header();
 
 <hr>
 
-<div class="wrap">
+
+<?php
+get_sidebar();
+/*
+<div class="u-textFormat u-wrap">
 	<p>This is your <strong>front-page.php</strong> file</p>
 
 	<h1>Heading 1</h1>
@@ -358,6 +362,7 @@ get_header();
 			</fieldset>
 	</form>
 </div>
+*/ ?>
 
 
 <?php
