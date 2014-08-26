@@ -1,15 +1,15 @@
-<footer class="Footer">
+<footer class="footer">
 	<div class="u-wrap">
 		<?php echo Theme::nav('footer'); ?>
-		<p class="Footer-copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.</p>
+		<p class="footer-copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.</p>
 		<!-- Proudly powered by WordPress -->
 	</div>
 </footer>
 
-</div><!-- end .MainContainer -->
-</div><!-- end .Overflow -->
+</div><!-- end .main-container -->
+</div><!-- end .overflow -->
 
-<section id="wp-footer" class="u-isHidden">
+<section id="wp-footer">
 	<?php wp_footer(); ?>
 </section>
 

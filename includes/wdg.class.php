@@ -23,7 +23,7 @@ Class WDG {
 	}
 
 	public static function setup_actions() {
-		$class = get_class($this);
+		$class = get_class();
 		add_action('after_setup_theme', array($class, 'setup_theme'));
 		add_action('after_setup_theme', array($class, 'languages_gravityforms'));
 		add_action('after_setup_theme', array($class, 'register_nav_menus'));
@@ -34,11 +34,10 @@ Class WDG {
 		add_action('after_setup_theme', array($class, 'wp_head_cleanup'));
 		add_action('widgets_init', array($class, 'register_sidebars'));
 		add_action('wp', array($class, 'setup_author_archive'));
-		add_action('admin_menu', array($class, 'admin_disable_dashboard_widgets'));
 	}
 
 	public static function setup_filters() {
-		$class = get_class($this);
+		$class = get_class();
 		add_filter('nav_menu_item_id', '__return_empty_string');
 		add_filter('nav_menu_link_attributes', array($class, 'filter_nav_menu_link_attributes'), null , 3);
 		add_filter('the_generator', '__return_empty_string');
@@ -134,17 +133,28 @@ Class WDG {
 			return new WP_Error('invalid_argument_type', '`$override_args` isn\'t an Array', $override_args);
 		}
 
-		if (!isset(self::$nav_menus[$handle])) {
-			return new WP_Error('nav_menu_not_registered', 'Menu handler is not registered', $handle);
+		if (isset(self::$nav_menus[$handle])) {
+			$args = self::$nav_menus[$handle];
+		} else {
+			$args = array('menu' => $handle);
+			$args = Theme::defaults_nav_menu($args);
 		}
-
-		$args = self::$nav_menus[$handle];
 
 		$override_args = array_merge($override_args, array(
 			'echo'        => false,
 			'fallback_cb' => null,
 			'WDG_builder' => true
 		));
+
+		// Set container CSS class names
+		if (isset($override_args['container_class']) && strpos($override_args['container_class'], $args['container_class']) === false) {
+			$override_args['container_class'] = $args['container_class'] . ' ' . $override_args['container_class'];
+		}
+
+		// Set menu CSS class names
+		if (isset($override_args['menu_class']) && strpos($override_args['menu_class'], $args['menu_class']) === false) {
+			$override_args['menu_class'] = $args['menu_class'] . ' ' . $override_args['menu_class'];
+		}
 
 		$args = array_merge($args, $override_args);
 
@@ -210,6 +220,41 @@ Class WDG {
 		return self::$body_classes = apply_filters('WDG/add_body_class', $body_classes);
 	}
 
+	public static function defaults_nav_menu($args = array()) {
+		$defaults = array(
+			'container'       => 'nav',
+			'container_class' => 'Nav',
+			'description'     => '',
+			'menu_class'      => 'Nav-menu Nav-menu--depth0 menu',
+			'theme_location'  => '',
+			'walker'          => new WDG_Walker_Nav_Menu
+		);
+
+		// Merge default arguments
+		$defaults = apply_filters('WDG/register_nav_menu/defaults', $defaults, $args);
+		$args     = array_merge($defaults, $args);
+
+		// Set container CSS class name
+		if (isset($args['container_class'])) {
+			if (isset($args['theme_location']) && $args['theme_location']) {
+				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['theme_location'];
+			}
+
+			if (isset($args['menu']) && $args['menu']) {
+				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['menu'];
+			}
+		}
+		
+		// Set menu CSS class names
+		if (strpos($args['menu_class'], $defaults['menu_class']) === false) {
+			$args['menu_class'] .= ' ' . $defaults['menu_class'] . ' ';
+		}
+
+		$args['description'] = (!empty($args['description'])) ? $args['description'] : (isset($args['theme_location']) ? self::humanize($args['theme_location'] . ' menu') : '');
+
+		return $args;
+	}
+
 	/**
 	 * Append Navigation Menu items to the `self::$nav_menus` array
 	 * @param string|array $args
@@ -219,15 +264,6 @@ Class WDG {
 		if (!(is_string($args) || is_array($args))) {
 			return new WP_Error('invalid_argument_type', 'Argument isn\'t a String or Array', $args);
 		}
-
-		$defaults = array(
-			'container'       => 'nav',
-			'container_class' => 'Nav',
-			'description'     => '',
-			'menu_class'      => 'Nav-menu Nav-menu--depth0',
-			'theme_location'  => '',
-			'walker'          => new WDG_Walker_Nav_Menu
-		);
 
 		// if $args is a string transform it into `theme_location`
 		if (is_string($args)) {
@@ -240,14 +276,8 @@ Class WDG {
 			return new WP_Error('theme_location_missing', '`array("theme_location" => "")` is missing from the argument', $args);
 		}
 
-		// Merge default arguments
-		$defaults = apply_filters('WDG/register_nav_menu/defaults', $defaults, $args);
-		$args     = array_merge($defaults, $args);
-
-		// Set container CSS class name
-		$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['theme_location'];
-
-		$args['description'] = (!empty($args['description'])) ? $args['description'] : self::humanize($args['theme_location'] . ' menu');
+		// merge defaults
+		$args = Theme::defaults_nav_menu($args);
 
 		// Append menu to `self::$nav_menus`
 		self::$nav_menus[$args['theme_location']] = apply_filters('WDG/register_nav_menu', $args);
@@ -296,7 +326,7 @@ Class WDG {
 			$args['name'] = self::humanize($args['name']);
 		}
 
-		// Append menu to `self::$nav_menus`
+		// Append menu to `self::$sidebars`
 		self::$sidebars[$args['id']] = apply_filters('WDG/register_sidebar', $args);
 
 		return $args;
@@ -413,7 +443,7 @@ Class WDG {
 		$styles = apply_filters('WDG/registered_styles', self::$registered_styles);
 
 		foreach ($styles as $id => $style) {
-			$class = get_class($this);
+			$class = get_class();
 			$style = apply_filters('WDG/register_style', $style);
 			$code  = '$s = ' . $class . '::$registered_styles["' . $style['handle'] . '"]; wp_register_style($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["media"]);';
 			$fn    = create_function(null, $code);
@@ -424,15 +454,12 @@ Class WDG {
 	}
 
 	public static function enqueue_styles() {
-		if (!count(self::$enqueued_styles)) {
-			return new WP_Error('enqueued_styles_empty', '`$enqueued_styles` is empty', self::$enqueued_styles);
-		}
-
-		foreach (self::$enqueued_styles as $style) {
-			$code = 'wp_enqueue_style("' . $style['handle'] . '");';
-			$fn   = create_function(null, $code);
-			add_action('wp_enqueue_scripts', $fn, $style['priority']);
-		}
+		add_action('wp_enqueue_scripts', function() {
+			$class = get_class();
+			foreach ($class::$enqueued_styles as $style) {
+				wp_enqueue_style($style['handle']);
+			}
+		});
 
 		return self::$enqueued_styles;
 	}
@@ -441,7 +468,7 @@ Class WDG {
 		$styles = apply_filters('WDG/registered_scripts', self::$registered_scripts);
 
 		foreach ($styles as $id => $style) {
-			$class = get_class($this);
+			$class = get_class();
 			$style = apply_filters('WDG/register_script', $style);
 			$code  = '$s = ' . $class . '::$registered_scripts["' . $style['handle'] . '"]; wp_register_script($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["in_footer"]);';
 			$fn    = create_function(null, $code);
@@ -452,15 +479,12 @@ Class WDG {
 	}
 
 	public static function enqueue_scripts() {
-		if (!count(self::$enqueued_scripts)) {
-			return new WP_Error('enqueued_scripts_empty', '`$enqueued_scripts` is empty', self::$enqueued_scripts);
-		}
-
-		foreach (self::$enqueued_scripts as $script) {
-			$code = 'wp_enqueue_script("' . $script['handle'] . '");';
-			$fn   = create_function(null, $code);
-			add_action('wp_enqueue_scripts', $fn, $script['priority']);
-		}
+		add_action('wp_enqueue_scripts', function() {
+			$class = get_class();
+			foreach ($class::$enqueued_scripts as $script) {
+				wp_enqueue_script($script['handle']);
+			}
+		});
 
 		return self::$enqueued_scripts;
 	}
@@ -621,6 +645,7 @@ Class WDG {
 
 	protected static function humanize($str) {
 		$str = trim(strtolower($str));
+		$str = preg_replace('/[\-\_\.+]/', ' ', $str);
 		$str = preg_replace('/[^a-z0-9\s+]/', '', $str);
 		$str = preg_replace('/\s+/', ' ', $str);
 		$str = explode(' ', $str);

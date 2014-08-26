@@ -2,11 +2,7 @@
   "name": "wdg-wordpress-theme",
   "dependencies": {
     "console-polyfill": "*",
-    "iosOrientationFix": "*",
-    "isMobile": "*",
-    "jquery": "1.x.x",
-    "modernizr": "2.x.x",
-    "mrmrs-colors": "*",
-    "normalize-css": "3.x.x"
+    "jquery": "*",
+    "modernizr": "*"
   }
 }

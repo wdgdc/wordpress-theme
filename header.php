@@ -5,8 +5,8 @@
 <!--[if !IE]> --> <html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
 
 <head>
-	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="<?php bloginfo('charset'); ?>">
 	<title><?php wp_title('-', true, 'left'); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
@@ -14,15 +14,17 @@
 
 <body <?php body_class(); ?>>
 
-<div class="Overflow">
+<div class="overflow">
 
-<header class="Header u-cf">
-	<div class="u-wrap">
+<header class="header">
+	<div class="wrap">
 		<?php // only show an <h1> on the homepage and link it if is paginated ?>
 		<?php if (is_front_page() && !is_paged()) : ?>
-			<h1 class="Header-logo Logo">
+			<h1 class="header-logo logo">
 				<?php if (is_front_page() && !is_paged()) : ?>
+					<span>
 						<?php bloginfo('name'); ?>
+					</span>
 				<?php else : ?>
 					<a href="<?php bloginfo('url'); ?>">
 						<?php bloginfo('name'); ?>
@@ -31,7 +33,7 @@
 			</h1>
 		<?php // Show a <p> tag everywhere else ?>
 		<?php else: ?>
-			<p class="Header-logo Logo">
+			<p class="header-logo logo">
 				<a href="<?php bloginfo('url'); ?>">
 					<?php bloginfo('name'); ?>
 				</a>
@@ -43,4 +45,4 @@
 	</div>
 </header><!-- end .Header -->
 
-<div class="MainContainer u-cf">
+<div class="main-container">

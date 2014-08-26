@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0
+* Added `Thumbs.db` & `*.log` to `.gitignore`
+* Removed Bones & YeoPress mention on theme description
+* Removed Suit CSS class names, we won't enforce a CSS naming convention yet
+* Move search.php to use the archive.php
+* Bugfix: `wdg.constants.php` `THEME_IMG_PATH` is an alias of `THEME_IMAGES_PATH`
+* __functions.php__ Added jQuery to the registered scripts
+* __comments.php__ Change deprecated `siteurl` keys to `url`
+* __bower.json__ Do not enforce that many vendor scripts/styles from the get go
+* CSS pre processors are now optional, do not create a stylus directory by default
+* Removed `home.js`, let users create these if needed
+* Added `partials` & `widgets` directories
+
+
+
 ## 0.2.0
 * __functions.php__
 	* Sidebar name changed from `Sidebar 1` to `Sidebar`

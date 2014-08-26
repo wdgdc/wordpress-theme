@@ -8,15 +8,19 @@ It comes with [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/) support
 
 **All static assets**, like stylesheets, JavaScript files and images should go in the `/assets` directory. All 3rd party frameworks and plugins should go in the `/assets/vendor` directory -  we recommend using Bower for installing and updating them.
 
-**CSS pre-processors** are encouraged in development, please create a new directory inside `/assets` then add a task to the Grunt configuration to enable the build process of these files. Eg. `/assets/sass`, `/assets/less`, `/assets/stylus`.
+**CSS pre-processors** are encouraged in development, please create a new directory inside `/assets` then add a task to the Grunt configuration to enable the build process of these files. Eg. `/assets/sass`, `/assets/stylus`, `/assets/less`.
 
 **All PHP scripts** that aren't templates should go in `/includes`. Eg. `/includes/wdg.class.php`
 
 **Translation files** should live in the `/languages` directory.
 
-`node_modules` is where all **Node.js packaged modules** will be stored to be used in the Build process with Grunt. This directory is excluded from the Git repo by default. We'd recommend to keep it this way.
+`node_modules` is where all **Node.js packaged modules** will be stored to be used in the Build process with Grunt. This directory is excluded from the Git repo by default. We'd recommend to keep it this way. The contents of this directory are ignored on Git by default.
 
-`tests` include **unit testing** for our main PHP scripts. We encourage you to write all sort of tests for your theme here, feel free to use your favorite testing framework. But, add a shortcut to it on `Grunt`. Eg. `grunt tests`
+`partials` is where all the template parts live.
+
+`tests` include **unit testing** for our main PHP scripts (and possibly Front-End tests?). We encourage you to write all sort of tests for your theme here, feel free to use your favorite testing framework.
+
+`widgets` is where all WordPress widgets code is available.
 
 
 ```
@@ -33,6 +37,7 @@ wdg-wordpress-theme
 ├── includes
 ├── languages
 ├── node_modules
+├── partials
 └── tests
 ```
 
@@ -48,12 +53,8 @@ In case the script you are looking for isn't available through Bower, feel free 
 We install the following components by default:
 
 * [console-polyfill](https://github.com/paulmillr/console-polyfill)
-* [iosOrientationFix](https://github.com/scottjehl/iOS-Orientationchange-Fix)
-* [isMobile](https://github.com/kaimallea/isMobile)
 * [jquery](https://github.com/jquery/jquery)
 * [modernizr](https://github.com/Modernizr/Modernizr)
-* [mrmrs-colors](https://github.com/mrmrs/colors)
-* [normalize-css](https://github.com/necolas/normalize.css)
 
 ### Searching for a package
 [Bower packages repository](http://bower.io/search/)
@@ -98,7 +99,6 @@ This set of tasks will be executed based on the file type in the following order
 2. Scans all CSS files and adds Browser vendor prefixes with [Autoprefixer](https://github.com/ai/autoprefixer) [grunt-autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
 3. Lints all JavaScript files with [JSHint](http://www.jshint.com/about/) [grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint)
 4. Scans all compiled CSS and JavaScript files for references of [Modernizr](https://github.com/Modernizr/Modernizr)'s CSS class names or JavaScript methods to create a custom minified version of Modernizr with [grunt-modernizr](https://github.com/Modernizr/grunt-modernizr). Eg. `.backgroundsize {}`, `Modernizr.backgroundSize` or `Modernizr.prefixed('backgroundSize')`
-5. Lints all PHP files with [grunt-phplint](https://github.com/jgable/grunt-phplint)
 
 ```
 $ grunt build
@@ -121,7 +121,7 @@ We encourage all developers to use CSS pre-processors and we specially like SASS
 3. Hook up on the watch task for Grunt.
 4. Avoid using mixins for vendor prefixes, we are already running autoprefixer on Grunt.
 
-## Plugins
+## WordPress Plugins
 
 We encourage you to use the following plugins for development:
 
