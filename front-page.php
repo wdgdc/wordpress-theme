@@ -1,21 +1,14 @@
 <?php
 
 /*
-Template Name: Home Page
+Template Name: Front Page
 */
-
-add_action('wp_enqueue_scripts', function(){
-	wp_enqueue_style('home');
-	wp_enqueue_script('home');
-});
 
 get_header();
 
 ?>
 
-<hr>
-
-<div class="wrap">
+<div class="main-content">
 	<p>This is your <strong>front-page.php</strong> file</p>
 
 	<h1>Heading 1</h1>
@@ -67,8 +60,6 @@ get_header();
 	<address>Address: somewhere, world</address>
 
 	<hr>
-
-	<hr style="height:4px; border:solid #000; border-width:1px 0;">
 
 	<p>
 	The <a href="#">a element</a> example<br>
@@ -359,7 +350,7 @@ get_header();
 	</form>
 </div>
 
-
 <?php
 
+get_sidebar();
 get_footer();

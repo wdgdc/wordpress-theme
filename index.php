@@ -1,6 +1,12 @@
-<?php get_header(); ?>
+<?php
 
-<div id="content">
+/* Catch-all templates */
+
+get_header();
+
+?>
+
+<div class="main-content">
 	<?php while (have_posts()) : the_post(); ?>
 
 		<article id="<?php echo get_post_type(); ?>-<?php the_ID(); ?>" <?php post_class(); ?> role="article">
@@ -8,14 +14,14 @@
 				<h1 class="entry-title">
 					<?php the_title(); ?>
 				</h1>
-				<p class="entry-byline vcard">
+				<p class="entry-byline">
 					<?php
-						$categories = (has_category()) ? ' <span class="amp">&</span> filed under %4$s' : '';
+						$categories = (has_category()) ? ' <span class="entry-byline-amp">&</span> filed under %4$s' : '';
 						printf(
-							__( 'Posted <time class="updated" datetime="%1$s" pubdate>%2$s</time> by <span class="author">%3$s</span>' . $categories . '.', 'bonestheme' ),
+							__('Posted <time class="entry-updated" datetime="%1$s" pubdate>%2$s</time> by <span class="entry-author">%3$s</span>' . $categories . '.'),
 							get_the_time('Y-m-j'),
 							get_the_time(get_option('date_format')),
-							bones_get_the_author_posts_link(),
+							// Theme::get('author_posts_link'),
 							get_the_category_list(', ')
 						);
 					?>
@@ -28,7 +34,7 @@
 
 			<div class="entry-footer">
 				<p class="entry-tags">
-					<?php the_tags( '<span class="tags-title">' . __( 'Tags:', 'bonestheme' ) . '</span> ', ', ', '' ); ?>
+					<?php the_tags( '<span class="entry-tags-label">' . __('Tags:') . '</span> ', ', ', '' ); ?>
 				</p>
 			</div>
 
@@ -39,6 +45,7 @@
 	<?php endwhile; ?>
 </div>
 
-<?php get_sidebar(); ?>
+<?php
 
-<?php get_footer(); ?>
+get_sidebar();
+get_footer();
