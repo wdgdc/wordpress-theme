@@ -26,7 +26,7 @@ Class WDG {
 		$class = get_class();
 		add_action('after_setup_theme', array($class, 'setup_theme'));
 		add_action('after_setup_theme', array($class, 'languages_gravityforms'));
-		add_action('after_setup_theme', array($class, 'register_nav_menus'));
+		add_action('after_setup_theme', array($class, 'register_nav_menus'), 100); // give this a high priority so any menus registered from the child class will get registered
 		add_action('after_setup_theme', array($class, 'register_styles'), 10);
 		add_action('after_setup_theme', array($class, 'enqueue_styles'));
 		add_action('after_setup_theme', array($class, 'register_scripts'));
