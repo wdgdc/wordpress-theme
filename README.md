@@ -8,7 +8,7 @@ It comes with [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/) support
 
 **All static assets**, like stylesheets, JavaScript files and images should go in the `/assets` directory. All 3rd party frameworks and plugins should go in the `/assets/vendor` directory -  we recommend using Bower for installing and updating them.
 
-**CSS pre-processors** are encouraged in development, please create a new directory inside `/assets` then add a task to the Grunt configuration to enable the build process of these files. Eg. `/assets/sass`, `/assets/stylus`, `/assets/less`.
+**SASS** is encouraged in development, use Grunt to build CSS files. Use components, mixins and variables folders to build modular CSS.
 
 **All PHP scripts** that aren't templates should go in `/includes`. Eg. `/includes/wdg.class.php`
 
@@ -18,9 +18,11 @@ It comes with [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/) support
 
 `partials` is where all the template parts live.
 
+`templates` is where all user-selectable page templates live. E.g. "/* Template Name: XXX */"
+
 `tests` include **unit testing** for our main PHP scripts (and possibly Front-End tests?). We encourage you to write all sort of tests for your theme here, feel free to use your favorite testing framework.
 
-`widgets` is where all WordPress widgets code is available.
+`widgets` is where all WordPress widgets code is available. Each PHP file in this directory will be included on **widget_init**.
 
 
 ```
@@ -30,15 +32,15 @@ wdg-wordpress-theme
 │ ├── fonts
 │ ├── img
 │ ├── js
-│ ├── less    *
-│ ├── sass    *
-│ ├── stylus  *
+│ ├── sass
 │ └── vendor
 ├── includes
 ├── languages
 ├── node_modules
 ├── partials
-└── tests
+├── templates
+├── tests
+└── widgets
 ```
 
 ## Vendor assets with [_Bower_](http://bower.io/)
@@ -77,9 +79,17 @@ $ bower uninstall modernizr
 
 ## Build process with [_Grunt_](http://gruntjs.com/)
 
-#### Default task: watch
+### Installing
 
-This is the default task, it constantly looks for file changes in the directory theme once found, it will apply the specific `build` task based on it's file type.
+Use the command line to get to the root of the repo and run the following command to install node modules, including Grunt.
+
+```
+$ npm install
+```
+
+#### Default task: build, watch
+
+This is the default task, it does a full build then constantly looks for file changes in the directory theme. Once found, it will apply the specific `build` task based on it's file type.
 There is a [LiveReload](http://livereload.com/) support, so your browser tab should be updated automatically after compilation as long as you have the [browser extension enabled](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-).
 
 ```
@@ -114,9 +124,9 @@ $ grunt tests
 
 ## Using CSS pre-processors
 
-We encourage all developers to use CSS pre-processors and we specially like SASS and Stylus, but use whatever you feel more comfortable with. Just make sure you follow our 3 simple rules.
+We encourage all developers to use CSS pre-processors and we specially like SASS, but use whatever you feel more comfortable with. Just make sure you follow our 3 simple rules.
 
-1. Create a directory on `/assets` where all your files will live. Eg. `/assets/sass`, `/assets/less`, `/assets/stylus`.
+1. Create a directory on `/assets` where all your files will live. Eg. `/assets/sass`.
 2. Create a task to use it on Grunt and hook up in the `build` task.
 3. Hook up on the watch task for Grunt.
 4. Avoid using mixins for vendor prefixes, we are already running autoprefixer on Grunt.

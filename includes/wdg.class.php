@@ -8,7 +8,7 @@
 require_once 'wdg.constants.php';
 require_once 'wdg.walker.php';
 
-Class WDG {
+class WDG {
 	public static $body_classes       = array();
 	public static $enqueued_scripts   = array();
 	public static $enqueued_styles    = array();
@@ -23,39 +23,167 @@ Class WDG {
 	}
 
 	public static function setup_actions() {
-		$class = get_class();
-		add_action('after_setup_theme', array($class, 'setup_theme'));
-		add_action('after_setup_theme', array($class, 'languages_gravityforms'));
-		add_action('after_setup_theme', array($class, 'register_nav_menus'), 100); // give this a high priority so any menus registered from the child class will get registered
-		add_action('after_setup_theme', array($class, 'register_styles'), 10);
-		add_action('after_setup_theme', array($class, 'enqueue_styles'));
-		add_action('after_setup_theme', array($class, 'register_scripts'));
-		add_action('after_setup_theme', array($class, 'enqueue_scripts'));
-		add_action('after_setup_theme', array($class, 'wp_head_cleanup'));
-		add_action('widgets_init', array($class, 'register_sidebars'));
-		add_action('wp', array($class, 'setup_author_archive'));
+		add_action('after_setup_theme', array(__CLASS__, 'setup_theme'));
+		add_action('after_setup_theme', array(__CLASS__, 'languages_gravityforms'));
+		add_action('after_setup_theme', array(__CLASS__, 'register_nav_menus'), 100); // give this a high priority so any menus registered from the child class will get registered
+		add_action('after_setup_theme', array(__CLASS__, 'register_styles'), 10);
+		add_action('after_setup_theme', array(__CLASS__, 'enqueue_styles'));
+		add_action('after_setup_theme', array(__CLASS__, 'register_scripts'));
+		add_action('after_setup_theme', array(__CLASS__, 'enqueue_scripts'));
+		add_action('after_setup_theme', array(__CLASS__, 'wp_head_cleanup'));
+		add_action('widgets_init', array(__CLASS__, 'register_sidebars'));
+		add_action('widgets_init', array(__CLASS__, 'register_widgets'));
+		add_action('wp', array(__CLASS__, 'setup_author_archive'));
 	}
 
 	public static function setup_filters() {
-		$class = get_class();
 		add_filter('nav_menu_item_id', '__return_empty_string');
-		add_filter('nav_menu_link_attributes', array($class, 'filter_nav_menu_link_attributes'), null , 3);
+		add_filter('nav_menu_link_attributes', array(__CLASS__, 'filter_nav_menu_link_attributes'), null , 3);
 		add_filter('the_generator', '__return_empty_string');
-		add_filter('wp_title', array($class, 'filter_wp_title'), 10, 3);
+		add_filter('wp_title', array(__CLASS__, 'filter_wp_title'), 10, 3);
 	}
 
+	/**
+	 Actions
+	 */
+	
 	public static function setup_theme() {
-		add_theme_support('post-thumbnails');
-
-		// This feature allows the use of HTML5 markup for the comment forms, search forms and comment lists.
-		// See: http://codex.wordpress.org/Function_Reference/add_theme_support#HTML5
-		add_theme_support('html5', array(
-			'caption',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'search-form'
+		// See: http://codex.wordpress.org/Function_Reference/add_theme_support
+		$features = apply_filters('WDG/theme_support', array(
+			'post-thumbnails' => true,
+			'html5' => array( // This feature allows the use of HTML5 markup for the comment forms, search forms and comment lists.
+				'caption',
+				'comment-form',
+				'comment-list',
+				'gallery',
+				'search-form'
+			)
 		));
+
+		foreach ( $features as $feature => $args ) {
+			add_theme_support($feature, $args);
+		}
+
+		// Set content width
+		global $content_width;
+		if ( ! isset( $content_width ) ) {
+			$content_width = apply_filters('WDG/content_width', 800); // Width of content
+		}
+	}
+
+	public static function languages_gravityforms() {
+		$gravityforms_mo = THEME_LANGUAGES_PATH . '/gravityforms-en_US.mo';
+
+		if (file_exists($gravityforms_mo)) {
+			load_textdomain('gravityforms', $gravityforms_mo);
+		}
+	}
+
+	public static function register_nav_menus() {
+		$menus = array();
+
+		foreach (apply_filters('WDG/nav_menus', self::$nav_menus) as $theme_location => $menu) {
+			$menus[$theme_location] = $menu['description'];
+		}
+
+		$menus = apply_filters('register_nav_menus', $menus);
+		register_nav_menus($menus);
+	}
+
+	public static function register_styles() {
+		$styles = apply_filters('WDG/registered_styles', self::$registered_styles);
+
+		foreach ($styles as $id => $style) {
+			$class = get_class();
+			$style = apply_filters('WDG/register_style', $style);
+			$code  = '$s = ' . $class . '::$registered_styles["' . $style['handle'] . '"]; wp_register_style($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["media"]);';
+			$fn    = create_function(null, $code);
+			add_action('wp_enqueue_scripts', $fn);
+		}
+
+		return $styles;
+	}
+
+	public static function enqueue_styles() {
+		add_action('wp_enqueue_scripts', function() {
+			$class = get_class();
+			foreach ($class::$enqueued_styles as $style) {
+				wp_enqueue_style($style['handle']);
+			}
+		});
+
+		return self::$enqueued_styles;
+	}
+
+	public static function register_scripts() {
+		$styles = apply_filters('WDG/registered_scripts', self::$registered_scripts);
+
+		foreach ($styles as $id => $style) {
+			$class = get_class();
+			$style = apply_filters('WDG/register_script', $style);
+			$code  = '$s = ' . $class . '::$registered_scripts["' . $style['handle'] . '"]; wp_register_script($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["in_footer"]);';
+			$fn    = create_function(null, $code);
+			add_action('wp_enqueue_scripts', $fn);
+		}
+
+		return $styles;
+	}
+
+	public static function enqueue_scripts() {
+		add_action('wp_enqueue_scripts', function() {
+			$class = get_class();
+			foreach ($class::$enqueued_scripts as $script) {
+				wp_enqueue_script($script['handle']);
+			}
+		});
+
+		return self::$enqueued_scripts;
+	}
+
+	/**
+	 * Cleans the `wp_head()` action
+	 * Code from Bones
+	 * See https://github.com/eddiemachado/bones/blob/master/library/bones.php#L32
+	 */
+	public static function wp_head_cleanup() {
+		// category feeds
+		remove_action( 'wp_head', 'feed_links_extra', 3 );
+		
+		// post and comment feeds
+		remove_action( 'wp_head', 'feed_links', 2 );
+		
+		// EditURI link
+		remove_action( 'wp_head', 'rsd_link' );
+		
+		// windows live writer
+		remove_action( 'wp_head', 'wlwmanifest_link' );
+		
+		// index link
+		remove_action( 'wp_head', 'index_rel_link' );
+		
+		// previous link
+		remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
+		
+		// start link
+		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
+		
+		// links for adjacent posts
+		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+		
+		// WP version
+		remove_action( 'wp_head', 'wp_generator' );
+	}
+
+	public static function register_sidebars() {
+		$sidebars = array();
+
+		foreach (apply_filters('WDG/sidebars', self::$sidebars) as $id => $sidebar) {
+			register_sidebar($sidebar);
+		}
+	}
+
+	public static function register_widgets() {
+		self::include_directory(THEME_WIDGETS_PATH);
 	}
 
 	/**
@@ -80,50 +208,75 @@ Class WDG {
 		}
 	}
 
-	public static function languages_gravityforms() {
-		$gravityforms_mo = THEME_LANGUAGES_PATH . '/gravityforms-en_US.mo';
+	/**
+	 Filters
+	 */
+	
+	public static function filter_nav_menu_link_attributes($atts, $item, $args) {
+		$classes       = empty($atts['class']) ? array() : explode(' ', $atts['class']);
+		$classes[]     = 'Nav-link';
+		$atts['class'] = implode(' ', $classes);
+		return $atts;
+	}
 
-		if (file_exists($gravityforms_mo)) {
-			load_textdomain('gravityforms', $gravityforms_mo);
+	// A better title
+	// http://www.deluxeblogtips.com/2012/03/better-title-meta-tag.html
+	public static function filter_wp_title($title, $sep, $seplocation) {
+		global $page, $paged;
+
+		// Don't affect in feeds.
+		if (is_feed()) {
+			return $title;
 		}
+
+		// Add the blog's name
+		if ('right' == $seplocation) {
+			$title .= get_bloginfo('name');
+		} else {
+			$title = get_bloginfo('name') . $title;
+		}
+
+		// Add the blog description for the home/front page.
+		$site_description = get_bloginfo('description', 'display');
+
+		if ($site_description && (is_home() || is_front_page())) {
+			$title .= " {$sep} {$site_description}";
+		}
+
+		// Add a page number if necessary:
+		if ($paged >= 2 || $page >= 2) {
+			$title .= " {$sep} " . sprintf(__('Page %s', 'dbt'), max($paged, $page));
+		}
+
+		return $title;
 	}
 
 	/**
-	 * Include all PHP files from a directory
-	 * @param string $dir_path Directory path
-	 * @return array List of all included files
+	 Public Functions
 	 */
-	public static function include_directory($dir_path) {
-		$path = realpath($dir_path);
-		if (!is_dir($path)) {
-			return new WP_Error('invalid_path', 'Invalid $dir_path, it\'s not a directory');
+	
+	/**
+	 * Append CSS classes as strings to the `self::$body_class` array
+	 * @param string|array $args,...
+	 * @return array
+	 */
+	public static function add_body_class($args) {
+		$body_classes = self::parse_args(func_get_args());
+
+		if (is_wp_error($body_classes)) {
+			return $body_classes;
 		}
 
-		$files = glob($path . DIRECTORY_SEPARATOR . '*');
+		// merge passed argument with default set of body classes
+		$body_classes = array_merge(self::$body_classes, $body_classes);
 
-		$files = apply_filters('WDG/include_directory', $files, $dir_path);
+		// remove duplicates
+		$body_classes = array_unique($body_classes);
 
-		if (!is_array($files)) {
-			return;
-		}
-
-		foreach ($files as $file) {
-			if (!is_file($file)) {
-				continue;
-			}
-
-			$pathinfo = pathinfo($file);
-
-			if ($pathinfo['extension'] !== 'php') {
-				continue;
-			}
-
-			include_once $file;
-		}
-
-		return $files;
+		// return value
+		return self::$body_classes = apply_filters('WDG/add_body_class', $body_classes);
 	}
-
+	
 	public static function nav($handle, $override_args = array()) {
 		if (!is_string($handle)) {
 			return new WP_Error('invalid_argument_type', '`$handle` isn\'t a String', $handle);
@@ -137,7 +290,7 @@ Class WDG {
 			$args = self::$nav_menus[$handle];
 		} else {
 			$args = array('menu' => $handle);
-			$args = Theme::defaults_nav_menu($args);
+			$args = self::defaults_nav_menu($args);
 		}
 
 		$override_args = array_merge($override_args, array(
@@ -171,90 +324,7 @@ Class WDG {
 		// return menu
 		return $menu;
 	}
-
-	public static function enqueue_style($handle, $priority = 10) {
-		if (!isset(self::$registered_styles[$handle])) {
-			return new WP_Error('enqueue_style_not_registered', 'Enqueued style is not registered', $handle, self::$registered_styles);
-		}
-
-		self::$enqueued_styles[$handle] = array(
-			'handle'   => $handle,
-			'priority' => $priority
-		);
-
-		return self::$enqueued_styles[$handle];
-	}
-
-	public static function enqueue_script($handle, $priority = 10) {
-		if (!isset(self::$registered_scripts[$handle])) {
-			return new WP_Error('enqueue_script_not_registered', 'Enqueued script is not registered', $handle, self::$registered_scripts);
-		}
-
-		self::$enqueued_scripts[$handle] = array(
-			'handle'   => $handle,
-			'priority' => $priority
-		);
-
-		return self::$enqueued_scripts[$handle];
-	}
-
-	/**
-	 * Append CSS classes as strings to the `self::$body_class` array
-	 * @param string|array $args,...
-	 * @return array
-	 */
-	public static function add_body_class($args) {
-		$body_classes = self::parse_args(func_get_args());
-
-		if (is_wp_error($body_classes)) {
-			return $body_classes;
-		}
-
-		// merge passed argument with default set of body classes
-		$body_classes = array_merge(self::$body_classes, $body_classes);
-
-		// remove duplicates
-		$body_classes = array_unique($body_classes);
-
-		// return value
-		return self::$body_classes = apply_filters('WDG/add_body_class', $body_classes);
-	}
-
-	public static function defaults_nav_menu($args = array()) {
-		$defaults = array(
-			'container'       => 'nav',
-			'container_class' => 'Nav',
-			'description'     => '',
-			'menu_class'      => 'Nav-menu Nav-menu--depth0 menu',
-			'theme_location'  => '',
-			'walker'          => new WDG_Walker_Nav_Menu
-		);
-
-		// Merge default arguments
-		$defaults = apply_filters('WDG/register_nav_menu/defaults', $defaults, $args);
-		$args     = array_merge($defaults, $args);
-
-		// Set container CSS class name
-		if (isset($args['container_class'])) {
-			if (isset($args['theme_location']) && $args['theme_location']) {
-				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['theme_location'];
-			}
-
-			if (isset($args['menu']) && $args['menu']) {
-				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['menu'];
-			}
-		}
-		
-		// Set menu CSS class names
-		if (strpos($args['menu_class'], $defaults['menu_class']) === false) {
-			$args['menu_class'] .= ' ' . $defaults['menu_class'] . ' ';
-		}
-
-		$args['description'] = (!empty($args['description'])) ? $args['description'] : (isset($args['theme_location']) ? self::humanize($args['theme_location'] . ' menu') : '');
-
-		return $args;
-	}
-
+	
 	/**
 	 * Append Navigation Menu items to the `self::$nav_menus` array
 	 * @param string|array $args
@@ -277,14 +347,14 @@ Class WDG {
 		}
 
 		// merge defaults
-		$args = Theme::defaults_nav_menu($args);
+		$args = self::defaults_nav_menu($args);
 
 		// Append menu to `self::$nav_menus`
 		self::$nav_menus[$args['theme_location']] = apply_filters('WDG/register_nav_menu', $args);
 
 		return $args;
 	}
-
+	
 	/**
 	 * Creates a sidebar
 	 * @param string|array
@@ -419,166 +489,243 @@ Class WDG {
 
 		return $args;
 	}
-
-	public static function register_nav_menus() {
-		$menus = array();
-
-		foreach (apply_filters('WDG/nav_menus', self::$nav_menus) as $theme_location => $menu) {
-			$menus[$theme_location] = $menu['description'];
+	
+	public static function enqueue_style($handle, $priority = 10) {
+		if (!isset(self::$registered_styles[$handle])) {
+			return new WP_Error('enqueue_style_not_registered', 'Enqueued style is not registered', $handle, self::$registered_styles);
 		}
 
-		$menus = apply_filters('register_nav_menus', $menus);
-		register_nav_menus($menus);
+		self::$enqueued_styles[$handle] = array(
+			'handle'   => $handle,
+			'priority' => $priority
+		);
+
+		return self::$enqueued_styles[$handle];
 	}
 
-	public static function register_sidebars() {
-		$sidebars = array();
-
-		foreach (apply_filters('WDG/sidebars', self::$sidebars) as $id => $sidebar) {
-			register_sidebar($sidebar);
-		}
-	}
-
-	public static function register_styles() {
-		$styles = apply_filters('WDG/registered_styles', self::$registered_styles);
-
-		foreach ($styles as $id => $style) {
-			$class = get_class();
-			$style = apply_filters('WDG/register_style', $style);
-			$code  = '$s = ' . $class . '::$registered_styles["' . $style['handle'] . '"]; wp_register_style($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["media"]);';
-			$fn    = create_function(null, $code);
-			add_action('wp_enqueue_scripts', $fn);
+	public static function enqueue_script($handle, $priority = 10) {
+		if (!isset(self::$registered_scripts[$handle])) {
+			return new WP_Error('enqueue_script_not_registered', 'Enqueued script is not registered', $handle, self::$registered_scripts);
 		}
 
-		return $styles;
+		self::$enqueued_scripts[$handle] = array(
+			'handle'   => $handle,
+			'priority' => $priority
+		);
+
+		return self::$enqueued_scripts[$handle];
 	}
 
-	public static function enqueue_styles() {
-		add_action('wp_enqueue_scripts', function() {
-			$class = get_class();
-			foreach ($class::$enqueued_styles as $style) {
-				wp_enqueue_style($style['handle']);
+
+	/**
+	 Utility Functions
+	 */
+	
+	/**
+	 * Include all PHP files from a directory
+	 * @param string $dir_path Directory path
+	 * @return array List of all included files
+	 */
+	public static function include_directory($dir_path) {
+		$path = realpath($dir_path);
+		if (!is_dir($path)) {
+			return new WP_Error('invalid_path', 'Invalid $dir_path, it\'s not a directory');
+		}
+
+		$files = glob($path . DIRECTORY_SEPARATOR . '*.php');
+
+		$files = apply_filters('WDG/include_directory', $files, $dir_path);
+
+		if (!is_array($files)) {
+			return;
+		}
+
+		foreach ($files as $file) {
+			if (!is_file($file)) {
+				continue;
 			}
-		});
 
-		return self::$enqueued_styles;
-	}
-
-	public static function register_scripts() {
-		$styles = apply_filters('WDG/registered_scripts', self::$registered_scripts);
-
-		foreach ($styles as $id => $style) {
-			$class = get_class();
-			$style = apply_filters('WDG/register_script', $style);
-			$code  = '$s = ' . $class . '::$registered_scripts["' . $style['handle'] . '"]; wp_register_script($s["handle"], $s["src"], $s["deps"], $s["ver"], $s["in_footer"]);';
-			$fn    = create_function(null, $code);
-			add_action('wp_enqueue_scripts', $fn);
+			include_once $file;
 		}
 
-		return $styles;
-	}
-
-	public static function enqueue_scripts() {
-		add_action('wp_enqueue_scripts', function() {
-			$class = get_class();
-			foreach ($class::$enqueued_scripts as $script) {
-				wp_enqueue_script($script['handle']);
-			}
-		});
-
-		return self::$enqueued_scripts;
-	}
-
-	public static function filter_nav_menu_link_attributes($atts, $item, $args) {
-		$classes       = empty($atts['class']) ? array() : explode(' ', $atts['class']);
-		$classes[]     = 'Nav-link';
-		$atts['class'] = implode(' ', $classes);
-		return $atts;
+		return $files;
 	}
 
 	/**
-	 * Cleans the `wp_head()` action
-	 * Code from Bones
-	 * See https://github.com/eddiemachado/bones/blob/master/library/bones.php#L32
+	 * Get a scoped template part
+	 * @param string $slug The slug name for the scoped template
+	 * @param array $vars Variables to inject into the template
+	 * @param bool $echo Output the rendered template or return it
+	 * @return string Rendered template if $echo is false
 	 */
-	public static function wp_head_cleanup() {
-		// category feeds
-		remove_action( 'wp_head', 'feed_links_extra', 3 );
-		
-		// post and comment feeds
-		remove_action( 'wp_head', 'feed_links', 2 );
-		
-		// EditURI link
-		remove_action( 'wp_head', 'rsd_link' );
-		
-		// windows live writer
-		remove_action( 'wp_head', 'wlwmanifest_link' );
-		
-		// index link
-		remove_action( 'wp_head', 'index_rel_link' );
-		
-		// previous link
-		remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
-		
-		// start link
-		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
-		
-		// links for adjacent posts
-		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
-		
-		// WP version
-		remove_action( 'wp_head', 'wp_generator' );
-	}
+	public static function get_template_part($slug, $vars = array(), $echo = false) {
+		// Get a template name
+		$template_name = apply_filters('WDG/template_part/template_name', $slug . '.php', $slug, $vars);
 
-	// disable default dashboard widgets
-	// see https://github.com/eddiemachado/bones/blob/master/library/admin.php#L28
-	function admin_disable_dashboard_widgets() {
-		remove_meta_box('dashboard_activity', 'dashboard', 'core');       // Right Now Widget
-		remove_meta_box('dashboard_right_now', 'dashboard', 'core');       // Right Now Widget
-		remove_meta_box('dashboard_recent_comments', 'dashboard', 'core'); // Comments Widget
-		remove_meta_box('dashboard_incoming_links', 'dashboard', 'core');  // Incoming Links Widget
-		remove_meta_box('dashboard_plugins', 'dashboard', 'core');         // Plugins Widget
-
-		remove_meta_box('dashboard_quick_press', 'dashboard', 'core');     // Quick Press Widget
-		remove_meta_box('dashboard_recent_drafts', 'dashboard', 'core');   // Recent Drafts Widget
-		remove_meta_box('dashboard_primary', 'dashboard', 'core');         //
-		remove_meta_box('dashboard_secondary', 'dashboard', 'core');       //
-
-		// removing plugin dashboard boxes
-		remove_meta_box('yoast_db_widget', 'dashboard', 'normal');         // Yoast's SEO Plugin Widget
-	}
-
-	// A better title
-	// http://www.deluxeblogtips.com/2012/03/better-title-meta-tag.html
-	public static function filter_wp_title($title, $sep, $seplocation) {
-		global $page, $paged;
-
-		// Don't affect in feeds.
-		if (is_feed()) {
-			return $title;
+		if ( ! $template_name ) {
+			return;
 		}
 
-		// Add the blog's name
-		if ('right' == $seplocation) {
-			$title .= get_bloginfo('name');
+		// Locate the template
+		$templates = array(
+			get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name, // Child theme
+			get_template_directory() . DIRECTORY_SEPARATOR . $template_name // Parent theme
+		);
+		$templates = apply_filters('WDG/template_part/templates', $templates, $template_name, $vars);
+		
+		// Search through templates
+		foreach ( $templates as $template ) {
+			if ( file_exists($template) ) break;
+		}
+
+		if ( ! file_exists($template) ) {
+			// Not found!
+			return new WP_Error('template_not_found', 'Get template part not found: ' . $template_name);
+		}
+
+		// Extract vars
+		unset($slug, $templates, $template_name);
+		if ( is_array($vars) ) {
+			// "template", "vars", "echo" are all reserved variables names
+			$vars = apply_filters('WDG/template_part/vars', $vars, $template);
+			extract($vars, EXTR_SKIP);
+		} // The variable will be "vars"
+
+		// create alias
+		$args = $vars;
+
+		// Output buffer
+		ob_start();
+			// Require the template
+			require $template;
+		$output = ob_get_clean();
+
+		// Echo or return
+		if ( $echo ) {
+			echo $output;
 		} else {
-			$title = get_bloginfo('name') . $title;
+			return $output;
 		}
-
-		// Add the blog description for the home/front page.
-		$site_description = get_bloginfo('description', 'display');
-
-		if ($site_description && (is_home() || is_front_page())) {
-			$title .= " {$sep} {$site_description}";
-		}
-
-		// Add a page number if necessary:
-		if ($paged >= 2 || $page >= 2) {
-			$title .= " {$sep} " . sprintf(__('Page %s', 'dbt'), max($paged, $page));
-		}
-
-		return $title;
 	}
+
+	/**
+	 * Creates HTML attributes from an array of key value pairs
+	 * @param array $attributes Attributes to set
+	 * @param array $defaults Defaults (optional)
+	 * @return string
+	 */
+	public static function html_attributes ( $attributes = array(), $defaults = array() ) {
+		// Sanity check
+		if ( ! is_array($attributes) ) {
+			$attributes = array();
+		}
+
+		// Sanity check
+		if ( ! is_array($defaults) ) {
+			$defaults = array();
+		}
+
+		// Merge and eliminate false values
+		$attributes = array_filter(array_merge($defaults, $attributes), function ( $value ) {
+			return $value !== false;
+		});
+
+		// Smush attributes
+		$html_attributes = '';
+		foreach ( $attributes as $key => $value ) {
+			$html_attributes .= ' ' . $key . '="' . esc_attr($value) . '"';
+		}
+
+		return $html_attributes;
+	}
+
+	/**
+	 * Get Excerpt (how WordPress should)
+	 * @uses Filters: the_excerpt, the_content, excerpt_length, excerpt_more, wp_trim_excerpt
+	 * @param id|WP_Post $id
+	 * @return string
+	 */
+	public static function get_excerpt ( $id = null ) {
+		$post = get_post($id);
+
+		if ( empty($post) ) {
+			return '';
+		}
+
+		if ( strlen($post->post_excerpt) ) {
+			// Use the excerpt
+			$excerpt = $post->post_excerpt;
+
+			$excerpt = apply_filters('the_excerpt', $excerpt);
+		} else {
+			// Make excerpt
+			$content = $post->post_content;
+
+			$content = strip_shortcodes($content);
+
+			$content = apply_filters('the_content', $content);
+			$content = str_replace(']]>', ']]&gt;', $content);
+
+			$excerpt_length = apply_filters('excerpt_length', 55);
+			$excerpt_more = apply_filters('excerpt_more', ' ' . '[&hellip;]');
+			$excerpt = wp_trim_words($content, $excerpt_length, $excerpt_more);
+
+			$excerpt = wpautop($excerpt);
+		}
+
+		return apply_filters('wp_trim_excerpt', $excerpt);
+	}
+
+	/**
+	 * Show 404 template
+	 * Use this instead of "die()""
+	 */
+	public static function show_404 ( ) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+		get_template_part(404);
+		exit();
+	}
+
+	public static function defaults_nav_menu($args = array()) {
+		$defaults = array(
+			'container'       => 'nav',
+			'container_class' => 'Nav',
+			'description'     => '',
+			'menu_class'      => 'Nav-menu Nav-menu--depth0 menu',
+			'theme_location'  => '',
+			'walker'          => new WDG_Walker_Nav_Menu
+		);
+
+		// Merge default arguments
+		$defaults = apply_filters('WDG/register_nav_menu/defaults', $defaults, $args);
+		$args     = array_merge($defaults, $args);
+
+		// Set container CSS class name
+		if (isset($args['container_class'])) {
+			if (isset($args['theme_location']) && $args['theme_location']) {
+				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['theme_location'];
+			}
+
+			if (isset($args['menu']) && $args['menu']) {
+				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['menu'];
+			}
+		}
+		
+		// Set menu CSS class names
+		if (strpos($args['menu_class'], $defaults['menu_class']) === false) {
+			$args['menu_class'] .= ' ' . $defaults['menu_class'] . ' ';
+		}
+
+		$args['description'] = (!empty($args['description'])) ? $args['description'] : (isset($args['theme_location']) ? self::humanize($args['theme_location'] . ' menu') : '');
+
+		return $args;
+	}
+
+	/**
+	 Protected Functions
+	 */
 
 	protected static function array_flatten($array, $return = array()) {
 		for ($x = 0; $x <= count($array); $x++) {

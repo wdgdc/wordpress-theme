@@ -11,10 +11,8 @@ module.exports = function(grunt) {
 			inc   : '<%= project.root %>/includes',
 			js    : '<%= project.assets %>/js',
 			lang  : '<%= project.root %>/languages',
-			less  : '<%= project.assets %>/less',
 			root  : __dirname,
 			sass  : '<%= project.assets %>/sass',
-			stylus: '<%= project.assets %>/stylus',
 			vendor: '<%= project.assets %>/vendor'
 		},
 
@@ -24,18 +22,10 @@ module.exports = function(grunt) {
 				livereload: true,
 				spawn     : false
 			},
-			// sass: {
-			// 	files: ['<%= project.sass %>/**/*.scss'],
-			// 	tasks: ['sass', 'autoprefixer', 'modernizr']
-			// },
-			// stylus: {
-			// 	files: ['<%= project.stylus %>/**/*.styl'],
-			// 	tasks: ['stylus', 'autoprefixer', 'modernizr']
-			// },
-			// less: {
-			// 	files: ['<%= project.less %>/**/*.less'],
-			// 	tasks: ['less', 'autoprefixer', 'modernizr']
-			// },
+			sass: {
+				files: ['<%= project.sass %>/**/*.scss'],
+				tasks: ['sass_globbing', 'sass', 'autoprefixer', 'modernizr']
+			},
 			css: {
 				files: ['<%= project.css %>/**/*.css'],
 				tasks: ['autoprefixer', 'modernizr']
@@ -98,57 +88,26 @@ module.exports = function(grunt) {
 					ext: '.css'
 				}],
 
-				// grunt-contrib-sass
-				// options: {
-				// 	loadPath: require('node-bourbon').includePaths,
-				// 	quiet: true,
-				// 	style: 'expanded'
-				// }
-
 				// grunt-sass
 				options: {
-					// $ npm install node-bourbon --save-dev
-					// $ bower install foundation --save
-					// includePaths: [
-					// 	require('node-bourbon').includePaths,
-					// 	'<%= project.vendor %>/foundation/scss'
-					// ],
+					includePaths: [
+						require('node-bourbon').includePaths,
+						// $ bower install foundation --save
+						//'<%= project.vendor %>/foundation/scss'
+					],
 					quiet: true,
 					outputStyle: 'expanded'
 				}
 			}
 		},
 
-		// Stylus compilation (requires to install grunt-contrib-stylus)
-		// $ npm install grunt-contrib-stylus --save-dev
-		stylus: {
+		// Sass Globbing
+		sass_globbing: {
 			all: {
-				files: [{
-					expand: true,
-					cwd : '<%= project.stylus %>',
-					src : ['**/*.styl', '!**/_*.styl'],
-					dest: '<%= project.css %>',
-					ext : '.css'
-				}],
-				options: {
-					compress: false
-				}
-			}
-		},
-
-		// Less compilation (requires to install grunt-contrib-less)
-		// $ npm install grunt-contrib-less --save-dev
-		less: {
-			all: {
-				files: [{
-					expand: true,
-					cwd : '<%= project.less %>',
-					src : ['**/*.less', '!**/_*.less'],
-					dest: '<%= project.css %>',
-					ext : '.css'
-				}],
-				options: {
-					compress: false
+				files: {
+					'<%= project.sass %>/_components.scss':'<%= project.sass %>/components/**/*.scss',
+					'<%= project.sass %>/_mixins.scss':'<%= project.sass %>/mixins/**/*.scss',
+					'<%= project.sass %>/_variables.scss':'<%= project.sass %>/variables/**/*.scss'
 				}
 			}
 		},
@@ -162,6 +121,7 @@ module.exports = function(grunt) {
 					domprefixes: true,
 					prefixes   : true
 				},
+				matchCommunityTests: true,
 				files: {
 					src: ['<%= project.css %>/**/*.css', '<%= project.js %>/**/*.js']
 				}
@@ -176,21 +136,16 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-modernizr');
-
+	grunt.loadNpmTasks('grunt-sass-globbing');
+	grunt.loadNpmTasks('grunt-sass');
 
 	// Optional tasks
-	// grunt.loadNpmTasks('grunt-sass');
-	// grunt.loadNpmTasks('grunt-contrib-stylus');
-	// grunt.loadNpmTasks('grunt-contrib-less');
 
 
 	// Default task
-	grunt.registerTask('default', ['watch']);
+	grunt.registerTask('default', ['build', 'watch']);
 
 
 	// Build task
-	grunt.registerTask('build', ['autoprefixer', 'modernizr', 'imagemin']);
-	// grunt.registerTask('build', ['sass', 'autoprefixer', 'modernizr', 'imagemin']);
-	// grunt.registerTask('build', ['stylus', 'autoprefixer', 'modernizr', 'imagemin']);
-	// grunt.registerTask('build', ['less', 'autoprefixer', 'modernizr', 'imagemin']);
+	grunt.registerTask('build', ['sass_globbing', 'sass', 'autoprefixer', 'modernizr', 'imagemin']);
 };

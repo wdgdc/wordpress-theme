@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.4.0
+* __wdg.class.php__ Reorganized WDG class
+	* Added `WDG/theme_support` filter in `setup_theme`
+	* Added `WDG/content_width` filter in `setup_theme` - default of 800
+	* Added autoloading of widgets in `widgets` folder
+	* Utility functions
+		* Added `get_template_part` function for scoped partials
+		* Added `html_attributes` function for properly escaping an array of HTML attributes
+		* Added `get_excerpt` function to get the excerpt outside of the loop
+		* Added `show_404` function to immediately display the 404 template and send proper headers
+* __functions.php__ Added image sizes example
+* __wdg.constants.php__ Added new constant `THEME_WIDGETS_PATH`
+* Added `templates` folder for WordPress admin-selectable page templates
+* CSS - Selected SASS as bundled CSS pre processor
+	* Dropped support for Stylus and LESS
+	* Added `components`, `mixins`, and `variables` folders for modular styles
+	* Added grunt module `grunt-sass-globbing` to concatenate modular styles for simple @include-ing
+* __Gruntfile.js__ Default Grunt task is now build, and watch
+* __site.js__ `init` and `load` functions run within their own scope
+* __header.php__ Dropped support for deprecated Chrome-frame
+* Dropped `camelcase` JSLint requirement
+
 ## 0.3.0
 * Added `Thumbs.db` & `*.log` to `.gitignore`
 * Removed Bones & YeoPress mention on theme description
@@ -12,8 +34,6 @@
 * CSS pre processors are now optional, do not create a stylus directory by default
 * Removed `home.js`, let users create these if needed
 * Added `partials` & `widgets` directories
-
-
 
 ## 0.2.0
 * __functions.php__
