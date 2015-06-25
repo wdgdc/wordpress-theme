@@ -50,7 +50,7 @@ class WDG {
 	public static function setup_theme() {
 		// See: http://codex.wordpress.org/Function_Reference/add_theme_support
 		$features = apply_filters('WDG/theme_support', array(
-			'post-thumbnails' => true,
+			'post-thumbnails' => array(),
 			'html5' => array( // This feature allows the use of HTML5 markup for the comment forms, search forms and comment lists.
 				'caption',
 				'comment-form',
