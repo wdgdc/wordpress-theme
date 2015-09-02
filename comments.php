@@ -1,6 +1,6 @@
 <?php
 /*
-The comments page for Bones
+The comments page.
 */
 
 // Do not delete these lines
@@ -33,7 +33,7 @@ if ( post_password_required() ) {
 	</nav>
 
 	<ol class="commentlist">
-		<?php wp_list_comments( 'type=comment&callback=bones_comments' ); ?>
+		<?php wp_list_comments( 'type=comment' ); ?>
 	</ol>
 
 	<nav id="comment-nav">
