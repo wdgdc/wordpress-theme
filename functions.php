@@ -33,7 +33,7 @@ class Theme extends WDG {
 		self::register_sidebar('sidebar');
 
 		// add styles
-		self::register_style('site', THEME_CSS_URI . '/site.css');
+		self::register_style('site', THEME_DIST_URI . '/site.css');
 
 		// enqueue styles
 		self::enqueue_style('site');
@@ -44,9 +44,10 @@ class Theme extends WDG {
 		});
 
 		// add scripts
-		self::register_script('modernizr', THEME_VENDOR_URI . '/modernizr/modernizr-custom.js', null, null, false);
+		self::register_script('modernizr', THEME_DIST_URI . '/modernizr.js', null, null, false);
+		self::register_script('lodash', THEME_DIST_URI . '/lodash.min.js');
 		self::register_script('jquery', THEME_VENDOR_URI . '/jquery/dist/jquery.js');
-		self::register_script('site', THEME_JS_URI . '/site.js', array('modernizr', 'jquery'));
+		self::register_script('site', THEME_DIST_URI . '/site.js', array('modernizr', 'jquery', 'lodash'));
 
 		// enqueue scripts
 		self::enqueue_script('site');

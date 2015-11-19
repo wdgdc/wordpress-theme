@@ -3,6 +3,8 @@
   "dependencies": {
     "console-polyfill": "*",
     "jquery": "*",
-    "modernizr": "*"
-  }
+    "modernizr": "*",
+    "lodash-compat": "~3.10.1"
+  },
+  "devDependencies": {}
 }

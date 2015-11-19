@@ -1,28 +1,27 @@
-/* global jQuery, Modernizr */
+/* global jQuery, _, Modernizr */
 
-(function($, $window, $document, $body, Site) {
+(function ($, $window, $document, $body, Site) {
 
-$.extend(Site, {
-	// DOM ready code
-	init: function() {
-	},
+	$.extend(Site, {
+		// DOM ready code
+		init: function () {
 
-	// window on load code
-	load: function() {
-	}
-});
+		},
 
-// Make our namespace globally accessible
-window.Site = Site;
+		// window on load code
+		load: function () {
 
-// Run initialization script on DOM ready
-$document.on('ready', function ( ) {
-	Site.init();
-});
+		}
+	});
 
-// Defer scripts to window on load event
-$window.on('load', function ( ) {
-	Site.load();
-});
+	// Make our namespace globally accessible
+	window.Site = Site;
+
+	// Run initialization script on DOM ready
+	$document.on('ready', Site.init);
+
+	// Defer scripts to window on load event
+	$window.on('load', Site.load);
 
 })(jQuery, jQuery(window), jQuery(document), jQuery(document.body), window.Site || {});
+//# sourceMappingURL=site.js.map

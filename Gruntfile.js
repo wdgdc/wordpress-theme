@@ -1,3 +1,5 @@
+/* global __dirname, module, require */
+
 module.exports = function(grunt) {
 
 	grunt.initConfig({
@@ -5,7 +7,7 @@ module.exports = function(grunt) {
 
 		project: {
 			assets: '<%= project.root %>/assets',
-			css   : '<%= project.assets %>/css',
+			dist  : '<%= project.assets %>/dist',
 			fonts : '<%= project.assets %>/fonts',
 			img   : '<%= project.assets %>/img',
 			inc   : '<%= project.root %>/includes',
@@ -24,11 +26,19 @@ module.exports = function(grunt) {
 			},
 			sass: {
 				files: ['<%= project.sass %>/**/*.scss'],
-				tasks: ['sass_globbing', 'sass', 'autoprefixer', 'modernizr']
+				tasks: [
+					'sass_globbing',
+					'sass',
+					'autoprefixer',
+					'modernizr'
+				]
 			},
 			css: {
-				files: ['<%= project.css %>/**/*.css'],
-				tasks: ['autoprefixer', 'modernizr']
+				files: ['<%= project.dist %>/**/*.css'],
+				tasks: [
+					'autoprefixer',
+					'modernizr'
+				]
 			},
 			img: {
 				files: ['<%= project.img %>/**/*.{png,jpg,jpeg,gif,svg}'],
@@ -36,7 +46,12 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: ['<%= project.js %>/**/*.js'],
-				tasks: ['jshint', 'modernizr']
+				tasks: [
+					'modernizr',
+					'lodashAutobuild',
+					'babel'
+					// 'jshint'
+				]
 			},
 			php: {
 				files: ['<%= project.root %>/**/*.php']
@@ -48,8 +63,8 @@ module.exports = function(grunt) {
 			all: {
 				expand : true,
 				flatten: true,
-				src    : '<%= project.css %>/**/*.css',
-				dest   : '<%= project.css %>'
+				src    : '<%= project.dist %>/**/*.css',
+				dest   : '<%= project.dist %>'
 			}
 		},
 
@@ -60,6 +75,22 @@ module.exports = function(grunt) {
 			},
 			options: {
 				jshintrc: true
+			}
+		},
+
+		babel: {
+			options: {
+				sourceMap: true,
+				presets: ['es2015']
+			},
+			all: {
+				files: [{
+					expand: true,
+					cwd: '<%= project.js %>',
+					src: ['**/*.js'],
+					dest: '<%= project.dist %>',
+					ext: '.js'
+				}]
 			}
 		},
 
@@ -84,20 +115,23 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: '<%= project.sass %>',
 					src: ['**/*.scss', '!**/_*.scss'],
-					dest: '<%= project.css %>',
+					dest: '<%= project.dist %>',
 					ext: '.css'
 				}],
 
-				// grunt-sass
+				// bourbon with neat
 				options: {
-					includePaths: [
-						require('node-bourbon').includePaths,
-						// $ bower install foundation --save
-						//'<%= project.vendor %>/foundation/scss'
-					],
+					includePaths: require('node-neat').includePaths,
 					quiet: true,
 					outputStyle: 'expanded'
 				}
+
+				// bourbon without neat
+				// options: {
+				// 	includePaths: [require('node-bourbon').includePaths],
+				// 	quiet: true,
+				// 	outputStyle: 'expanded'
+				// },
 			}
 		},
 
@@ -115,16 +149,46 @@ module.exports = function(grunt) {
 		// Generates a custom modernizr file based on CSS & JS usage
 		modernizr: {
 			all: {
-				devFile: '<%= project.vendor %>/modernizr/modernizr.js',
-				outputFile: '<%= project.vendor %>/modernizr/modernizr-custom.js',
-				extensibility: {
-					domprefixes: true,
-					prefixes   : true
-				},
-				matchCommunityTests: true,
+				cache: true,
+				dest: '<%= project.dist %>/modernizr.js',
+				options: [
+					'setClasses',
+					'addTest',
+					'html5printshiv',
+					'testProp',
+					'fnBind'
+				],
+				uglify: true,
+				crawl: true,
 				files: {
-					src: ['<%= project.css %>/**/*.css', '<%= project.js %>/**/*.js']
+					src: ['<%= project.dist %>/**/*.css', '<%= project.js %>/**/*.js']
 				}
+			}
+		},
+
+		lodash: {
+			build: {
+				dest: '<%= project.dist %>/lodash.js',
+				options: {
+					'modifier':'compat'
+				}
+			}
+		},
+
+		// Generates a custom lodash file based on CSS & JS usage
+		lodashAutobuild: {
+			all: {
+				src: ['<%= project.js %>/**/*.js'],
+				options: {
+		          // Set to the configured lodash task options.include
+		          lodashConfigPath: 'lodash.all.options.include',
+		          // The name(s) of the lodash object(s)
+		          lodashObjects: [ '_' ],
+		          // Undefined lodashTargets or an empty targets
+		          // array will run all lodash targets. Specify
+		          // targets by name to run specific targets
+		          lodashTargets: [ 'build' ]
+		        }
 			}
 		}
 	});
@@ -133,11 +197,14 @@ module.exports = function(grunt) {
 	// Load up tasks
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	// grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-modernizr');
 	grunt.loadNpmTasks('grunt-sass-globbing');
 	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-lodash');
+	grunt.loadNpmTasks('grunt-lodash-autobuild');
+	grunt.loadNpmTasks('grunt-babel');
 
 	// Optional tasks
 
@@ -147,5 +214,14 @@ module.exports = function(grunt) {
 
 
 	// Build task
-	grunt.registerTask('build', ['sass_globbing', 'sass', 'autoprefixer', 'modernizr', 'imagemin']);
+	grunt.registerTask('build', [
+		'sass_globbing',
+		'sass',
+		'autoprefixer',
+		'modernizr',
+		'imagemin',
+		'lodashAutobuild',
+		// 'jshint',
+		'babel'
+	]);
 };

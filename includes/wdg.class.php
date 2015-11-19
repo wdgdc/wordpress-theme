@@ -7,6 +7,7 @@
 
 require_once 'wdg.constants.php';
 require_once 'wdg.walker.php';
+require_once 'wdg.admin.colors.php';
 
 class WDG {
 	public static $body_classes       = array();
@@ -16,6 +17,7 @@ class WDG {
 	public static $registered_scripts = array();
 	public static $registered_styles  = array();
 	public static $sidebars           = array();
+	public static $admin_colors       = array();
 
 	public static function init() {
 		self::setup_filters();
@@ -46,7 +48,7 @@ class WDG {
 	/**
 	 Actions
 	 */
-	
+
 	public static function setup_theme() {
 		// See: http://codex.wordpress.org/Function_Reference/add_theme_support
 		$features = apply_filters('WDG/theme_support', array(
@@ -148,28 +150,28 @@ class WDG {
 	public static function wp_head_cleanup() {
 		// category feeds
 		remove_action( 'wp_head', 'feed_links_extra', 3 );
-		
+
 		// post and comment feeds
 		remove_action( 'wp_head', 'feed_links', 2 );
-		
+
 		// EditURI link
 		remove_action( 'wp_head', 'rsd_link' );
-		
+
 		// windows live writer
 		remove_action( 'wp_head', 'wlwmanifest_link' );
-		
+
 		// index link
 		remove_action( 'wp_head', 'index_rel_link' );
-		
+
 		// previous link
 		remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
-		
+
 		// start link
 		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
-		
+
 		// links for adjacent posts
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
-		
+
 		// WP version
 		remove_action( 'wp_head', 'wp_generator' );
 	}
@@ -211,7 +213,7 @@ class WDG {
 	/**
 	 Filters
 	 */
-	
+
 	public static function filter_nav_menu_link_attributes($atts, $item, $args) {
 		$classes       = empty($atts['class']) ? array() : explode(' ', $atts['class']);
 		$classes[]     = 'Nav-link';
@@ -254,7 +256,7 @@ class WDG {
 	/**
 	 Public Functions
 	 */
-	
+
 	/**
 	 * Append CSS classes as strings to the `self::$body_class` array
 	 * @param string|array $args,...
@@ -276,7 +278,7 @@ class WDG {
 		// return value
 		return self::$body_classes = apply_filters('WDG/add_body_class', $body_classes);
 	}
-	
+
 	public static function nav($handle, $override_args = array()) {
 		if (!is_string($handle)) {
 			return new WP_Error('invalid_argument_type', '`$handle` isn\'t a String', $handle);
@@ -324,7 +326,7 @@ class WDG {
 		// return menu
 		return $menu;
 	}
-	
+
 	/**
 	 * Append Navigation Menu items to the `self::$nav_menus` array
 	 * @param string|array $args
@@ -354,7 +356,7 @@ class WDG {
 
 		return $args;
 	}
-	
+
 	/**
 	 * Creates a sidebar
 	 * @param string|array
@@ -374,13 +376,13 @@ class WDG {
 			'before_title'  => '<h3 class="Widget-title">',
 			'after_title'   => '</h3>'
 		);
-		
+
 		// if $args is a string transform it into `id`
 		if (is_string($args)) {
 			$args = strtolower($args);
 			$args = array_merge($defaults, array('id' => $args));
 		}
-		
+
 		// throw error if `id` isn't available
 		if (is_array($args) && !isset($args['id'])) {
 			return new WP_Error('id_missing', '`array("id" => "")` is missing from the argument', $args);
@@ -489,7 +491,7 @@ class WDG {
 
 		return $args;
 	}
-	
+
 	public static function enqueue_style($handle, $priority = 10) {
 		if (!isset(self::$registered_styles[$handle])) {
 			return new WP_Error('enqueue_style_not_registered', 'Enqueued style is not registered', $handle, self::$registered_styles);
@@ -520,7 +522,7 @@ class WDG {
 	/**
 	 Utility Functions
 	 */
-	
+
 	/**
 	 * Include all PHP files from a directory
 	 * @param string $dir_path Directory path
@@ -572,7 +574,7 @@ class WDG {
 			get_template_directory() . DIRECTORY_SEPARATOR . $template_name // Parent theme
 		);
 		$templates = apply_filters('WDG/template_part/templates', $templates, $template_name, $vars);
-		
+
 		// Search through templates
 		foreach ( $templates as $template ) {
 			if ( file_exists($template) ) break;
@@ -712,7 +714,7 @@ class WDG {
 				$args['container_class'] = ($args['container_class'] ? $args['container_class'] . ' ' : '') . 'Nav--' . $args['menu'];
 			}
 		}
-		
+
 		// Set menu CSS class names
 		if (strpos($args['menu_class'], $defaults['menu_class']) === false) {
 			$args['menu_class'] .= ' ' . $defaults['menu_class'] . ' ';
@@ -806,5 +808,24 @@ class WDG {
 		}
 
 		return false;
+	}
+
+	public static function wp_admin_css_colors() {
+		// wp_admin_css_color(
+		// 	'key',
+		// 	'Name',
+		// 	get_stylesheet_directory_uri() . '/includes/wdg.admin.colors.php',
+		// 	array(
+		// 		'#aaa',
+		// 		'#bbb',
+		// 		'#ccc',
+		// 		'#ddd'
+		// 	),
+		// 	array(
+		//         'base' => '#f3f2f1',
+		//         'focus' => '#fff',
+		//         'current' => '#fff'
+		//     )
+		// );
 	}
 }
