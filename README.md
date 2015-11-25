@@ -141,7 +141,7 @@ We encourage you to use the following plugins for development:
 
 **Development**
 
-* [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) for fields
+* [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
 * [Gravity Forms](http://www.gravityforms.com/) for form management
 * [Timber](https://wordpress.org/plugins/timber-library/) for templating
 * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) for cache management

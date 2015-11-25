@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+* Added lodash custom build support
+* upgraded modernizr custom builds to 3.0
+* include bourbon neat by default
+* es6 compilation with babel
+* move compiled assets to assets/dist
+* removed zurb foundation support
+
 ## 0.4.0
 * __wdg.class.php__ Reorganized WDG class
 	* Added `WDG/theme_support` filter in `setup_theme`
