@@ -1,6 +1,4 @@
-/* global jQuery, _, Modernizr */
-
-(function ($, $window, $document, $body, Site) {
+(function ($, $window, $document, $body, Site, Modernizr, _) {
 
 	$.extend(Site, {
 		// DOM ready code
@@ -23,5 +21,5 @@
 	// Defer scripts to window on load event
 	$window.on('load', Site.load);
 
-})(jQuery, jQuery(window), jQuery(document), jQuery(document.body), window.Site || {});
+})(window.jQuery, window.jQuery(window), window.jQuery(document), window.jQuery(document.body), window.Site || {}, window.Modernizr, window._);
 //# sourceMappingURL=site.js.map
