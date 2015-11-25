@@ -14,9 +14,13 @@
   "unused": "vars",
   "trailing": true,
   "smarttabs": true,
+  "esnext": true,
 
   // Also don't enforce these globals
   "globals": {
+    // some common globals
+    "_" : false, // lodash or underscore
+    "Modernizr" : false,
     //GSAP Globals
     "TimelineLite": false,
     "TimelineMax": false,

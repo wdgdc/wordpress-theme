@@ -28,7 +28,7 @@ It comes with [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/) support
 ```
 wdg-wordpress-theme
 ├─┬ assets
-│ ├── css
+│ ├── dist
 │ ├── fonts
 │ ├── img
 │ ├── js
@@ -56,7 +56,10 @@ We install the following components by default:
 
 * [console-polyfill](https://github.com/paulmillr/console-polyfill)
 * [jquery](https://github.com/jquery/jquery)
+* [lodash](https://lodash.com)
 * [modernizr](https://github.com/Modernizr/Modernizr)
+
+Lodash and Modernizr are custom built from the references within the JS/CSS asset files.
 
 ### Searching for a package
 [Bower packages repository](http://bower.io/search/)
@@ -93,25 +96,26 @@ This is the default task, it does a full build then constantly looks for file ch
 There is a [LiveReload](http://livereload.com/) support, so your browser tab should be updated automatically after compilation as long as you have the [browser extension enabled](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-).
 
 ```
-$ grunt watch
+$ npm run grunt watch
 ```
 
 Most of the time you will want to run the default task by simply using the command `grunt` in your root directory.
 
 ```
-$ grunt
+$ npm run grunt
 ```
 
 #### Build
 This set of tasks will be executed based on the file type in the following order:
 
-1. Compiles any CSS Pre-processors and exports it to `/assets/css`
+1. Compiles any CSS Pre-processors and exports it to `/assets/dist`
 2. Scans all CSS files and adds Browser vendor prefixes with [Autoprefixer](https://github.com/ai/autoprefixer) [grunt-autoprefixer](https://github.com/nDmitry/grunt-autoprefixer)
-3. Lints all JavaScript files with [JSHint](http://www.jshint.com/about/) [grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint)
-4. Scans all compiled CSS and JavaScript files for references of [Modernizr](https://github.com/Modernizr/Modernizr)'s CSS class names or JavaScript methods to create a custom minified version of Modernizr with [grunt-modernizr](https://github.com/Modernizr/grunt-modernizr). Eg. `.backgroundsize {}`, `Modernizr.backgroundSize` or `Modernizr.prefixed('backgroundSize')`
+3. Scans all compiled CSS and JavaScript files for references of [Modernizr](https://github.com/Modernizr/Modernizr)'s CSS class names or JavaScript methods to create a custom minified version of Modernizr with [grunt-modernizr](https://github.com/Modernizr/grunt-modernizr). Eg. `.backgroundsize {}`, `Modernizr.backgroundSize` or `Modernizr.prefixed('backgroundSize')`
+4. Scans all JS files and transpiles ES6 code to ES5 with [Babel](https://babeljs.io/) and exports the compiled file to `/assets/dist`.
+5. Scans all JS files for lodash references with [grunt-lodash-autobuild](https://www.npmjs.com/package/grunt-lodash-autobuild) and creates a custom build and exports the custom lodash file to `/assets/dist`.
 
 ```
-$ grunt build
+$ npm run grunt build
 ```
 
 #### Tests
@@ -137,10 +141,9 @@ We encourage you to use the following plugins for development:
 
 **Development**
 
-* [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) for fields
-* [Custom Post Type UI](http://wordpress.org/plugins/custom-post-type-ui/) for post types
+* [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
 * [Gravity Forms](http://www.gravityforms.com/) for form management
-* [Simple Image Sizes](http://wordpress.org/plugins/simple-image-sizes/) for image sizes
+* [Timber](https://wordpress.org/plugins/timber-library/) for templating
 * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) for cache management
 * [WordPress SEO](https://wordpress.org/plugins/wordpress-seo/) for search engine optimization
 

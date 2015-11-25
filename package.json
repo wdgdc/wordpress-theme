@@ -1,18 +1,35 @@
 {
   "name": "wdg-wordpress-theme",
-  "version": "0.4.0",
+  "version": "0.5.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/WDGDC/wordpress-theme.git"
+  },
+  "private": true,
   "description": "A minimal WordPress theme",
   "author": "The Web Development Group",
   "license": "MIT",
+  "scripts": {
+    "bower": "bower",
+    "grunt": "grunt"
+  },
   "devDependencies": {
-    "grunt": "*",
+    "babel-preset-es2015": "^6.1.18",
+    "bower": "^1.6.5",
+    "grunt": "^0.4.5",
     "grunt-autoprefixer": "*",
+    "grunt-babel": "^6.0.0",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-imagemin": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-watch": "*",
+    "grunt-lodash": "^0.5.0",
+    "grunt-lodash-autobuild": "^0.3.0",
     "grunt-modernizr": "*",
     "grunt-sass": "*",
     "grunt-sass-globbing": "*",
-    "node-bourbon": "^1.2.3"
+    "lodash-cli": "^3.10.1",
+    "node-bourbon": "^1.2.3",
+    "node-neat": "^1.7.2"
   }
 }
