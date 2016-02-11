@@ -7,7 +7,7 @@
 
 require_once 'wdg.constants.php';
 require_once 'wdg.walker.php';
-require_once 'wdg.admin.colors.php';
+// require_once 'wdg.admin.colors.php';
 
 class WDG {
 	public static $body_classes       = array();
