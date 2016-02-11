@@ -29,10 +29,10 @@ class WDG {
 		add_action('after_setup_theme', array(__CLASS__, 'languages_gravityforms'));
 		add_action('after_setup_theme', array(__CLASS__, 'register_nav_menus'), 100); // give this a high priority so any menus registered from the child class will get registered
 		add_action('after_setup_theme', array(__CLASS__, 'register_styles'), 10);
-		add_action('after_setup_theme', array(__CLASS__, 'enqueue_styles'));
-		add_action('after_setup_theme', array(__CLASS__, 'register_scripts'));
-		add_action('after_setup_theme', array(__CLASS__, 'enqueue_scripts'));
-		add_action('after_setup_theme', array(__CLASS__, 'wp_head_cleanup'));
+		add_action('init', array(__CLASS__, 'enqueue_styles'));
+		add_action('init', array(__CLASS__, 'register_scripts'));
+		add_action('init', array(__CLASS__, 'enqueue_scripts'));
+		add_action('init', array(__CLASS__, 'wp_head_cleanup'));
 		add_action('widgets_init', array(__CLASS__, 'register_sidebars'));
 		add_action('widgets_init', array(__CLASS__, 'register_widgets'));
 		add_action('wp', array(__CLASS__, 'setup_author_archive'));
