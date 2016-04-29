@@ -280,6 +280,11 @@ class WDG {
 	}
 
 	public static function nav($handle, $override_args = array()) {
+		if (is_array($handle)) {
+			$override_args = $handle;
+			$handle = $override_args['theme_location'];
+		}
+
 		if (!is_string($handle)) {
 			return new WP_Error('invalid_argument_type', '`$handle` isn\'t a String', $handle);
 		}
