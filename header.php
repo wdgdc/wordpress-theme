@@ -43,6 +43,6 @@
 		<?php echo Theme::nav('primary'); ?>
 		<?php echo Theme::nav('utility'); ?>
 	</div>
-</header><!-- end .Header -->
+</header><!-- end .header -->
 
 <div class="main-container">
