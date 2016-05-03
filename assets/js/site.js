@@ -1,25 +1,31 @@
-(function ($, $window, $document, $body, Site, Modernizr, _) {
+// external scripts
+import $ from 'jquery';
+import debug from 'debug';
 
-	$.extend(Site, {
-		// DOM ready code
-		init: function () {
+// example of ES2015 modules loading & tree shaking
+import { emptyLinks } from './links';
 
-		},
+const $window   = $(window);
+const $document = $(document);
 
-		// window on load code
-		load: function () {
+class Site {
+	constructor() {
+		$document.ready(() => this.domReady());
+		$window.on('load', () => this.windowLoad());
+	}
 
-		}
-	});
+	domReady() {
+		const log = debug('theme:domReady');
+		log('dom.ready');
+	}
 
-	// Make our namespace globally accessible
-	window.Site = Site;
+	windowLoad() {
+		const log = debug('theme:windowLoad');
+		log('window.onload');
 
-	// Run initialization script on DOM ready
-	$document.on('ready', Site.init);
+		// example of ES2015 modules loading & tree shaking
+		emptyLinks();
+	}
+}
 
-	// Defer scripts to window on load event
-	$window.on('load', Site.load);
-
-})(window.jQuery, window.jQuery(window), window.jQuery(document), window.jQuery(document.body), window.Site || {}, window.Modernizr, window._);
-//# sourceMappingURL=site.js.map
+export default Site;
