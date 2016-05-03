@@ -1,0 +1,11 @@
+{
+	"preset": "airbnb",
+	"esnext": true,
+	"disallowSpaceAfterObjectKeys": { allExcept: ["aligned"] },
+	"maximumLineLength": null,
+	"requirePaddingNewLinesAfterBlocks": false,
+	"requireSpacesInAnonymousFunctionExpression": false,
+	"requireTrailingComma": false,
+	"validateIndentation": "\t",
+	"validateLineBreaks": null
+}
