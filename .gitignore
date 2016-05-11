@@ -3,5 +3,4 @@ node_modules
 .project
 Thumbs.db
 *.log
-assets/vendor
-assets/dist
+.tmp
