@@ -1,13 +1,13 @@
+</div><!-- end .main-container -->
+
 <footer class="footer">
-	<div class="u-wrap">
-		<?php echo Theme::nav('footer'); ?>
-		<p class="footer-copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.</p>
-		<!-- Proudly powered by WordPress -->
+	<div class="wrap">
+		<?php echo Theme::nav( 'footer' ); ?>
+		<p class="footer-copyright">&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
 	</div>
 </footer>
 
-</div><!-- end .main-container -->
-</div><!-- end .overflow -->
+</div><!-- end .body-overflow -->
 
 <section id="wp-footer">
 	<?php wp_footer(); ?>
