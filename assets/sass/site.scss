@@ -1,5 +1,12 @@
-@import 'bourbon';
-@import 'neat';
-@import 'variables';
-@import 'mixins';
-@import 'components';
+/*! site START */
+@import "bourbon";
+@import "neat";
+@import "normalize";
+@import "html5boilerplate";
+
+// `gulp-sass-globbing`
+// Comment out if there aren't any files to glob
+@import "variables/**/*.scss";
+// @import "mixins/**/*.scss";
+@import "components/**/*.scss";
+/*! site END */
