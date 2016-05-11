@@ -1,0 +1,9 @@
+.wrap {
+	@include outer-container;
+	padding: 1em 0;
+	position: relative;
+
+	@include media($max-width-down) {
+		margin: 0 ($column / 2);
+	}
+}

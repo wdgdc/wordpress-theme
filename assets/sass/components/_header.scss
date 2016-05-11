@@ -1,0 +1,21 @@
+.header {
+	background-color: $silver;
+}
+
+.header-logo {
+	margin: 0;
+
+	a {
+		display: inline-block;
+		height: 75px;
+		line-height: 75px;
+		text-decoration: none;
+	}
+
+	svg {
+		height: 75px;
+		margin-right: 0.5em;
+		vertical-align: bottom;
+		width: 75px;
+	}
+}

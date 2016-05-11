@@ -1,0 +1,8 @@
+body {
+	background-color: $body-bg-color;
+	color: $body-text-color;
+
+	&::before {
+		display: none;
+	}
+}

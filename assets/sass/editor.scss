@@ -1,0 +1,54 @@
+/*! editor START */
+@import "bourbon";
+@import "neat";
+@import "normalize";
+@import "html5boilerplate";
+
+// `gulp-sass-globbing`
+// Comment out if there aren't any files to glob
+@import "variables/**/*.scss";
+// @import "mixins/**/*.scss";
+@import "components/**/*.scss";
+
+html,
+body {
+	background-color: $white;
+}
+
+body {
+	max-width: $max-width !important;
+	padding: 0 ($column / 2) !important;
+}
+
+body::before {
+	display: none !important;
+}
+
+a {
+	color: $link-text-color;
+	text-decoration: underline;
+}
+
+h1::before,
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+	color: $gray;
+	font-family: $monospace;
+	margin-right: 0.35em;
+}
+
+h1::before,
+h2::before,
+h3::before {
+	font-size: 0.8em;
+}
+
+@for $i from 1 through 6 {
+	h#{$i}::before {
+		content: "h#{$i}";
+	}
+}
+/*! editor END */

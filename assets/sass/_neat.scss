@@ -1,0 +1,14 @@
+/*! bourbon-neat START */
+// Bourbon Neat
+$border-box-sizing: false !global;
+$column: 54px;
+$grid-columns: 12;
+$gutter: 36px;
+$max-width: 1200px;
+$visual-grid-color: red !global;
+$visual-grid-index: front !global;
+$visual-grid-opacity: 0.1 !global;
+$visual-grid: true !global;
+
+@import "../vendor/bourbon-neat/app/assets/stylesheets/_neat";
+/*! bourbon-neat END */

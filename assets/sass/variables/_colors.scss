@@ -1,0 +1,16 @@
+@import "../vendor/colors-sass/sass/variables";
+
+$html-bg-color: $black;
+$html-text-color: $silver;
+
+$body-bg-color: $white;
+$body-text-color: $black;
+
+$darker-text-color: darken($body-text-color, 15%);
+$lighter-text-color: lighten($body-text-color, 15%);
+
+$link-text-color: $blue;
+$link-text-color-hover: $navy;
+
+$selection-bg-color: $aqua;
+$hr-border-color: $gray;
