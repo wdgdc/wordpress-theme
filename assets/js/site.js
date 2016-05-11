@@ -1,6 +1,6 @@
 // external scripts
 import $ from 'jquery';
-import debug from 'debug';
+import debug from 'bows';
 
 // example of ES2015 modules loading & tree shaking
 import { emptyLinks } from './links';
@@ -15,12 +15,12 @@ class Site {
 	}
 
 	domReady() {
-		const log = debug('theme:domReady');
+		const log = debug('site:domReady');
 		log('dom.ready');
 	}
 
 	windowLoad() {
-		const log = debug('theme:windowLoad');
+		const log = debug('site:windowLoad');
 		log('window.onload');
 
 		// example of ES2015 modules loading & tree shaking

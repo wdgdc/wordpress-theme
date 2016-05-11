@@ -1,14 +1,14 @@
 import $ from 'jquery';
-import debug from 'debug';
+import debug from 'bows';
 
 export function emptyLinks() {
-	const log   = debug('theme:emptyLinks');
+	const log   = debug('links:emptyLinks');
 	const links = $('a[href=""], a[href="#"]').toArray();
 	log(`There are ${links.length} empty links on this page`, links);
 }
 
 export function externalLinks() {
-	const log    = debug('theme:externalLinks');
+	const log    = debug('links:externalLinks');
 	const $links = $('a[href]:not([target])').filter((i, link) => {
 		const href     = $(link).attr('href').trim();
 		const isEmpty  = href === '';
