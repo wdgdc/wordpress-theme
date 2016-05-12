@@ -44,6 +44,7 @@
     "bourbon": "~4.2.7",
     "bourbon-neat": "~1.7.4",
     "bows": "~1.5.0",
+    "colors-sass": "~1.0.0",
     "jquery": "~2.2.3",
     "normalize-scss": "~4.2.1"
   }

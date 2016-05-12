@@ -1,0 +1,44 @@
+<?php
+
+// == PATHS ==
+
+// theme
+define( 'THEME_PATH', STYLESHEETPATH );
+
+// assets
+define( 'THEME_ASSETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'assets' );
+define( 'THEME_CSS_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'css' );
+define( 'THEME_FONTS_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'fonts' );
+define( 'THEME_IMAGES_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'img' );
+define( 'THEME_IMG_PATH', THEME_IMAGES_PATH );
+define( 'THEME_JAVASCRIPT_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'js' );
+define( 'THEME_JS_PATH', THEME_JAVASCRIPT_PATH );
+define( 'THEME_VENDOR_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'vendor' );
+define( 'THEME_DIST_PATH', THEME_ASSETS_PATH . DIRECTORY_SEPARATOR . 'dist' );
+define( 'THEME_PARTIALS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'partials' );
+
+// include
+define( 'THEME_LANGUAGES_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'languages' );
+define( 'THEME_LANG_PATH', THEME_LANGUAGES_PATH );
+define( 'THEME_INCLUDE_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'includes' );
+define( 'THEME_WIDGETS_PATH', THEME_PATH . DIRECTORY_SEPARATOR . 'widgets' );
+
+// == URIS ==
+
+// theme
+define( 'THEME_URI', get_stylesheet_directory_uri() );
+
+// assets
+define( 'THEME_ASSETS_URI', THEME_URI . '/assets' );
+define( 'THEME_CSS_URI', THEME_ASSETS_URI . '/css' );
+define( 'THEME_FONTS_URI', THEME_ASSETS_URI . '/fonts' );
+define( 'THEME_IMAGES_URI', THEME_ASSETS_URI . '/img' );
+define( 'THEME_IMG_URI', THEME_IMAGES_URI );
+define( 'THEME_JAVASCRIPT_URI', THEME_ASSETS_URI . '/js' );
+define( 'THEME_JS_URI', THEME_JAVASCRIPT_URI );
+define( 'THEME_VENDOR_URI', THEME_ASSETS_URI . '/vendor' );
+define( 'THEME_DIST_URI', THEME_ASSETS_URI . '/dist' );
+
+
+// == i18n ==
+define( 'THEME_TEXT_DOMAIN', 'wdg-theme' );

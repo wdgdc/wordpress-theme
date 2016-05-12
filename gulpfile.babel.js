@@ -17,7 +17,7 @@ project.vendor = project.assets + '/vendor';
 
 const banner = `/*!
  * DO NOT OVERRIDE THIS FILE.
- * Generated with \`npm run gulp -- build\`
+ * Generated with \`npm run build\`
  *
  * ${pkg.name} - ${pkg.description}
  * @version ${pkg.version}
@@ -44,7 +44,7 @@ gulp.task('build:img', () => {
 
 // css
 gulp.task('build:css', () => {
-	const { autoprefixer, cleanCss, filter, header, rename, sass, sassGlob, size, sourcemaps } = gulpPlugins;
+	const { autoprefixer, cleanCss, filter, header, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
 	const filterCSS = filter(['**/*.css'], { restore: true });
 
 	return gulp.src([`${project.sass}/**/*.scss`, `!_*.scss`])
@@ -61,18 +61,18 @@ gulp.task('build:css', () => {
 			showFiles: true,
 			title: 'sass'
 		}))
-		.pipe(sourcemaps.write('.'))
+		.pipe(sourcemaps.write('.')).on('error', util.log)
 		.pipe(gulp.dest(project.dist))
 
 		// minified version
 		.pipe(filterCSS)
 		.pipe(rename({ suffix: '.min' }))
-		.pipe(cleanCss())
+		.pipe(cleanCss()).on('error', util.log)
 		.pipe(size({
 			showFiles: true,
 			title: 'sass'
 		}))
-		.pipe(sourcemaps.write('.'))
+		.pipe(sourcemaps.write('.')).on('error', util.log)
 		.pipe(filterCSS.restore)
 
 		// create both files

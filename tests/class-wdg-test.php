@@ -1,6 +1,6 @@
 <?php
 
-class WDGTest extends PHPUnit_Framework_TestCase {
+class WDG_Test extends PHPUnit_Framework_TestCase {
 	private function prepareIncludeDirectory() {
 		$path = dirname(__FILE__) . '/tmp';
 		foreach (range(1,3) as $i) {

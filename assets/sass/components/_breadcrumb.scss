@@ -1,0 +1,7 @@
+.breadcrumb-list-item {
+	display: inline-block;
+
+	&:not(:first-child)::before {
+		content: ">";
+	}
+}
