@@ -44,7 +44,7 @@ gulp.task('build:img', () => {
 
 // css
 gulp.task('build:css', () => {
-	const { autoprefixer, cleanCss, filter, header, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
+	const { autoprefixer, cleanCss, filter, header, livereload, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
 	const filterCSS = filter(['**/*.css'], { restore: true });
 
 	return gulp.src([`${project.sass}/**/*.scss`, `!_*.scss`])
@@ -76,12 +76,14 @@ gulp.task('build:css', () => {
 		.pipe(filterCSS.restore)
 
 		// create both files
-		.pipe(gulp.dest(project.dist));
+		.pipe(gulp.dest(project.dist))
+
+		.pipe(livereload());
 });
 
 // js
 gulp.task('build:js', () => {
-	const { filter, header, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
+	const { filter, header, livereload, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
 	const es2015   = require('rollup-plugin-buble');
 	const filterJS = filter(['**/*.js'], { restore: true });
 
@@ -121,7 +123,9 @@ gulp.task('build:js', () => {
 		.pipe(filterJS.restore)
 
 		// create both files
-		.pipe(gulp.dest(project.dist));
+		.pipe(gulp.dest(project.dist))
+
+		.pipe(livereload());
 });
 
 // vendor
@@ -156,6 +160,8 @@ gulp.task('build:vendor:modernizr', () => {
 
 // watch
 gulp.task('watch', () => {
+	const { livereload } = gulpPlugins;
+	livereload.listen();
 	gulp.watch(`${project.js}/**/*.js`, ['build:js']);
 	gulp.watch(`${project.sass}/**/*.scss`, ['build:css']);
 	gulp.watch(`${project.img}/**/*.{png,jpg,jpeg,gif,svg}`, ['build:img']);
