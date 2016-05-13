@@ -65,7 +65,9 @@ class WDG {
 				'comment-list',
 				'gallery',
 				'search-form',
-			)
+			),
+
+			'title-tag' => null,
 		) );
 
 		foreach ( $features as $feature => $args ) {
