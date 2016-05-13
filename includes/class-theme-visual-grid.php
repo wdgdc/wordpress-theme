@@ -95,7 +95,7 @@ class Theme_Visual_Grid {
 		?>
 			<script>
 				(function(node) {
-					var shown  = '<?php echo self::$show; ?>';
+					var shown  = <?php echo self::$show ? 'true' : 'false'; ?>;
 					var xhruri = '<?php echo admin_url( 'admin-ajax.php' ) . '?' . http_build_query( array( 'action' => 'toggle_visual_grid' ) ); ?>';
 					if (node.addEventListener && node.classList) {
 						node.addEventListener('click', function(e) {
