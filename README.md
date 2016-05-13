@@ -5,15 +5,26 @@ This is a *very* opinionated base theme for WordPress, build from several iterat
 ## Features
 
 * Straightforward directory structure
-* PHP classes and functions for your WordPress theme
+* PHP classes and helper functions for your WordPress theme
+    * Breadcrumbs
+    * Constants for URIs and server paths
+    * Custom post types & Taxonomies default options and auto generated labels
+    * Attachments
+        * Get Average colors from images
+        * Get paths and urls with attachment ids
+        * SVG parsing and rendering with a rasterized image fallback
+    * Menus: Additional CSS classes and sensitive defaults
+    * String functions with Doctrine's [inflector](https://github.com/doctrine/inflector)
+    * Enforced linting and [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) with [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
 * CSS goodies like:
     * [SASS (SCSS syntax)](http://sass-lang.com/): CSS pre-processor
     * [Autoprefixer](https://github.com/postcss/autoprefixer): Automatically prefixed vendor properties
     * [Bourbon](http://bourbon.io/) & [Neat](http://neat.bourbon.io/): SASS & Grid library
+    * [stylelint](http://stylelint.io/) & [CSScomb](http://csscomb.com/): Linting and coding standards
 * JavaScript goodies like:
-    * [JSCS](http://jscs.info/): JavaScript code style linter with ES6 support
     * ES2015 syntax with [Bublé](https://gitlab.com/Rich-Harris/buble)
     * ES2015 modules with [Rollup](http://rollupjs.org/)
+    * [JSHint](http://jshint.com/) & [JSCS](http://jscs.info/): Linting and coding standards
 * Vendor packages
   * Copied automatically from `node_modules` to `assets/vendor`
   * Custom Modernizr generated from your SCSS & JS files
@@ -187,7 +198,7 @@ The `watch` task will look for changes in the /assets/js and /assets/sass files 
 
 Please note that the watch task will not generate vendor files by default or on any file change. This has changed from previous versions of the theme. Please run `build:vendor` yourself.
 
-There is [LiveReload](http://livereload.com/) support, so your browser tab should be updated automatically after compilation as long as you have the [browser extension enabled](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-).
+There is [LiveReload](http://livereload.com/) support, so your browser tab should be updated automatically after compilation as long as you have the [browser extension enabled](https://chrome.google.com/webstore/detail/remotelivereload/jlppknnillhjgiengoigajegdpieppei).
 
 ---
 
