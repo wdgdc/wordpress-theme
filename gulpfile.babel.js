@@ -28,7 +28,8 @@ const banner = `/*!
 `;
 
 // build
-gulp.task('build', ['build:vendor', 'build:css', 'build:js']);
+gulp.task('build', ['build:vendor', 'build:css-js']);
+gulp.task('build:css-js', ['build:css', 'build:js']);
 
 // img
 gulp.task('build:img', () => {

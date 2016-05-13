@@ -156,12 +156,15 @@ $ npm install
 $ npm run build
 ```
 
-This is a set of tasks to be run in sequence to compile the Vendor files, CSS and then JavaScript files.
+This is a set of tasks to be run in the following order:
+
+1. Compile vendor files
+2. In parallel compile CSS & JS files
 
 ##### build:vendor
 
 ```
-$ npm run gulp -- build:vendor
+$ npm run build:vendor
 ```
 
 1. Generate a custom built Modernizr file based on usage from the project's CSS & JS.
@@ -170,7 +173,7 @@ $ npm run gulp -- build:vendor
 ##### build:css
 
 ```
-$ npm run gulp -- build:css
+$ npm run build:css
 ```
 
 1. Grab all Sass files without an underscore in front of the file.
@@ -181,7 +184,7 @@ $ npm run gulp -- build:css
 ##### build:js
 
 ```
-$ npm run gulp -- build:js
+$ npm run build:js
 ```
 
 1. Rollup to merge all ES6 modules imported from `assets/js/site.js`.
@@ -191,7 +194,7 @@ $ npm run gulp -- build:js
 #### Watch
 
 ```
-$ npm run gulp -- watch
+$ npm run watch
 ```
 
 The `watch` task will look for changes in the /assets/js and /assets/sass files and build them accordingly.

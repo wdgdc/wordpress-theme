@@ -15,7 +15,10 @@
   "scripts": {
     "babel": "babel",
     "bower": "bower",
-    "build": "gulp build:vendor && gulp build:css && gulp build:js",
+    "build": "gulp build:vendor && gulp build:css-js",
+    "build:vendor": "gulp build:vendor",
+    "build:css": "gulp build:css",
+    "build:js": "gulp build:js",
     "gulp": "gulp",
     "watch": "gulp watch"
   },
@@ -28,6 +31,7 @@
     "gulp-filter": "4.0.0",
     "gulp-header": "1.8.2",
     "gulp-imagemin": "3.0.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "1.2.2",
     "gulp-modernizr": "1.0.0-alpha",
     "gulp-rename": "1.2.2",
