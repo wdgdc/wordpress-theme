@@ -1,0 +1,15 @@
+.svg {
+	display: inline-block;
+	vertical-align: middle;
+
+	svg {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+
+	a:hover &,
+	a:focus & {
+		opacity: 0.8;
+	}
+}
