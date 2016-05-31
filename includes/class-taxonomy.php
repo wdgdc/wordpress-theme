@@ -14,7 +14,7 @@ class Theme_Taxonomy {
 		);
 
 		$new_args = array_merge( $defaults, $args );
-		register_post_type( $taxonomy, $new_args );
+		register_taxonomy( $taxonomy, $object_type, $new_args );
 	}
 
 	public static function default_labels( $taxonomy, $args = array() ) {
