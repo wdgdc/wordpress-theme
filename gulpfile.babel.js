@@ -45,10 +45,11 @@ gulp.task('build:img', () => {
 
 // css
 gulp.task('build:css', () => {
-	const { autoprefixer, cleanCss, filter, header, livereload, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
+	const { autoprefixer, csso, filter, header, livereload, plumber, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
 	const filterCSS = filter(['**/*.css'], { restore: true });
 
 	return gulp.src([`${project.sass}/**/*.scss`, `!_*.scss`])
+		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(sassGlob())
 		.pipe(sass({
@@ -68,7 +69,7 @@ gulp.task('build:css', () => {
 		// minified version
 		.pipe(filterCSS)
 		.pipe(rename({ suffix: '.min' }))
-		.pipe(cleanCss()).on('error', util.log)
+		.pipe(csso()).on('error', util.log)
 		.pipe(size({
 			showFiles: true,
 			title: 'sass'
@@ -84,11 +85,12 @@ gulp.task('build:css', () => {
 
 // js
 gulp.task('build:js', () => {
-	const { filter, header, livereload, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
+	const { filter, header, livereload, plumber, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
 	const es2015   = require('rollup-plugin-buble');
 	const filterJS = filter(['**/*.js'], { restore: true });
 
 	return gulp.src(`${project.js}/site.js`)
+		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(rollup({
 			format: 'umd',
