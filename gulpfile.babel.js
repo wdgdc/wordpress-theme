@@ -147,7 +147,15 @@ gulp.task('build:vendor:modernizr', () => {
 	const { header, modernizr, rename, sourcemaps, uglify } = gulpPlugins;
 
 	return gulp.src([`${project.sass}/**/*.scss`, `${project.js}/**/*.js`])
-		.pipe(modernizr())
+		.pipe(modernizr({
+			options: [
+				'setClasses',
+				'addTest',
+				'html5printshiv',
+				'testProp',
+				'fnBind'
+			]
+		}))
 		.pipe(gulp.dest(`${project.vendor}/modernizr`))
 
 		// minified version
