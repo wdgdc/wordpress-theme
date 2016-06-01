@@ -11,5 +11,5 @@ $visual-grid-index: front !global;
 $visual-grid-opacity: 0.1 !global;
 $visual-grid: true !global;
 
-@import "../vendor/bourbon-neat/app/assets/stylesheets/_neat";
+@import "../../node_modules/bourbon-neat/app/assets/stylesheets/_neat";
 /*! bourbon-neat END */
