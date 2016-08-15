@@ -33,7 +33,7 @@ class Theme_Post_Type {
 		if ( ! empty( $args['singular_name'] ) ) {
 			$singular = $args['singular_name'];
 		} else {
-			$singular = ucfirst( Theme_String::singularize( $humanized ) );
+			$singular = ucfirst( Theme_String::singularize( $plural ) );
 		}
 
 		$defaults = array(
@@ -49,7 +49,7 @@ class Theme_Post_Type {
 			'not_found_in_trash' => 'No '. $plural . ' found in Trash',
 			'parent_item_colon' => 'Parent ' . $singular . ':',
 			'all_items' => 'All ' . $plural,
-			'archives' => $singular . 'Archives',
+			'archives' => $singular . ' Archives',
 			'insert_into_item' => 'Insert into ' . $singular,
 			'uploaded_to_this_item' => 'Uploaded to this ' . $singular,
 		);

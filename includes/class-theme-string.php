@@ -50,4 +50,10 @@ class Theme_String {
 	public static function singularize( $str ) {
 		return \Doctrine\Common\Inflector\Inflector::singularize( $str );
 	}
+
+	public static function dasherize( $str ) {
+		$str = sanitize_title( $str );
+		$str = preg_replace( '/[\_\.+]/', '-', $str );
+		return $str;
+	}
 }

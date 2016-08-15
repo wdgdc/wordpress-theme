@@ -1,6 +1,14 @@
-const pkg         = require('./package.json');
-const gulp        = require('gulp');
-const gulpPlugins = require('gulp-load-plugins')();
+const pkg          = require('./package.json');
+const gulp         = require('gulp');
+const gulpPlugins  = require('gulp-load-plugins')();
+const { sequence } = gulpPlugins;
+let browserSync;
+
+try {
+	browserSync = require('browser-sync').create();
+} catch(e) {
+	// ignore error
+}
 
 // project
 const project  = { root: __dirname };
@@ -28,8 +36,7 @@ const banner = `/*!
 `;
 
 // build
-gulp.task('build', ['build:vendor', 'build:css-js']);
-gulp.task('build:css-js', ['build:css', 'build:js']);
+gulp.task('build', sequence('build:vendor', ['build:img', 'build:css', 'build:js']));
 
 // img
 gulp.task('build:img', () => {
@@ -45,8 +52,9 @@ gulp.task('build:img', () => {
 
 // css
 gulp.task('build:css', () => {
-	const { autoprefixer, csso, filter, header, livereload, plumber, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
+	const { autoprefixer, csso, filter, header, plumber, rename, sass, sassGlob, size, sourcemaps, util } = gulpPlugins;
 	const filterCSS = filter(['**/*.css'], { restore: true });
+	const sync = () => browserSync ? browserSync.stream({ match: '**/*.css' }) : util.noop();
 
 	return gulp.src([`${project.sass}/**/*.scss`, `!_*.scss`])
 		.pipe(plumber())
@@ -65,6 +73,7 @@ gulp.task('build:css', () => {
 		}))
 		.pipe(sourcemaps.write('.')).on('error', util.log)
 		.pipe(gulp.dest(project.dist))
+		.pipe(browserSync.stream({ match: '**/*.css' }))
 
 		// minified version
 		.pipe(filterCSS)
@@ -79,13 +88,12 @@ gulp.task('build:css', () => {
 
 		// create both files
 		.pipe(gulp.dest(project.dist))
-
-		.pipe(livereload());
+		.pipe(sync());
 });
 
 // js
 gulp.task('build:js', () => {
-	const { filter, header, livereload, plumber, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
+	const { filter, header, plumber, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
 	const es2015   = require('rollup-plugin-buble');
 	const filterJS = filter(['**/*.js'], { restore: true });
 
@@ -126,9 +134,7 @@ gulp.task('build:js', () => {
 		.pipe(filterJS.restore)
 
 		// create both files
-		.pipe(gulp.dest(project.dist))
-
-		.pipe(livereload());
+		.pipe(gulp.dest(project.dist));
 });
 
 // vendor
@@ -171,9 +177,23 @@ gulp.task('build:vendor:modernizr', () => {
 
 // watch
 gulp.task('watch', () => {
-	const { livereload } = gulpPlugins;
-	livereload.listen();
 	gulp.watch(`${project.js}/**/*.js`, ['build:js']);
 	gulp.watch(`${project.sass}/**/*.scss`, ['build:css']);
 	gulp.watch(`${project.img}/**/*.{png,jpg,jpeg,gif,svg}`, ['build:img']);
 });
+
+// browsersync
+if (browserSync) {
+	gulp.task('build:js-sync', ['build:js'], browserSync.reload);
+
+	gulp.task('watch:sync', () => {
+		browserSync.init({
+			proxy: 'fsf.local'
+		});
+
+		gulp.watch(`${project.sass}/**/*.scss`, ['build:css']);
+		gulp.watch(`${project.js}/**/*.js`, ['build:js-sync']);
+		gulp.watch(`${project.root}/**/*.php`).on('change', browserSync.reload);
+		gulp.watch(`${project.img}/**/*.{png,jpg,jpeg,gif,svg}`).on('change', browserSync.reload);
+	});
+}

@@ -1,26 +1,22 @@
-/*! editor START */
 @import "bourbon";
 @import "neat";
-@import "normalize";
-@import "html5boilerplate";
-
-// `gulp-sass-globbing`
-// Comment out if there aren't any files to glob
 @import "variables/**/*.scss";
-// @import "mixins/**/*.scss";
+@import "mixins/**/*.scss";
+@import "global";
 @import "components/**/*.scss";
+@import "wordpress";
 
 html,
-body {
+body#tinymce {
 	background-color: $white;
 }
 
-body {
+body#tinymce {
 	max-width: $max-width !important;
 	padding: 0 ($column / 2) !important;
 }
 
-body::before {
+body#tinymce::before {
 	display: none !important;
 }
 
@@ -51,4 +47,3 @@ h3::before {
 		content: "h#{$i}";
 	}
 }
-/*! editor END */

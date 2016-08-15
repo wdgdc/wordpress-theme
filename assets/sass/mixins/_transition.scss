@@ -1,0 +1,22 @@
+@mixin transition-in($property: all) {
+	transition-duration: 150ms;
+	transition-property: $property;
+	transition-timing-function: $ease-out-quad;
+}
+
+@mixin transition-out($property: all) {
+	transition-duration: 250ms;
+	transition-property: $property;
+	transition-timing-function: $ease-in-quad;
+}
+
+@mixin transition($property: all) {
+	// transition out with slow easing
+	@include transition-out($property);
+
+	// transition in with fast easing
+	&:focus,
+	&:hover {
+		@include transition-in($property);
+	}
+}

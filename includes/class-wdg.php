@@ -363,9 +363,9 @@ class WDG {
 			'id'            => '',
 			'description'   => '',
 			'class'         => '',
-			'before_widget' => '<aside id="%1$s" class="Widget %2$s">',
+			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</aside>',
-			'before_title'  => '<h3 class="Widget-title">',
+			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>',
 		);
 
@@ -626,11 +626,12 @@ class WDG {
 			return new WP_Error( 'template_not_found', 'Get template part not found: ' . $template_name );
 		}
 
-		$args = apply_filters( 'WDG/template_part/vars', $vars, $template_path );
+		$__vars = apply_filters( 'WDG/template_part/vars', $vars, $template_path );
+		$__template_path = $template_path;
 
-		$output = self::ob( function() use ( $template_path, $args ) {
-			extract( $args, EXTR_SKIP );
-			require $template_path;
+		$output = self::ob( function() use ( $__template_path, $__vars ) {
+			extract( $__vars, EXTR_SKIP );
+			require $__template_path;
 		} );
 
 		if ( $echo ) {
@@ -677,33 +678,37 @@ class WDG {
 	 * @param id|WP_Post $id
 	 * @return string
 	 */
-	public static function get_excerpt( $id = null ) {
+	public static function get_excerpt( $id = null, $excerpt_length = 55 ) {
 		$post = get_post( $id );
 
 		if ( empty( $post ) ) {
 			return '';
 		}
 
+		$excerpt        = '';
+		$excerpt_length = apply_filters( 'excerpt_length', $excerpt_length );
+		$excerpt_more   = apply_filters( 'excerpt_more', '&hellip;' );
+
+		// Use the excerpt
 		if ( strlen( $post->post_excerpt ) ) {
-			// Use the excerpt
 			$excerpt = $post->post_excerpt;
 
-			$excerpt = apply_filters( 'the_excerpt', $excerpt );
+		// Make an excerpt
 		} else {
-			// Make excerpt
-			$content = $post->post_content;
-
-			$content = strip_shortcodes( $content );
-
-			$content = apply_filters( 'the_content', $content );
-			$content = str_replace( ']]>', ']]&gt;', $content );
-
-			$excerpt_length = apply_filters( 'excerpt_length', 55 );
-			$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
-			$excerpt = wp_trim_words( $content, $excerpt_length, $excerpt_more );
-
-			$excerpt = wpautop( $excerpt );
+			$excerpt = $post->post_content;
+			$excerpt = strip_shortcodes( $excerpt );
+			$excerpt = apply_filters( 'the_content', $excerpt );
+			$excerpt = str_replace( ']]>', ']]&gt;', $excerpt );
 		}
+
+		$excerpt = apply_filters( 'the_excerpt', $excerpt );
+
+		// let's use 0 as a "show all content" wildcard
+		if ( $excerpt_length > 0 ) {
+			$excerpt = wp_trim_words( $excerpt, $excerpt_length, $excerpt_more );
+		}
+
+		$excerpt = wpautop( $excerpt );
 
 		return apply_filters( 'wp_trim_excerpt', $excerpt );
 	}
@@ -725,7 +730,7 @@ class WDG {
 			'container'       => 'nav',
 			'container_class' => 'nav',
 			'description'     => '',
-			'menu_class'      => 'nav-menu nav-menu--depth0 menu',
+			'menu_class'      => 'nav__menu nav__menu--depth0 menu',
 			'theme_location'  => '',
 			'walker'          => new WDG_Walker_Nav_Menu,
 		);

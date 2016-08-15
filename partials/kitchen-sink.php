@@ -61,7 +61,7 @@
 	The <dfn>dfn element</dfn> and <dfn title="Title text">dfn element with title</dfn> examples<br>
 	The <em>em element</em> example<br>
 	The <i>i element</i> example<br>
-	The img element <img src="http://lorempixel.com/16/16" alt=""> example<br>
+	The img element <img src="http://placehold.it/16x16" alt=""> example<br>
 	The <ins>ins element</ins> example<br>
 	The <kbd>kbd element</kbd> example<br>
 	The <mark>mark element</mark> example<br>
@@ -92,8 +92,8 @@
 
 	<h3>img</h3>
 
-	<img src="http://lorempixel.com/100/100" alt="">
-	<a href="#"><img src="http://lorempixel.com/100/100" alt=""></a>
+	<img src="http://placehold.it/100x100" alt="">
+	<a href="#"><img src="http://placehold.it/100x100" alt=""></a>
 
 	<h3>svg</h3>
 
@@ -200,7 +200,7 @@
 	<h3>figure</h3>
 
 	<figure>
-			<img src="http://lorempixel.com/400/200" alt="">
+			<img src="http://placehold.it/400x200" alt="">
 			<figcaption>Figcaption content</figcaption>
 	</figure>
 
@@ -292,7 +292,7 @@
 
 			<fieldset>
 					<legend>Clickable inputs and buttons</legend>
-					<p><input type="image" src="http://lorempixel.com/90/24" alt="Image (input)"></p>
+					<p><input type="image" src="http://placehold.it/90x24" alt="Image (input)"></p>
 					<p><input type="reset" value="Reset (input)"></p>
 					<p><input type="button" value="Button (input)"></p>
 					<p><input type="submit" value="Submit (input)"></p>
@@ -328,7 +328,7 @@
 					<div><select><option>Option 01</option><option>Option 02</option></select></div>
 					<div><textarea cols="30" rows="5">Textarea text</textarea></div>
 
-					<div><input type="image" src="http://lorempixel.com/90/24" alt="Image (input)"></div>
+					<div><input type="image" src="http://placehold.it/90x24" alt="Image (input)"></div>
 					<div><input type="reset" value="Reset (input)"></div>
 					<div><input type="button" value="Button (input)"></div>
 					<div><input type="submit" value="Submit (input)"></div>

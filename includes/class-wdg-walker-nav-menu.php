@@ -4,8 +4,8 @@
 class WDG_Walker_Nav_menu extends Walker_Nav_Menu {
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$classes = array(
-			'nav-menu',
-			'nav-menu--depth' . ($depth + 1),
+			'nav__menu',
+			'nav__menu--depth' . ($depth + 1),
 			'sub-menu'
 		);
 
@@ -19,20 +19,20 @@ class WDG_Walker_Nav_menu extends Walker_Nav_Menu {
 		$item->classes = empty($item->classes) ? array() : (array) $item->classes;
 
 		$classes = array(
-			'nav-menu-item',
-			'nav-menu-item--depth' . $depth
+			'nav__menu-item',
+			'nav__menu-item--depth' . $depth
 		);
 
 		if (in_array('menu-item-has-children', $item->classes)) {
-			$classes[] = 'nav-menu-item--has-submenu';
+			$classes[] = 'nav__menu-item--has-submenu';
 		}
 
 		if (in_array('current-menu-item', $item->classes)) {
-			$classes[] = 'nav-menu-item--active';
+			$classes[] = 'nav__menu-item--active';
 		}
 
 		if (in_array('current-menu-ancestor', $item->classes)) {
-			$classes[] = 'nav-menu-item--active-ancestor';
+			$classes[] = 'nav__menu-item--active-ancestor';
 		}
 
 		$item->classes = array_merge($classes, $item->classes);

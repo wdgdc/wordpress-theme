@@ -1,4 +1,3 @@
-/*! bourbon-neat START */
 // Bourbon Neat
 $border-box-sizing: false !global;
 $column: 54px;
@@ -12,4 +11,12 @@ $visual-grid-opacity: 0.1 !global;
 $visual-grid: true !global;
 
 @import "../../node_modules/bourbon-neat/app/assets/stylesheets/_neat";
-/*! bourbon-neat END */
+@import "variables/media-queries";
+
+@include media($outer-container-outer-width-down) {
+	body::before {
+		margin-left: $outer-container-margin;
+		margin-right: $outer-container-margin;
+		width: auto;
+	}
+}

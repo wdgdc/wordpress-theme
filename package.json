@@ -13,17 +13,20 @@
     "url": "https://www.webdevelopmentgroup.com/"
   },
   "scripts": {
-    "build": "gulp build:vendor && gulp build:css-js",
+    "build": "gulp build",
     "build:vendor": "gulp build:vendor",
     "build:css": "gulp build:css",
     "build:js": "gulp build:js",
-    "watch": "gulp watch"
+    "start": "npm run build && npm run watch",
+    "watch": "gulp watch",
+    "watch:sync": "gulp watch:sync"
   },
   "devDependencies": {
-    "babel-core": "6.9.0",
+    "babel-core": "6.9.1",
     "babel-preset-es2015": "6.9.0",
     "bourbon": "~4.2.7",
     "bourbon-neat": "~1.7.4",
+    "browser-sync": "2.12.10",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "3.1.0",
     "gulp-cli": "1.2.1",
@@ -31,7 +34,6 @@
     "gulp-filter": "4.0.0",
     "gulp-header": "1.8.2",
     "gulp-imagemin": "3.0.1",
-    "gulp-livereload": "3.8.1",
     "gulp-load-plugins": "1.2.4",
     "gulp-modernizr": "1.0.0-alpha",
     "gulp-plumber": "1.1.0",
@@ -39,6 +41,7 @@
     "gulp-rollup": "1.9.0",
     "gulp-sass": "2.3.1",
     "gulp-sass-glob": "1.0.6",
+    "gulp-sequence": "0.4.5",
     "gulp-size": "2.1.0",
     "gulp-sourcemaps": "2.0.0-alpha",
     "gulp-uglify": "1.5.3",
@@ -48,7 +51,6 @@
   "dependencies": {
     "bows": "~1.5.0",
     "colors-sass": "~1.0.0",
-    "jquery": "~2.2.4",
-    "normalize-scss": "~5.0.2"
+    "jquery": "~3.1.0"
   }
 }
