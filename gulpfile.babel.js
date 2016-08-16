@@ -188,7 +188,7 @@ if (browserSync) {
 
 	gulp.task('watch:sync', () => {
 		browserSync.init({
-			proxy: 'fsf.local'
+			proxy: '127.0.0.1'
 		});
 
 		gulp.watch(`${project.sass}/**/*.scss`, ['build:css']);
