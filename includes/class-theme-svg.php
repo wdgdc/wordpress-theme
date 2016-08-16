@@ -17,7 +17,7 @@ class Theme_SVG {
 		$svg = self::add_aria_label( $svg, $alt_text );
 
 		// css classes
-		$css_class = 'svg svg--' . Theme_String::camelize( $basename ) . ( $css_class ? ' ' . $css_class : '' );
+		$css_class = 'svg svg--' . Theme_String::dasherize( $basename ) . ( $css_class ? ' ' . $css_class : '' );
 
 		// output
 		$output = '';
