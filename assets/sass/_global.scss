@@ -119,10 +119,8 @@ img {
 
 ul,
 ol {
-	font-size: 15px;
-	font-style: italic;
 	margin: $base-line-height 0;
-	padding-left: 18px;
+	padding-left: $base-line-height;
 }
 
 li {
