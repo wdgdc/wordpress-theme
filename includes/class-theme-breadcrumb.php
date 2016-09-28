@@ -13,7 +13,7 @@ class Theme_Breadcrumb {
 		$items = array();
 
 		// pages
-		if ( is_page() ) {
+		if ( is_page() && ! is_front_page() ) {
 			$post = get_queried_object();
 			$cache_key = 'post_' . $post->ID;
 			$cache = self::get_cache( $cache_key );
