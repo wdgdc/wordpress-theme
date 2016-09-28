@@ -49,8 +49,8 @@
     "rollup-plugin-buble": "0.10.0"
   },
   "dependencies": {
-    "bows": "~1.5.0",
-    "colors-sass": "~1.0.0",
-    "jquery": "~3.1.0"
+    "bows": "1.5.0",
+    "colors-sass": "1.0.0",
+    "jquery": "3.1.1"
   }
 }
