@@ -1,6 +1,6 @@
 {
   "name": "wdg-wordpress-theme",
-  "description": "A minimal WordPress theme",
+  "description": "WDG's opinionated WordPress theme",
   "version": "0.6.0",
   "license": "MIT",
   "private": true,
