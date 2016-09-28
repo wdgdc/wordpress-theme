@@ -1,6 +1,13 @@
 <?php
 
+the_post();
+
 get_header();
-echo Theme::get_template_part( 'partials/kitchen-sink' );
-get_sidebar();
+
+?>
+
+<p>Hi, this is the <strong>front-page.php</strong></p>
+
+<?php
+
 get_footer();
