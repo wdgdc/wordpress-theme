@@ -9,20 +9,37 @@ class Theme_Breadcrumb {
 	}
 
 	public static function get_items() {
+		$cache_key = '';
 		$items = array();
 
 		// pages
 		if ( is_page() ) {
-			$page = get_queried_object();
-			array_unshift( $items, self::format_item( $page ) );
-			while ( $page->post_parent > 0 ) {
-				$page = get_post( $page->post_parent );
-				array_unshift( $items, self::format_item( $page ) );
+			$post = get_queried_object();
+			$cache_key = 'post_' . $post->ID;
+			$cache = self::get_cache( $cache_key );
+
+			if ( $cache ) {
+				return $cache;
+			}
+
+			array_unshift( $items, self::format_item( $post ) );
+			while ( $post->post_parent > 0 ) {
+				$post = get_post( $post->post_parent );
+				array_unshift( $items, self::format_item( $post ) );
 			}
 		}
 
 		// posts
-		if ( is_home() || is_single() || is_archive() ) {
+		if ( is_home() ) {
+			$cache_key = 'posts';
+			$cache = self::get_cache( $cache_key );
+
+			if ( $cache ) {
+				return $cache;
+			}
+		}
+
+		if ( is_home() || ( is_single() && 'post' === get_queried_object()->post_type ) || is_archive() ) {
 			$page_id = get_option( 'page_for_posts' );
 			if ( ! empty( $page_id ) ) {
 				$page = get_post( $page_id );
@@ -31,7 +48,15 @@ class Theme_Breadcrumb {
 		}
 
 		if ( is_single() ) {
-			$items[] = self::format_item( get_queried_object() );
+			$post = get_queried_object();
+			$cache_key = 'post_' . $post->ID;
+			$cache = self::get_cache( $cache_key );
+
+			if ( $cache ) {
+				return $cache;
+			}
+
+			$items[] = self::format_item( $post );
 		}
 
 		// archives
@@ -56,6 +81,18 @@ class Theme_Breadcrumb {
 			) );
 		}
 
+		if ( ! empty( $cache_key ) ) {
+			self::set_cache( $cache_key, $items );
+		}
+
 		return $items;
+	}
+
+	private static function set_cache( $key, $items ) {
+		wp_cache_set( 'breadcrumb__' . $key, $items, 'breadcrumb', DAY_IN_SECONDS );
+	}
+
+	private static function get_cache( $key ) {
+		return wp_cache_get( 'breadcrumb__' . $key, 'breadcrumb' );
 	}
 }
