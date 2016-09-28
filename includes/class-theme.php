@@ -24,6 +24,7 @@ class Theme extends WDG {
 		self::setup_taxonomies();
 		self::setup_shortcodes();
 		self::setup_acf();
+		self::setup_api();
 		self::setup_cli();
 
 		// custom filters and actions
@@ -132,6 +133,10 @@ class Theme extends WDG {
 
 	public static function setup_acf() {
 		// include and initialize your acf classes here
+	}
+
+	public static function setup_api() {
+		// include and initialize your WP API classes here
 	}
 
 	public static function setup_cli() {
