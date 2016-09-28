@@ -1,0 +1,16 @@
+{
+    "name": "wdgdc/wordpress-theme",
+    "require": {
+        "anahkiasen/underscore-php": "2.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "The Web Development Group",
+            "email": "info@webdevelopmentgroup.com"
+        }
+    ],
+    "config": {
+        "vendor-dir": "includes/vendor"
+    }
+}
