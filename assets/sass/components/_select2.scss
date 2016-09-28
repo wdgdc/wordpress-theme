@@ -1,0 +1,16 @@
+.select2-search--dropdown {
+	border-bottom: 1px solid $line-gray;
+	border-top: 1px solid $line-gray;
+	padding: 10px;
+}
+
+.select2-results__options {
+	font-size: 14px;
+	font-style: inherit;
+	line-height: 1.5;
+}
+
+.select2-results__option {
+	margin: 0;
+	padding: 6px 15px;
+}

@@ -1,15 +1,11 @@
-.svg {
+.svg:not(html) {
 	display: inline-block;
+	line-height: 0;
 	vertical-align: middle;
 
 	svg {
 		display: block;
 		height: 100%;
 		width: 100%;
-	}
-
-	a:hover &,
-	a:focus & {
-		opacity: 0.8;
 	}
 }

@@ -1,7 +1,12 @@
-.breadcrumb-list-item {
-	display: inline-block;
+.breadcrumb {
+	font-size: 0.9em;
 
-	&:not(:first-child)::before {
-		content: ">";
+	&__list-item {
+		display: inline-block;
+
+		&:not(:first-child)::before {
+			color: $lighter-text-color;
+			content: ">";
+		}
 	}
 }
