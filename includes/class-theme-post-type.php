@@ -1,6 +1,6 @@
 <?php
 
-require_once 'class-theme-string.php';
+require_once THEME_INCLUDES_PATH . '/class-theme-string.php';
 
 class Theme_Post_Type {
 	// Required:

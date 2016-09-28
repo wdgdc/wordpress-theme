@@ -1,6 +1,6 @@
 <?php
 
-require_once 'class-inflector.php';
+require_once THEME_INCLUDES_PATH . '/class-inflector.php';
 
 class Theme_String {
 	// Credit: http://www.mendoweb.be/blog/php-convert-string-to-camelcase-string/

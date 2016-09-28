@@ -5,9 +5,9 @@
  * EXTEND IT INSTEAD IN FUNCTIONS.PHP
  */
 
-require_once 'theme-constants.php';
-require_once 'class-wdg-walker-nav-menu.php';
-require_once 'class-theme-string.php';
+require_once __DIR__ . '/constants.php';
+require_once THEME_INCLUDES_PATH . '/class-wdg-walker-nav-menu.php';
+require_once THEME_INCLUDES_PATH . '/class-theme-string.php';
 
 class WDG {
 	public static $body_classes       = array();
