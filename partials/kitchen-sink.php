@@ -1,6 +1,4 @@
 <div class="kitchen-sink">
-	<p>This is your <strong>front-page.php</strong> file</p>
-
 	<h1>Heading 1</h1>
 	<h2>Heading 2</h2>
 	<h3>Heading 3</h3>
