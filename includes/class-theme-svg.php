@@ -5,6 +5,12 @@ include_once 'class-theme-string.php';
 
 class Theme_SVG {
 	public static function render( $path, $alt_text = '', $css_class = '' ) {
+		$cache = self::get_cache( $path );
+
+		if ( ! empty( $cache ) ) {
+			return $cache;
+		}
+
 		$svg_url  = is_int( strpos( $path, THEME_IMG_PATH ) ) ? str_replace( THEME_IMG_PATH, THEME_IMG_URI, $path ) : false;
 		$img_path = str_replace( '.svg', '.png', $path );
 		$img_url  = ( file_exists( $img_path ) ) ? str_replace( THEME_IMG_PATH, THEME_IMG_URI, $img_path ) : false;
@@ -28,6 +34,8 @@ class Theme_SVG {
 		$output .= '>';
 		$output .= $svg;
 		$output .= '</b>';
+
+		self::set_cache( $path, $output );
 
 		return $output;
 	}
@@ -60,5 +68,13 @@ class Theme_SVG {
 		}
 
 		return $svg;
+	}
+
+	private static function set_cache( $key, $items ) {
+		wp_cache_set( 'svg__' . $key, $items, 'breadcrumb', DAY_IN_SECONDS );
+	}
+
+	private static function get_cache( $key ) {
+		return wp_cache_get( 'svg__' . $key, 'breadcrumb' );
 	}
 }
