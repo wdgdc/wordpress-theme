@@ -119,12 +119,12 @@ class Theme extends WDG {
 
 	public static function setup_post_types() {
 		// register post types
-		Theme_Post_Type::register( 'custom-post-type' );
+		// Theme_Post_Type::register( 'custom-post-type' );
 	}
 
 	public static function setup_taxonomies() {
 		// register taxonomies
-		Theme_Taxonomy::register( 'custom-taxonomy', 'custom-post-type' );
+		// Theme_Taxonomy::register( 'custom-taxonomy', 'custom-post-type' );
 	}
 
 	public static function setup_shortcodes() {
