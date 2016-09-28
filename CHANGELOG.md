@@ -3,15 +3,20 @@
 ## 0.6.0
 * Refactoring. See [issue #4](https://github.com/WDGDC/wordpress-theme/issues/4)
 * Enforce Coding Styles and naming conventions
-* Javascript ES2015 modules support
-* New PHP classes for Responsive images, Strings, SVG
+* JavaScript ES2015 modules support
+* New PHP classes for ACF Options page, Attachments, Breadcrumbs, Post types, Shortcodes, Strings, SVG, Taxonomies, and Visual Grid (from Neat)
 * Moved Theme class to its own file
 * Transition to Gulp for CLI tasks
 * Use NPM tasks instead of installing global Node modules
 * Deprecate Bower, use NPM instead
 * Removed `comments.php` file from Bones
-* Sourcemaps support for all compiled files
+* Source maps support for all compiled files
 * Minified versions are also compiled by default
+* Ignore `/assets/dist` files on the Git repo, compile files as part of the deployment process
+* Renamed constant `THEME_INCLUDE_PATH` to `THEME_INCLUDES_PATH`
+* Renamed constants file from `theme-constants.php` to `constants.php`
+* Default pagination template & styles
+* WordPress ACF, API, Editor, Shortcodes, Widgets & Yoast SEO support
 * `WDG` PHP class
 	* Remove `$content-width` global variable overwrite (use editor.scss instead)
 	* Remove Gravity Forms language files (plugin allows to change these strings in the UI now)
