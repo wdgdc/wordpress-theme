@@ -189,9 +189,6 @@ class WDG {
 		remove_action( 'wp_head' , 'wp_oembed_add_discovery_links' ); // Remove oEmbed discovery links.
 		remove_action( 'wp_head' , 'wp_oembed_add_host_js' ); // Remove oEmbed-specific JavaScript from the front-end and back-end.
 
-		// Remove rest api tag
-		remove_action( 'wp_head' , 'rest_output_link_wp_head' );
-
 		// Remove shortlink
 		remove_action( 'wp_head' , 'wp_shortlink_wp_head' );
 
