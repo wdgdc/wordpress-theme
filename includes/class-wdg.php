@@ -675,7 +675,7 @@ class WDG {
 	 * @param id|WP_Post $id
 	 * @return string
 	 */
-	public static function get_excerpt( $id = null, $excerpt_length = 55 ) {
+	public static function get_excerpt( $id, $excerpt_length = 55 ) {
 		$post = get_post( $id );
 
 		if ( empty( $post ) ) {
