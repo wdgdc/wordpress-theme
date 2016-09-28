@@ -1,6 +1,6 @@
 <?php
 
-require_once 'includes/theme-constants.php';
-require_once THEME_INCLUDE_PATH . '/class-theme.php';
+require_once STYLESHEETPATH . '/includes/constants.php';
+require_once THEME_INCLUDES_PATH . '/class-theme.php';
 
 Theme::init();
