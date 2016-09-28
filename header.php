@@ -11,8 +11,8 @@
 <div class="body-overflow">
 
 <header class="header">
-	<div class="wrap">
-		<p class="header-logo logo">
+	<div class="header__wrap wrap">
+		<p class="header__logo">
 			<a href="<?php bloginfo( 'url' ); ?>">
 				<?php echo Theme_SVG::render( THEME_IMG_PATH . '/wdg-logo.svg' ); ?>
 				<?php bloginfo( 'name' ); ?>
@@ -27,6 +27,6 @@
 </header><!-- end .header -->
 
 <div class="main-container">
-	<div class="wrap">
+	<div class="main-container__wrap wrap">
 
 		<?php echo Theme::get_template_part( 'partials/breadcrumb' ); ?>

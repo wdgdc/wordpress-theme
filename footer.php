@@ -2,9 +2,9 @@
 </div><!-- end .main-container -->
 
 <footer class="footer">
-	<div class="wrap">
+	<div class="footer__wrap wrap">
 		<?php echo Theme::nav( 'footer' ); ?>
-		<p class="footer-copyright">&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
+		<p class="footer__copyright">&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
 	</div>
 </footer>
 
