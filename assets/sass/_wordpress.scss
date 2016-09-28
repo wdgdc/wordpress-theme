@@ -20,6 +20,16 @@ img.alignright {
 	margin-top: 0;
 }
 
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	pointer-events: none;
+	position: absolute !important;
+	visibility: hidden;
+	width: 1px;
+}
+
 @include media($small-down) {
 	figure.alignleft,
 	img.alignleft,
