@@ -1,5 +1,6 @@
 html {
 	background-color: $html-bg-color;
+	color: $html-text-color;
 }
 
 body {
@@ -16,15 +17,10 @@ figure {
 }
 
 figcaption {
-	font-size: 14px;
-	line-height: 1.25;
-	padding: 16px;
-	text-align: center;
-}
-
-img {
-	height: auto;
-	max-width: 100%;
+	font-size: 0.875em;
+	line-height: 1.4;
+	padding: 1em;
+	text-align: left;
 }
 
 a {
@@ -117,6 +113,32 @@ img {
 	vertical-align: bottom;
 }
 
+nav {
+	ol,
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		margin: 0;
+	}
+}
+
+dl {
+	margin: $base-line-height auto;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: $base-line-height;
+	margin-left: 0;
+}
+
 ul,
 ol {
 	margin: $base-line-height 0;
@@ -135,46 +157,73 @@ hr {
 
 table {
 	border-collapse: collapse;
+	margin: $base-line-height auto;
 	text-align: left;
 	width: 100%;
 }
 
-th {
-	background: $html-bg-color;
-	color: $html-text-color;
+caption {
+	margin-bottom: 0.625em;
 }
 
 th,
 td {
-	padding: 10px 16px;
+	padding: 0.625em 1em;
 }
 
 tr.odd td {
-	background: $white;
+	background: $white !important;
 }
 
 tr.even td {
-	background: $line-light-gray;
-	background: tint($line-light-gray, 25%);
+	background: tint($line-light-gray, 25%) !important;
 }
 
-.screen-reader-text {
-	display: none;
+th {
+	&:first-child {
+		border-left: 1px solid $html-bg-color;
+	}
+
+	&:last-child {
+		border-right: 1px solid $html-bg-color;
+	}
 }
 
-.select2-search--dropdown {
-	border-bottom: 1px solid $line-gray;
-	border-top: 1px solid $line-gray;
-	padding: 10px;
+th,
+thead {
+	background: $html-bg-color;
+	color: $html-text-color;
 }
 
-.select2-results__options {
-	font-size: 14px;
-	font-style: inherit;
-	line-height: 1.5;
+tbody {
+	box-shadow: 0 0 10px rgba($darker-text-color, 0.05);
+
+	td {
+		&:first-child {
+			border-left: 1px solid $line-gray;
+		}
+
+		&:last-child {
+			border-right: 1px solid $line-gray;
+		}
+	}
+
+	tr {
+		&:first-child td {
+			border-bottom: 1px solid $line-gray;
+		}
+
+		&:nth-child(odd) td {
+			background: $white;
+		}
+
+		&:nth-child(even) td {
+			background: tint($line-light-gray, 25%);
+		}
+	}
 }
 
-.select2-results__option {
-	margin: 0;
-	padding: 6px 15px;
+tfoot {
+	color: $lighter-text-color;
+	font-size: 0.875em;
 }
