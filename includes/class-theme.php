@@ -27,6 +27,7 @@ class Theme extends WDG {
 		self::setup_acf();
 		self::setup_api();
 		self::setup_cli();
+		self::setup_yoast_seo();
 
 		// custom filters and actions
 		self::setup_actions();
@@ -150,6 +151,13 @@ class Theme extends WDG {
 		}
 
 		// include and initialize your CLI classes here
+	}
+
+	// move Yoast SEO plugin's metabox to the end of the edit post screen
+	public static function setup_yoast_seo() {
+		add_filter( 'wpseo_metabox_prio', function() {
+			return 'low';
+		} );
 	}
 
 	public static function setup_actions() {
