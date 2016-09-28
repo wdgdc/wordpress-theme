@@ -15,6 +15,7 @@ class Theme extends WDG {
 		parent::init();
 
 		// setup theme
+		self::setup_editor();
 		self::setup_styles();
 		self::setup_scripts();
 		self::setup_menus();
@@ -27,6 +28,54 @@ class Theme extends WDG {
 		// custom filters and actions
 		self::setup_actions();
 		self::setup_filters();
+	}
+
+	public static function setup_editor() {
+		add_action('admin_init', function() {
+			// WordPress editor: enqueue editor.css
+			add_editor_style( THEME_DIST_URI . '/editor.css' );
+
+			// WordPress editor: custom styles dropdown
+			// https://codex.wordpress.org/TinyMCE_Custom_Styles
+			add_filter( 'mce_buttons_2', function ( $buttons ) {
+				$format_select = array_shift( $buttons );
+				array_unshift( $buttons, 'styleselect' );
+				array_unshift( $buttons, $format_select );
+				return $buttons;
+			});
+		});
+
+		// reposition custom styles dropdown on toolbar
+		add_filter( 'tiny_mce_before_init', function( $init ) {
+			$init['style_formats_merge'] = false;
+			$init['style_formats'] = '[]';
+			return $init;
+		}, 0 );
+
+		// add custom styles to dropdown
+		// See https://codex.wordpress.org/TinyMCE_Custom_Styles
+		add_filter('tiny_mce_before_init', function( $init ) {
+			$style_formats = array();
+
+			$format_headings = array(
+				'title' => 'Heading styles',
+				'items' => array(),
+			);
+
+			foreach ( range( 1, 6 ) as $i ) {
+				$format_headings['items'][] = array(
+					'title'    => 'Heading ' . $i,
+					'selector' => 'h1,h2,h3,h4,h5,h6',
+					'classes'  => 'h' . $i,
+				);
+			}
+
+			$style_formats[] = $format_headings;
+
+			$init['style_formats'] = json_encode( $style_formats );
+
+			return $init;
+		});
 	}
 
 	public static function setup_styles() {
