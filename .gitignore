@@ -4,3 +4,4 @@ node_modules
 Thumbs.db
 *.log
 .tmp
+assets/dist/*
