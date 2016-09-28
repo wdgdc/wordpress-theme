@@ -75,10 +75,9 @@ class Theme extends WDG {
 	}
 
 	public static function setup_shortcodes() {
-		// register short codes
-		add_shortcode( 'wdg', function() {
-			return 'Hello from WDG!';
-		} );
+		// include and intiialize your short codes w/ shortcake support classes here
+		// require_once THEME_INCLUDES_PATH . '/shortcodes/class-theme-example-shortcode.php';
+		// new Theme_Example_Shortcode();
 	}
 
 	public static function setup_acf() {
