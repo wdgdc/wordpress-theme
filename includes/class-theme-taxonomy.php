@@ -19,7 +19,7 @@ class Theme_Taxonomy {
 		$singular  = '';
 
 		if ( ! empty( $args['name'] ) ) {
-			$plural = $args['name'];
+			$plural = trim( $args['name'] );
 		} else {
 			$plural = ucfirst( Theme_String::pluralize( $humanized ) );
 		}

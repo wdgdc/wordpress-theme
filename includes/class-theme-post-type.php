@@ -25,7 +25,7 @@ class Theme_Post_Type {
 		$singular  = '';
 
 		if ( ! empty( $args['name'] ) ) {
-			$plural = $args['name'];
+			$plural = trim( $args['name'] );
 		} else {
 			$plural = ucfirst( Theme_String::pluralize( $humanized ) );
 		}
