@@ -423,7 +423,7 @@ class WDG {
 			$path = realpath( $path );
 		}
 
-		if ( empty( $ver ) && ! empty ( $path ) ) {
+		if ( empty( $ver ) && ! empty( $path ) ) {
 			$ver = self::filemtime( $path );
 		}
 
@@ -686,12 +686,12 @@ class WDG {
 		$excerpt_length = apply_filters( 'excerpt_length', $excerpt_length );
 		$excerpt_more   = apply_filters( 'excerpt_more', '&hellip;' );
 
-		// Use the excerpt
 		if ( strlen( $post->post_excerpt ) ) {
+			// Use an existing excerpt
 			$excerpt = $post->post_excerpt;
 
-		// Make an excerpt
 		} else {
+			// Create an excerpt from post content
 			$excerpt = $post->post_content;
 			$excerpt = strip_shortcodes( $excerpt );
 			$excerpt = apply_filters( 'the_content', $excerpt );
@@ -764,9 +764,8 @@ class WDG {
 	/**
 	 * Protected Functions
 	 */
-
 	protected static function array_flatten( $array, $return = array() ) {
-		if( count( $array ) > 1 ) {
+		if ( count( $array ) > 1 ) {
 			for ( $x = 0; $x < count( $array ); $x++ ) {
 				if ( isset( $array[ $x ] ) && is_array( $array[ $x ] ) ) {
 					// Y U NO RECURSIVE?!
