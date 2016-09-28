@@ -79,7 +79,7 @@
 				<?php endif ?>
 			</div>
 			<div class="entry-content clearfix" itemprop="articleBody">
-				<?php the_excerpt(); ?>
+				<?php echo Theme::get_excerpt( get_the_ID() ); ?>
 			</div>
 		</article>
 
