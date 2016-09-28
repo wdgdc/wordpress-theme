@@ -23,6 +23,7 @@ class Theme extends WDG {
 		self::setup_post_types();
 		self::setup_taxonomies();
 		self::setup_shortcodes();
+		self::setup_widgets();
 		self::setup_acf();
 		self::setup_api();
 		self::setup_cli();
@@ -129,6 +130,10 @@ class Theme extends WDG {
 		// include and intiialize your short codes w/ shortcake support classes here
 		// require_once THEME_INCLUDES_PATH . '/shortcodes/class-theme-example-shortcode.php';
 		// new Theme_Example_Shortcode();
+	}
+
+	public static function setup_widgets() {
+		// include and intiialize your widget classes here
 	}
 
 	public static function setup_acf() {
