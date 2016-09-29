@@ -229,7 +229,7 @@ class WDG {
 
 	public static function filter_nav_menu_link_attributes( $atts, $item, $args ) {
 		$classes       = empty( $atts['class'] ) ? array() : explode( ' ', $atts['class'] );
-		$classes[]     = 'nav-link';
+		$classes[]     = 'nav__link';
 		$atts['class'] = implode( ' ', $classes );
 		return $atts;
 	}
@@ -304,7 +304,6 @@ class WDG {
 
 		// build menu markup
 		$menu = wp_nav_menu( $args );
-		// $menu = '<p>test</p>';
 
 		// remove `id=""` attributes
 		$menu = preg_replace( '/(id=["\'][^"\']+["\']\ ?)/i', '', $menu );
@@ -750,8 +749,8 @@ class WDG {
 		}
 
 		// Set menu CSS class names
-		if ( is_int( strpos( $args['menu_class'], $defaults['menu_class'] ) ) ) {
-			$args['menu_class'] .= ' ' . $defaults['menu_class'] . ' ';
+		if ( $args['menu_class'] !== $defaults['menu_class'] ) {
+			$args['menu_class'] = $defaults['menu_class'] . ' ' . $args['menu_class'];
 		}
 
 		if ( empty( $args['description'] ) && isset( $args['theme_location'] ) ) {
