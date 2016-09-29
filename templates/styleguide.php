@@ -14,8 +14,6 @@ get_header();
 
 <?php echo Theme::get_template_part( 'partials/kitchen-sink' ); ?>
 
-<hr>
-
 <?php
 
 get_footer();

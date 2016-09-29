@@ -51,35 +51,22 @@
 
 	<h2>Embedded content</h2>
 
-	<h3>audio</h3>
+	<h3>Audio</h3>
 	<audio controls></audio>
 	<audio></audio>
 
-	<h3>img</h3>
+	<h3>Image</h3>
 	<img src="http://placehold.it/100x100" alt="">
 	<a href="#"><img src="http://placehold.it/100x100" alt=""></a>
 
-	<h3>svg</h3>
+	<h3>SVG</h3>
 	<svg width="100px" height="100px">
 			<circle cx="100" cy="100" r="100" fill="#ff0000" />
 	</svg>
 
-	<h3>video</h3>
+	<h3>Video</h3>
 	<video controls></video>
 	<video></video>
-
-	<hr>
-
-	<h2>Interactive content</h2>
-	<h3>details / summary</h3>
-	<details>
-		<summary>More info</summary>
-		<p>Additional information</p>
-		<ul>
-			<li>Point 1</li>
-			<li>Point 2</li>
-		</ul>
-	</details>
 
 	<hr>
 
@@ -245,15 +232,10 @@
 
 		<fieldset>
 			<legend>Clickable inputs and buttons</legend>
-			<p><input type="image" src="http://placehold.it/90x24" alt="Image (input)"></p>
-			<p><input type="reset" value="Reset (input)"></p>
-			<p><input type="button" value="Button (input)"></p>
-			<p><input type="submit" value="Submit (input)"></p>
-			<p><input type="submit" value="Disabled (input)" disabled></p>
-			<p><button type="reset">Reset (button)</button></p>
-			<p><button type="button">Button (button)</button></p>
-			<p><button type="submit">Submit (button)</button></p>
-			<p><button type="submit" disabled>Disabled (button)</button></p>
+			<p><button type="reset">Reset</button></p>
+			<p><button type="button">Button</button></p>
+			<p><button type="submit">Submit</button></p>
+			<p><button type="submit" disabled>Disabled</button></p>
 		</fieldset>
 	</form>
 </div>
