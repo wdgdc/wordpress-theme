@@ -162,7 +162,7 @@
 
 	<hr>
 
-	<h2>Tabular data</h2>
+	<h2>Tables</h2>
 	<table>
 		<caption>Jimi Hendrix - albums</caption>
 		<thead>
@@ -172,13 +172,6 @@
 				<th>Price</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<th>Album</th>
-				<th>Year</th>
-				<th>Price</th>
-			</tr>
-		</tfoot>
 		<tbody>
 			<tr>
 				<td>Are You Experienced</td>
@@ -201,6 +194,11 @@
 				<td>$12.00</td>
 			</tr>
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3">More information goes here</th>
+			</tr>
+		</tfoot>
 	</table>
 
 	<hr>
