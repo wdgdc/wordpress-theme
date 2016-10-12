@@ -14,8 +14,15 @@ class Theme extends WDG {
 	public static function init() {
 		parent::init();
 
+		// setup admin
+		if ( is_admin() ) {
+			self::setup_admin_styles();
+			self::setup_editor();
+			self::setup_fields();
+		}
+
 		// setup theme
-		self::setup_editor();
+		self::setup_image_sizes();
 		self::setup_styles();
 		self::setup_scripts();
 		self::setup_menus();
@@ -24,7 +31,6 @@ class Theme extends WDG {
 		self::setup_taxonomies();
 		self::setup_shortcodes();
 		self::setup_widgets();
-		self::setup_acf();
 		self::setup_api();
 		self::setup_cli();
 		self::setup_yoast_seo();
@@ -82,6 +88,16 @@ class Theme extends WDG {
 		});
 	}
 
+	public static function setup_image_sizes() {
+	}
+
+	public static function setup_admin_styles() {
+		// handle admin styles
+		add_action( 'admin_enqueue_scripts', function() {
+			wp_enqueue_style( 'admin', THEME_DIST_URI . '/admin.css', false, self::filemtime( THEME_DIST_PATH . '/admin.css' ) );
+		} );
+	}
+
 	public static function setup_styles() {
 		// register styles
 		self::register_style( 'site', THEME_DIST_URI . '/site.css' );
@@ -137,8 +153,8 @@ class Theme extends WDG {
 		// include and intiialize your widget classes here
 	}
 
-	public static function setup_acf() {
-		// include and initialize your acf classes here
+	public static function setup_fields() {
+		// include and initialize your custom fields classes here
 	}
 
 	public static function setup_api() {

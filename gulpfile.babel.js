@@ -12,16 +12,16 @@ try {
 
 // project
 const project  = { root: __dirname };
-project.assets = project.root + '/assets';
-project.dist   = project.assets + '/dist';
-project.fonts  = project.assets + '/fonts';
-project.img    = project.assets + '/img';
-project.inc    = project.root + '/includes';
-project.js     = project.assets + '/js';
-project.lang   = project.root + '/languages';
-project.node   = project.root + '/node_modules';
-project.sass   = project.assets + '/sass';
-project.vendor = project.assets + '/vendor';
+project.assets = `${project.root}/assets`;
+project.dist   = `${project.assets}/dist`;
+project.fonts  = `${project.assets}/fonts`;
+project.img    = `${project.assets}/img`;
+project.inc    = `${project.root}/includes`;
+project.js     = `${project.assets}/js`;
+project.lang   = `${project.root}/languages`;
+project.node   = `${project.root}/node_modules`;
+project.sass   = `${project.assets}/sass`;
+project.vendor = `${project.assets}/vendor`;
 
 const banner = `/*!
  * DO NOT OVERRIDE THIS FILE.
@@ -73,7 +73,7 @@ gulp.task('build:css', () => {
 		}))
 		.pipe(sourcemaps.write('.')).on('error', util.log)
 		.pipe(gulp.dest(project.dist))
-		.pipe(browserSync.stream({ match: '**/*.css' }))
+		.pipe(sync())
 
 		// minified version
 		.pipe(filterCSS)
@@ -93,48 +93,126 @@ gulp.task('build:css', () => {
 
 // js
 gulp.task('build:js', () => {
-	const { filter, header, plumber, rename, rollup, size, sourcemaps, uglify } = gulpPlugins;
-	const es2015   = require('rollup-plugin-buble');
-	const filterJS = filter(['**/*.js'], { restore: true });
+	// edit these
+	let globals = {
+		bows: 'bows',
+		jquery: 'jQuery',
+		modernizr: 'Modernizr'
+	};
 
-	return gulp.src(`${project.js}/site.js`)
-		.pipe(plumber())
-		.pipe(sourcemaps.init())
-		.pipe(rollup({
-			format: 'umd',
-			globals: {
-				bows: 'bows',
-				jquery: 'jQuery',
-				modernizr: 'Modernizr'
-			},
-			moduleName: 'Site',
+	// Note: do not edit these lines
+	const del = require('del');
+	const rollup = require('rollup');
+	const vinylPaths = require('vinyl-paths');
+	const es2015 = require('rollup-plugin-buble');
+	const uglify = require('rollup-plugin-uglify');
+	const prettyBytes = require('pretty-bytes');
+	const { util } = gulpPlugins;
+	const { colors: chalk } = util;
+
+	const log = (() => {
+		const cache = Object.create(null);
+
+		return (fileName, msg) => {
+			if (!(fileName in cache)) {
+				cache[fileName] = Object.create(null);
+			}
+
+			if (msg in cache[fileName]) {
+				return;
+			}
+
+			const title = chalk.cyan('rollup') + ' ';
+			util.log(title + chalk.blue(fileName) + ' ' + msg);
+
+			cache[fileName][msg] = true;
+		};
+	})();
+
+	const getPaths = (path) => {
+		const fileName = path.replace(project.js + '/', '').slice(0, -3);
+		const dest = `${project.dist}/${fileName}.js`;
+		const minDest = `${project.dist}/${fileName}.min.js`;
+		let moduleName = fileName[0].toUpperCase() + fileName.slice(1);
+
+		moduleName.replace(/(\-|\_|\.|\s)+(.)?/g, function(match, separator, chr) {
+			return chr ? chr.toUpperCase() : '';
+		}).replace(/(^|\/)([A-Z])/g, function(match, separator, chr) {
+			return match.toLowerCase();
+		});
+
+		return { path, fileName, dest, minDest, moduleName };
+	};
+
+	const writeFiles = (bundle, path, fileName, moduleName, dest) => {
+		const opts = {
+			globals,
 			sourceMap: true,
-			plugins: [
-				es2015()
-			]
-		}))
-		.pipe(size({
-			showFiles: true,
-			title: 'rollup'
-		}))
-		.pipe(header(banner))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest(project.dist))
+			moduleName,
+			banner,
+			exports: 'named',
+			format: 'umd',
+			dest
+		};
 
-		// minified version
-		.pipe(filterJS)
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(uglify())
-		.pipe(header(banner))
-		.pipe(size({
-			showFiles: true,
-			title: 'rollup'
-		}))
-		.pipe(sourcemaps.write('.'))
-		.pipe(filterJS.restore)
+		const result = bundle.generate(opts);
+		let size = Buffer.byteLength(result.code, 'utf8');
+		size = prettyBytes(size);
+		size = chalk.magenta(size);
 
-		// create both files
-		.pipe(gulp.dest(project.dist));
+		log(fileName, chalk.magenta(size));
+
+		return bundle.write(opts);
+	};
+
+	// delete dist files
+	del.sync([`${project.dist}/**/*.js`]);
+
+	// read js files
+	return gulp.src([`${project.js}/**/*.js`, `!_*.js`], { read: false })
+		.pipe(vinylPaths((path) => {
+			const fileName = path.replace(project.js + '/', '');
+
+			// skip if file has a _ as the first character
+			if (fileName[0] === '_') {
+				return Promise.resolve();
+			}
+
+			return new Promise((resolve, reject) => {
+				const { fileName, dest, minDest, moduleName } = getPaths(path);
+				// compile original file
+				return rollup.rollup({
+					entry: path,
+					onwarn: (msg) => log(`${fileName}.js`, msg),
+					plugins: [
+						es2015()
+					]
+				})
+				// write original file
+				.then((bundle) => writeFiles(bundle, path, `${fileName}.js`, moduleName, dest))
+
+				// compile minified file
+				.then(() => rollup.rollup({
+					entry: path,
+					onwarn: (msg) => log(`${fileName}.min.js`, msg),
+					plugins: [
+						es2015(),
+						uglify()
+					]
+				}))
+				// write minified file
+				.then((bundle) => writeFiles(bundle, path, `${fileName}.min.js`, moduleName, minDest))
+
+				.then(() => {
+					const sync = () => browserSync ? browserSync.reload() : util.noop();
+					sync();
+				})
+
+				// handle promise
+				.then(resolve)
+				.catch(reject);
+			}).catch((err) => console.log(err));
+		}));
 });
 
 // vendor
@@ -184,13 +262,18 @@ gulp.task('watch', () => {
 
 // browsersync
 if (browserSync) {
-	gulp.task('build:js-sync', ['build:js'], browserSync.reload);
+	gulp.task('build:js-sync', ['build:js']);
 
 	gulp.task('watch:sync', () => {
-		browserSync.init({
-			proxy: '127.0.0.1'
-		});
+		const { execSync } = require('child_process');
 
+		// get the URL from wp-config-env.php
+		const proxy = execSync(`php -r "require '../../../wp-config-env.php'; echo \\$host;"`, { encoding: 'utf8' });
+
+		// BrowserSync
+		browserSync.init({ proxy });
+
+		// watch the files
 		gulp.watch(`${project.sass}/**/*.scss`, ['build:css']);
 		gulp.watch(`${project.js}/**/*.js`, ['build:js-sync']);
 		gulp.watch(`${project.root}/**/*.php`).on('change', browserSync.reload);

@@ -237,3 +237,11 @@ label {
   border: 1px solid $line-light-gray;
   padding: 0.625em 1em;
 }
+
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+button {
+	cursor: pointer;
+}

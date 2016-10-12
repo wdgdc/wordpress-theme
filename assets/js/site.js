@@ -3,10 +3,11 @@ import $ from 'jquery';
 import debug from 'bows';
 
 // example of ES2015 modules loading & tree shaking
-import { emptyLinks } from './links';
+import { emptyLinks } from './_links';
 
 const $window   = $(window);
 const $document = $(document);
+const log       = debug('site');
 
 class Site {
 	constructor() {
