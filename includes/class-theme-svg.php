@@ -1,8 +1,5 @@
 <?php
 
-include_once __DIR__ . '/constants.php';
-include_once THEME_INCLUDES_PATH . '/class-theme-string.php';
-
 class Theme_SVG {
 	public static function render( $path, $alt_text = '', $css_class = '' ) {
 		$cache = self::get_cache( $path );

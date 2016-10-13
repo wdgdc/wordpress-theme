@@ -1,8 +1,5 @@
 <?php
 
-include_once __DIR__ . '/constants.php';
-include_once THEME_INCLUDES_PATH . '/class-colorsofimage.php';
-
 class Theme_Attachment {
 	public static function get_uri( $id, $image_size = 'full' ) {
 		$uri = wp_cache_get( $id . '/' . $image_size, __CLASS__ . '/' . __FUNCTION__ );

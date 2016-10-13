@@ -1,15 +1,5 @@
 <?php
 
-require_once __DIR__ . '/constants.php';
-require_once THEME_INCLUDES_PATH . '/class-wdg.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-attachment.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-breadcrumb.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-post-type.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-string.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-svg.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-taxonomy.php';
-require_once THEME_INCLUDES_PATH . '/class-theme-visual-grid.php';
-
 class Theme extends WDG {
 	public static function init() {
 		parent::init();
