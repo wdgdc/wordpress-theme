@@ -1,7 +1,7 @@
 {
     "name": "wdgdc/wordpress-theme",
     "require": {
-        "anahkiasen/underscore-php": "2.0.0"
+        "doctrine/inflector": "^1.1"
     },
     "license": "MIT",
     "authors": [
