@@ -47,6 +47,7 @@
     "gulp-uglify": "2.0.0",
     "gulp-util": "3.0.7",
     "pretty-bytes": "4.0.2",
+    "rollup": "0.36.3",
     "rollup-plugin-buble": "0.14.0",
     "rollup-plugin-uglify": "1.0.1",
     "vinyl-paths": "2.1.0"
