@@ -711,7 +711,9 @@ class WDG {
 
 		$excerpt = wpautop( $excerpt );
 
-		return apply_filters( 'wp_trim_excerpt', $excerpt );
+		$excerpt = apply_filters( 'wp_trim_excerpt', $excerpt );
+
+		return apply_filters( 'WDG/get_excerpt', $excerpt, $excerpt_length );
 	}
 
 	/**
