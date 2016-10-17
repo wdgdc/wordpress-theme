@@ -6,30 +6,33 @@ This is a *very* opinionated base theme for WordPress, build from several iterat
 
 * Straightforward directory structure
 * PHP classes and helper functions for your WordPress theme
-    * Breadcrumbs
     * Constants for URIs and server paths
     * Custom post types & Taxonomies default options and auto generated labels
+		* Breadcrumbs
     * Attachments
         * Get Average colors from images
         * Get paths and urls with attachment ids
         * SVG parsing and rendering with a rasterized image fallback
     * Menus: Additional CSS classes and sensitive defaults
     * String functions with Doctrine's [inflector](https://github.com/doctrine/inflector)
-    * Enforced linting and [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) with [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
-* CSS goodies like:
-    * [SASS (SCSS syntax)](http://sass-lang.com/): CSS pre-processor
-    * [Autoprefixer](https://github.com/postcss/autoprefixer): Automatically prefixed vendor properties
-    * [Bourbon](http://bourbon.io/) & [Neat](http://neat.bourbon.io/): SASS & Grid library
-    * [stylelint](http://stylelint.io/) & [CSScomb](http://csscomb.com/): Linting and coding standards
-* JavaScript goodies like:
-    * ES2015 syntax with [Bublé](https://gitlab.com/Rich-Harris/buble)
-    * ES2015 modules with [Rollup](http://rollupjs.org/)
-    * [JSHint](http://jshint.com/) & [JSCS](http://jscs.info/): Linting and coding standards
-* Vendor packages
-  * Copied automatically from `node_modules` to `assets/vendor`
-  * Custom Modernizr generated from your SCSS & JS files
-* [LiveReload](http://livereload.com/) support
-* [Gulp](http://gulpjs.com/) tasks to build/compile and watch for asset changes
+		* Autoloading of classes & Composer packages
+		* Vendor packages using [Composer](https://getcomposer.org/) & [Packagist](https://packagist.org/)
+		* Enforced linting and [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) with [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
+* Assets structure and build tools
+	* CSS goodies like:
+	    * [SASS (SCSS syntax)](http://sass-lang.com/): CSS pre-processor
+	    * [Autoprefixer](https://github.com/postcss/autoprefixer): Automatically prefixed vendor properties
+	    * [Bourbon](http://bourbon.io/) & [Neat](http://neat.bourbon.io/): SASS & Grid library
+	    * [stylelint](http://stylelint.io/) & [CSScomb](http://csscomb.com/): Linting and coding standards
+	* JavaScript goodies like:
+	    * ES2015 syntax with [Bublé](https://gitlab.com/Rich-Harris/buble)
+	    * ES2015 modules with [Rollup](http://rollupjs.org/)
+	    * [ESLint](http://eslint.org/): Linting and coding standards
+	* Vendor modules
+	  * Copied automatically from `node_modules` to `assets/vendor`
+	  * Custom Modernizr generated from your SCSS & JS files
+	* [Browsersync](https://browsersync.io/) support
+	* [Gulp](http://gulpjs.com/) tasks to build/compile and watch for asset changes
 
 ---
 
@@ -73,8 +76,6 @@ Feel free to use Npm for installing and updating them with the `--save` flag so 
 
 `tests` include **unit testing** for our main PHP and JavaScript functionality. We encourage you to write all sort of tests for your theme here, feel free to use your favorite testing framework.
 
-`widgets` is where all WordPress widgets' code is available. Each PHP file in this directory will be included on `add_action('widgets_init')`.
-
 ```
 wdg-wordpress-theme
 ├─┬ assets
@@ -85,12 +86,17 @@ wdg-wordpress-theme
 │ ├── sass
 │ └── vendor
 ├── includes
+│ ├── api
+│ ├── cli
+│ ├── fields
+│ ├── shortcodes
+│ ├── vendor
+│ └── widgets
 ├── languages
 ├── node_modules
 ├── partials
 ├── templates
-├── tests
-└── widgets
+└── tests
 ```
 
 ---
@@ -137,6 +143,10 @@ Modernizr is custom built from the references within the JavaScript & CSS asset 
 
 ### Searching for a package
 [NPM packages repository](https://www.npmjs.com/)
+
+## Composer packages
+
+There is Composer support built-in. Packages live under `/includes/vendor` and are autoloaded into the theme.
 
 ---
 
@@ -201,7 +211,19 @@ The `watch` task will look for changes in the /assets/js and /assets/sass files 
 
 Please note that the watch task will not generate vendor files by default or on any file change. This has changed from previous versions of the theme. Please run `build:vendor` yourself.
 
-There is [LiveReload](http://livereload.com/) support, so your browser tab should be updated automatically after compilation as long as you have the [browser extension enabled](https://chrome.google.com/webstore/detail/remotelivereload/jlppknnillhjgiengoigajegdpieppei).
+
+##### Browsersync support
+There is [Browsersync](https://browsersync.io/) support. This is not enabled, nor installed by default.
+
+```
+$ npm install browser-sync
+```
+
+Then run the Browsersync server:
+
+```
+$ npm run watch:sync
+```
 
 ---
 
@@ -213,6 +235,79 @@ We encourage all developers to use CSS pre-processors and we specially like SASS
 2. Pipe the `build:css` task to compile all files without an underscore in front of the file name.
 3. Hook up on the watch task for Gulp.
 4. Avoid using mixins for vendor prefixes, we are already running Autoprefixer.
+
+---
+
+## Code Linting
+
+### CSS
+1. Install [stylelint](http://stylelint.io/) globally with NPM
+
+```
+# npm install --global stylelint
+```
+
+2. Install linter packages on Atom
+```
+$ apm install linter
+$ apm install linter-stylelint
+```
+
+3. Select the following on linter-stylelint
+> Disable when no config file is found
+
+### JavaScript
+1. Install [ESLint](http://eslint.org/) globally with NPM
+```
+# npm install --global eslint
+```
+
+2. Install linter packages on Atom
+```
+$ apm install linter
+$ apm install linter-eslint
+```
+
+3. Select the following on linter-eslint
+> Disable when no ESLint config is found (in package.json or .eslintrc)
+
+### PHP
+1. Install [Composer](https://getcomposer.org/)
+2. Install [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) & [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
+
+```
+$ composer global require wp-coding-standards/wpcs
+$ composer global require squizlabs/php_codesniffer
+```
+
+3. Find the path to your `phpcs` command
+
+```
+$ which phpcs
+```
+
+It should return a hidden directory on your home directory similar to the following:
+
+MacOS & Linux:
+`~/.composer/vendor/bin/phpcs`
+
+Windows:
+`%HOME%\AppData\Roaming\Composer\bin\phpcs`
+
+
+4. Replace "bin/phpcs" with "wp-coding-standards/wpcs" and add it to your phpcs installation
+
+```
+$ phpcs --config-set installed_paths ~/.composer/vendor/wp-coding-standards/wpcs
+```
+
+5. Install the linter packages on Atom
+
+```
+$ apm install linter
+$ apm install linter-php
+$ apm install linter-phpcs
+```
 
 ---
 
