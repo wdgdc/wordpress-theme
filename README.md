@@ -318,8 +318,12 @@ We encourage you to use the following plugins for development:
 **Development**
 
 * [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
+* [Black Studio TinyMCE Widget](https://wordpress.org/plugins/black-studio-tinymce-widget/) for a standard WordPress TinyMCE widget
+* [Carbon Fields](http://carbonfields.net) as an alternative to Advanced Custom Fields
+* [Enhanced Media Library](https://wordpress.org/plugins/enhanced-media-library/) for Media Library taxonomies and mime types
 * [Gravity Forms](http://www.gravityforms.com/) for form management
-* [Timber](https://wordpress.org/plugins/timber-library/) for templating
+* [Redirection](https://wordpress.org/plugins/redirection/) for managing redirects
+* [Shortcake (Shortcode UI)](https://wordpress.org/plugins/shortcode-ui/) for a shortcode user interface
 * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) for cache management
 * [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) for search engine optimization
 
@@ -327,11 +331,13 @@ We encourage you to use the following plugins for development:
 
 * [Bulk Creator](https://wordpress.org/plugins/bulk-creator/) for initial content creation
 * [Jarvis](https://wordpress.org/plugins/jarvis/) for fast lookups of the admin menus
+* [Google Analytics by Monster Insights](https://wordpress.org/plugins/google-analytics-for-wordpress/) for Google Analytics installation and admin user exclusion
+* [Admin Column View](https://wordpress.org/plugins/admin-column-view/) for a hierarchical view of pages
 
 **Debugging**
 
-* [Debug Bar](http://wordpress.org/extend/plugins/debug-bar/) for a debugging environment
-* [Debugger](http://wordpress.org/plugins/debugger/) to be used along side Debug Bar for custom debugging messages
+* [Query Monitor](https://wordpress.org/plugins/query-monitor/) for a debugging environment
+* [Rewrite Rules Inspector](https://wordpress.org/plugins/rewrite-rules-inspector/) for testing rewrite rules
 * [Log Viewer](http://wordpress.org/extend/plugins/log-viewer/) for log management
 
 ## WordPress CLI
