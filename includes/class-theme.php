@@ -125,6 +125,7 @@ class Theme extends WDG {
 	public static function setup_actions() {
 		// add all actions
 		add_action( 'init', array( 'Theme_Visual_Grid', 'init' ) );
+		add_action( 'after_setup_theme', array( 'Theme_Authors', 'after_setup_theme' ) );
 	}
 
 	public static function setup_filters() {
