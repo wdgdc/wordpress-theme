@@ -1,0 +1,16 @@
+{
+    "name": "wdgdc/wordpress-theme",
+    "require": {
+        "doctrine/inflector": "^1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "The Web Development Group",
+            "email": "info@webdevelopmentgroup.com"
+        }
+    ],
+    "config": {
+        "vendor-dir": "includes/vendor"
+    }
+}

@@ -1,0 +1,13 @@
+.u-wp-editor-hide-tools {
+	label {
+		margin-bottom: -40px !important;
+	}
+
+	.wp-editor-tools {
+		display: none !important;
+	}
+}
+
+.carbon-Separator:not(:first-child) {
+	margin-top: 3em;
+}

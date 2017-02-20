@@ -1,0 +1,50 @@
+@import "bourbon";
+@import "neat";
+@import "variables/**/*.scss";
+@import "mixins/**/*.scss";
+@import "global";
+@import "components/**/*.scss";
+@import "utils/**/*.scss";
+@import "wordpress";
+
+html,
+body#tinymce {
+	background: $white;
+}
+
+body#tinymce {
+	max-width: $max-width !important;
+	padding: 0 ($column / 2) !important;
+}
+
+body#tinymce::before {
+	display: none !important;
+}
+
+a {
+	color: $link-text-color;
+	text-decoration: underline;
+}
+
+h1::before,
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+	color: $gray;
+	font-family: $monospace;
+	margin-right: 0.35em;
+}
+
+h1::before,
+h2::before,
+h3::before {
+	font-size: 0.8em;
+}
+
+@for $i from 1 through 6 {
+	h#{$i}::before {
+		content: "h#{$i}";
+	}
+}

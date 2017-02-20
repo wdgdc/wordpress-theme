@@ -1,0 +1,26 @@
+.pagination {
+	border-top: 1px solid $line-gray;
+
+	a,
+	span {
+		display: inline-block;
+		margin: 0 0.5em;
+		padding: 0.5em;
+	}
+
+	&__prev--disabled,
+	&__next--disabled {
+		opacity: 0.3;
+	}
+
+	@include media($medium-down) {
+		& {
+			text-align: center;
+		}
+
+		&__prev,
+		&__next {
+			display: block !important;
+		}
+	}
+}

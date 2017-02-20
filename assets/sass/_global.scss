@@ -1,0 +1,247 @@
+html {
+	background-color: $html-bg-color;
+	color: $html-text-color;
+}
+
+body {
+	background-color: $body-bg-color;
+	color: $body-text-color;
+	font-family: $base-font-family;
+	font-size: $base-font-size;
+	line-height: $base-line-height;
+	margin: 0;
+}
+
+
+// Horizontal rules
+hr {
+	border: 0;
+	border-top: 1px solid $line-gray;
+	margin: $base-line-height auto;
+}
+
+
+// Links
+a {
+	color: $link-text-color;
+	cursor: pointer;
+	text-decoration: none;
+
+	&:hover {
+		color: $link-text-color-hover;
+		text-decoration: underline;
+	}
+}
+
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+	margin: $base-line-height 0;
+}
+
+h1,
+.h1 {
+	color: $h1-text-color;
+	font: 2.3125em/1.27 $base-font-family;
+}
+
+h2,
+.h2 {
+	color: $h2-text-color;
+	font: 1.625em/1.38 $base-font-family;
+}
+
+h3,
+.h3 {
+	color: $h3-text-color;
+	font: 1.25em/1.5 $base-font-family;
+}
+
+h4,
+.h4 {
+	color: $h4-text-color;
+	font: 1.125em/1.5 $base-font-family;
+}
+
+h5,
+.h5 {
+	color: $h5-text-color;
+	font: bold 1.1em/1.5 $base-font-family;
+}
+
+h6,
+.h6,
+legend {
+	color: $h6-text-color;
+	font: 1em/1.625 $base-font-family;
+}
+
+
+// Images
+img {
+	height: auto;
+	margin: 0 auto;
+	max-width: 100%;
+	vertical-align: bottom;
+}
+
+figure {
+	margin: 0;
+}
+
+figcaption {
+	font-size: 0.875em;
+	line-height: 1.4;
+	padding: 1em;
+	text-align: left;
+}
+
+
+// Lists
+nav {
+	ol,
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		margin: 0;
+	}
+}
+
+dl {
+	margin: $base-line-height auto;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-bottom: $base-line-height;
+	margin-left: 0;
+}
+
+ul,
+ol {
+	margin: $base-line-height 0;
+	padding-left: $base-line-height;
+}
+
+li {
+	margin: ($base-line-height / 2) 0;
+}
+
+
+// Tables
+table {
+	border-collapse: collapse;
+	margin: $base-line-height auto;
+	text-align: left;
+	width: 100%;
+}
+
+caption {
+	margin-bottom: 0.625em;
+}
+
+th,
+td {
+	padding: 0.625em 1em;
+}
+
+tr.odd td {
+	background: $white !important;
+}
+
+tr.even td {
+	background: tint($line-light-gray, 25%) !important;
+}
+
+th {
+	background: $html-bg-color;
+	color: $html-text-color;
+
+	&:first-child {
+		border-left: 1px solid $html-bg-color;
+	}
+
+	&:last-child {
+		border-right: 1px solid $html-bg-color;
+	}
+}
+
+tbody {
+	box-shadow: 0 0 10px rgba($darker-text-color, 0.05);
+
+	td {
+		&:first-child {
+			border-left: 1px solid $line-light-gray;
+		}
+
+		&:last-child {
+			border-right: 1px solid $line-light-gray;
+		}
+	}
+
+	tr {
+		&:last-child td {
+			border-bottom: 1px solid $line-light-gray;
+		}
+
+		&:nth-child(odd) td {
+			background: $white;
+		}
+
+		&:nth-child(even) td {
+			background: tint($line-light-gray, 25%);
+		}
+	}
+}
+
+tfoot {
+	color: $lighter-text-color;
+	font-size: 0.875em;
+}
+
+
+// Forms
+fieldset {
+	border: 0;
+	border-top: 1px solid $line-gray;
+	margin: $base-line-height 0;
+	padding: 0;
+}
+
+legend {
+	margin-left: 0.5em;
+	padding: 0 0.5em;
+}
+
+label {
+	cursor: pointer;
+	display: inline-block;
+}
+
+#{$all-text-inputs} {
+  border: 1px solid $line-light-gray;
+  padding: 0.625em 1em;
+}
+
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+button {
+	cursor: pointer;
+}

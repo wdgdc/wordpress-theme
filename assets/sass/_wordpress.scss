@@ -1,0 +1,45 @@
+figure.alignleft,
+img.alignleft {
+	float: left;
+	margin: $base-line-height;
+	margin-left: 0;
+	margin-top: 0;
+}
+
+figure.aligncenter,
+img.aligncenter {
+	display: block;
+	margin: $base-line-height auto;
+}
+
+figure.alignright,
+img.alignright {
+	float: right;
+	margin: $base-line-height;
+	margin-right: 0;
+	margin-top: 0;
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	pointer-events: none;
+	position: absolute !important;
+	visibility: hidden;
+	width: 1px;
+}
+
+@include media($small-down) {
+	figure.alignleft,
+	img.alignleft,
+	figure.aligncenter,
+	img.aligncenter,
+	figure.alignright,
+	img.alignright {
+		clear: both;
+		display: block;
+		float: none;
+		margin: $base-line-height auto;
+	}
+}

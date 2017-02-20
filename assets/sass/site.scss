@@ -1,5 +1,8 @@
-@import 'bourbon';
-@import 'neat';
-@import 'variables';
-@import 'mixins';
-@import 'components';
+@import "bourbon";
+@import "neat";
+@import "variables/**/*.scss";
+@import "mixins/**/*.scss";
+@import "global";
+@import "components/**/*.scss";
+@import "utils/**/*.scss";
+@import "wordpress";

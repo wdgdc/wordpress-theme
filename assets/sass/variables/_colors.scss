@@ -1,0 +1,24 @@
+@import "../vendor/colors-sass/sass/variables";
+
+$html-bg-color: $black;
+$html-text-color: $silver;
+
+$body-bg-color: $white;
+$body-text-color: $black;
+
+$darker-text-color: darken($body-text-color, 15%);
+$lighter-text-color: lighten($body-text-color, 15%);
+
+$link-text-color: $blue;
+$link-text-color-hover: $navy;
+
+$hr-border-color: $gray;
+$line-gray: $gray;
+$line-light-gray: lighten($gray, 15%);
+
+$h1-text-color: inherit;
+$h2-text-color: inherit;
+$h3-text-color: inherit;
+$h4-text-color: inherit;
+$h5-text-color: inherit;
+$h6-text-color: inherit;

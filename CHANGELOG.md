@@ -1,14 +1,44 @@
 # Changelog
 
-## 0.5.0
-* Added lodash custom build support
-* upgraded modernizr custom builds to 3.0
-* include bourbon neat by default
-* es6 compilation with babel
-* move compiled assets to assets/dist
-* removed zurb foundation support
+## 0.6.0
+* Refactoring. See [issue #4](https://github.com/WDGDC/wordpress-theme/issues/4)
+* Enforce Coding Styles and naming conventions
+* JavaScript ES2015 modules support
+* New PHP classes for ACF Options page, Attachments, Breadcrumbs, Post types, Shortcodes, Strings, SVG, Taxonomies, and Visual Grid (from Neat)
+* Moved Theme class to its own file
+* Transition to Gulp for CLI tasks
+* Use NPM tasks instead of installing global Node modules
+* Deprecate Bower, use NPM instead
+* Removed `comments.php` file from Bones
+* Source maps support for all compiled files
+* Minified versions are also compiled by default
+* Ignore `/assets/dist` files on the Git repo, compile files as part of the deployment process
+* Renamed constant `THEME_INCLUDE_PATH` to `THEME_INCLUDES_PATH`
+* Renamed constants file from `theme-constants.php` to `constants.php`
+* Default pagination template & styles
+* WordPress ACF, API, Editor, Shortcodes, Widgets & Yoast SEO support
+* `WDG` PHP class
+	* Remove `$content-width` global variable overwrite (use editor.scss instead)
+	* Remove Gravity Forms language files (plugin allows to change these strings in the UI now)
+	* Remove `setup_author_archive`, avoid overriding $GLOBALS
+	* Remove `filter_wp_title` - use Yoast SEO plugin instead
+	* Remove `wp_admin_css_colors`
+	* New method `ob` for output buffering
+	* New filter removes "Protected:" & "Private:" from post titles
+	* Refactor `get_template_part` to use `ob`
+	* Refacotr `$class` to use `__CLASS__` or anonymous functions
+	* Move `humanize` to `Theme_String`
+	* Bugfix `add_body_class` wasn't working
 
-## 0.4.0
+## 0.5.0 (11/25/2015)
+* Added Lodash custom build support
+* Upgraded Modernizr custom builds to 3.0
+* Include Bourbon Neat by default
+* ES2016 compilation with Babel
+* Move compiled assets to `assets/dist`
+* Removed Zurb Foundation support
+
+## 0.4.0 (2/24/2015)
 * __wdg.class.php__ Reorganized WDG class
 	* Added `WDG/theme_support` filter in `setup_theme`
 	* Added `WDG/content_width` filter in `setup_theme` - default of 800
@@ -30,7 +60,7 @@
 * __header.php__ Dropped support for deprecated Chrome-frame
 * Dropped `camelcase` JSLint requirement
 
-## 0.3.0
+## 0.3.0 (8/26/2014)
 * Added `Thumbs.db` & `*.log` to `.gitignore`
 * Removed Bones & YeoPress mention on theme description
 * Removed Suit CSS class names, we won't enforce a CSS naming convention yet
@@ -43,7 +73,7 @@
 * Removed `home.js`, let users create these if needed
 * Added `partials` & `widgets` directories
 
-## 0.2.0
+## 0.2.0 (3/11/2014)
 * __functions.php__
 	* Sidebar name changed from `Sidebar 1` to `Sidebar`
 	* New constants: LIBRARY_DIRECTORY, VENDOR_DIRECTORY
@@ -65,5 +95,5 @@
 * Updated Bower dependencies
 * Updated NPM dependencies
 
-## 0.1.0
+## 0.1.0 (11/8/2013)
 * Initial release

@@ -1,0 +1,12 @@
+.breadcrumb {
+	font-size: 0.9em;
+
+	&__list-item {
+		display: inline-block;
+
+		&:not(:first-child)::before {
+			color: $lighter-text-color;
+			content: ">";
+		}
+	}
+}
