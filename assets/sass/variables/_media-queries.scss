@@ -1,61 +1,23 @@
 // Media queries
 $mq-xsmall: 0;
-$mq-small: 600;
+$mq-small:  600;
 $mq-medium: 800;
-$mq-large: 1000;
+$mq-large:  1000;
 $mq-xlarge: 1200;
 
-$small-up: new-breakpoint(min-width #{$mq-small}px);
-$medium-up: new-breakpoint(min-width #{$mq-medium}px);
-$large-up: new-breakpoint(min-width #{$mq-large}px);
-$xlarge-up: new-breakpoint(min-width #{$mq-xlarge}px);
+$small-up:     new-breakpoint(min-width #{$mq-small}px);
+$medium-up:    new-breakpoint(min-width #{$mq-medium}px);
+$large-up:     new-breakpoint(min-width #{$mq-large}px);
+$xlarge-up:    new-breakpoint(min-width #{$mq-xlarge}px);
 $max-width-up: new-breakpoint(min-width #{$max-width + ($outer-container-margin * 2)});
 
-$small-down: new-breakpoint(max-width #{$mq-medium - 1}px);
-$medium-down: new-breakpoint(max-width #{$mq-large - 1}px);
-$large-down: new-breakpoint(max-width #{$mq-xlarge - 1}px);
+$small-down:     new-breakpoint(max-width #{$mq-medium - 1}px);
+$medium-down:    new-breakpoint(max-width #{$mq-large - 1}px);
+$large-down:     new-breakpoint(max-width #{$mq-xlarge - 1}px);
 $max-width-down: new-breakpoint(max-width #{$max-width + ($outer-container-margin * 2) - 1});
 
 $xsmall-only: new-breakpoint(min-width #{$mq-xsmall}px max-width #{$mq-small - 1}px);
-$small-only: new-breakpoint(min-width #{$mq-small}px max-width #{$mq-medium - 1}px);
+$small-only:  new-breakpoint(min-width #{$mq-small}px max-width #{$mq-medium - 1}px);
 $medium-only: new-breakpoint(min-width #{$mq-medium}px max-width #{$mq-large - 1}px);
-$large-only: new-breakpoint(min-width #{$mq-large}px max-width #{$mq-xlarge - 1}px);
+$large-only:  new-breakpoint(min-width #{$mq-large}px max-width #{$mq-xlarge - 1}px);
 $xlarge-only: $xlarge-up;
-
-.mq-debug::after {
-	bottom: 0;
-	color: #fff;
-	content: "";
-	font-size: 9px;
-	padding: 5px;
-	pointer-events: none;
-	position: fixed;
-	right: 0;
-	text-transform: uppercase;
-	z-index: 1000;
-
-	@include media($xsmall-only) {
-		background: orange;
-		content: "xsmall";
-	}
-
-	@include media($small-only) {
-		background: green;
-		content: "small";
-	}
-
-	@include media($medium-only) {
-		background: red;
-		content: "medium";
-	}
-
-	@include media($large-only) {
-		background: blue;
-		content: "large";
-	}
-
-	@include media($xlarge-up) {
-		background: rebeccapurple;
-		content: "xlarge";
-	}
-}
