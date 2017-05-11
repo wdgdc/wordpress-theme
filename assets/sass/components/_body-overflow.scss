@@ -16,27 +16,27 @@
 		text-transform: uppercase;
 		z-index: 1000;
 
-		@include media($xsmall-only) {
+		@media #{$xsmall-only} {
 			background: orange;
 			content: "xsmall";
 		}
 
-		@include media($small-only) {
+		@media #{$small-only} {
 			background: green;
 			content: "small";
 		}
 
-		@include media($medium-only) {
+		@media #{$medium-only} {
 			background: red;
 			content: "medium";
 		}
 
-		@include media($large-only) {
+		@media #{$large-only} {
 			background: blue;
 			content: "large";
 		}
 
-		@include media($xlarge-up) {
+		@media #{$xlarge-up} {
 			background: rebeccapurple;
 			content: "xlarge";
 		}

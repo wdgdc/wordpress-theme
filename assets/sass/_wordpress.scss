@@ -30,7 +30,7 @@ img.alignright {
 	width: 1px;
 }
 
-@include media($small-down) {
+@media #{$small-down} {
 	figure.alignleft,
 	img.alignleft,
 	figure.aligncenter,

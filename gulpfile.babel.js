@@ -152,7 +152,7 @@ gulp.task('build:js', () => {
 			banner,
 			exports: 'named',
 			format: 'umd',
-			dest
+			dest,
 		};
 
 		const result = bundle.generate(opts);
@@ -183,6 +183,7 @@ gulp.task('build:js', () => {
 				// compile original file
 				return rollup.rollup({
 					entry: path,
+					external: Object.keys(globals),
 					onwarn: (msg) => log(`${fileName}.js`, msg),
 					plugins: [
 						es2015()
@@ -194,6 +195,7 @@ gulp.task('build:js', () => {
 				// compile minified file
 				.then(() => rollup.rollup({
 					entry: path,
+					external: Object.keys(globals),
 					onwarn: (msg) => log(`${fileName}.min.js`, msg),
 					plugins: [
 						es2015(),

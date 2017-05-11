@@ -1,22 +1,14 @@
 // Bourbon Neat
-$border-box-sizing: false !global;
-$column: 54px;
-$grid-columns: 12;
-$gutter: 36px;
+@import "../../node_modules/bourbon-neat/core/_neat";
+
+$grid-columns: 24;
+$grid-gutters: 20px;
 $max-width: 1200px;
-$outer-container-margin: ($column / 2);
-$visual-grid-color: red !global;
-$visual-grid-index: front !global;
-$visual-grid-opacity: 0.1 !global;
-$visual-grid: true !global;
+$outer-container-margin: $grid-gutters;
 
-@import "../../node_modules/bourbon-neat/app/assets/stylesheets/_neat";
+$neat-grid: (
+	columns: $grid-columns,
+	gutter: $grid-gutters,
+);
+
 @import "variables/media-queries";
-
-@include media($max-width-down) {
-	body::before {
-		margin-left: $outer-container-margin;
-		margin-right: $outer-container-margin;
-		width: auto;
-	}
-}

@@ -1,10 +1,9 @@
 .wrap {
-	@include outer-container;
 	padding: 1em 0;
 	position: relative;
 }
 
-@include media($max-width-down) {
+@media #{$max-width-down} {
 	// add spacing on lower resolutions to grid / wrap containers
 	body::before {
 		width: auto;

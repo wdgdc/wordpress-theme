@@ -5,19 +5,19 @@ $mq-medium: 800;
 $mq-large:  1000;
 $mq-xlarge: 1200;
 
-$small-up:     new-breakpoint(min-width #{$mq-small}px);
-$medium-up:    new-breakpoint(min-width #{$mq-medium}px);
-$large-up:     new-breakpoint(min-width #{$mq-large}px);
-$xlarge-up:    new-breakpoint(min-width #{$mq-xlarge}px);
-$max-width-up: new-breakpoint(min-width #{$max-width + ($outer-container-margin * 2)});
+$small-up:     "(min-width: #{$mq-small}px)";
+$medium-up:    "(min-width: #{$mq-medium}px)";
+$large-up:     "(min-width: #{$mq-large}px)";
+$xlarge-up:    "(min-width: #{$mq-xlarge}px)";
+$max-width-up: "(min-width: #{$max-width + ($outer-container-margin * 2)})";
 
-$small-down:     new-breakpoint(max-width #{$mq-medium - 1}px);
-$medium-down:    new-breakpoint(max-width #{$mq-large - 1}px);
-$large-down:     new-breakpoint(max-width #{$mq-xlarge - 1}px);
-$max-width-down: new-breakpoint(max-width #{$max-width + ($outer-container-margin * 2) - 1});
+$small-down:     "(max-width: #{$mq-medium - 1}px)";
+$medium-down:    "(max-width: #{$mq-large - 1}px)";
+$large-down:     "(max-width: #{$mq-xlarge - 1}px)";
+$max-width-down: "(max-width: #{$max-width + ($outer-container-margin * 2) - 1})";
 
-$xsmall-only: new-breakpoint(min-width #{$mq-xsmall}px max-width #{$mq-small - 1}px);
-$small-only:  new-breakpoint(min-width #{$mq-small}px max-width #{$mq-medium - 1}px);
-$medium-only: new-breakpoint(min-width #{$mq-medium}px max-width #{$mq-large - 1}px);
-$large-only:  new-breakpoint(min-width #{$mq-large}px max-width #{$mq-xlarge - 1}px);
+$xsmall-only: "(min-width: #{$mq-xsmall}px) and (max-width: #{$mq-small - 1}px)";
+$small-only:  "(min-width: #{$mq-small}px) and (max-width: #{$mq-medium - 1}px)";
+$medium-only: "(min-width: #{$mq-medium}px) and (max-width: #{$mq-large - 1}px)";
+$large-only:  "(min-width: #{$mq-large}px) and (max-width: #{$mq-xlarge - 1}px)";
 $xlarge-only: $xlarge-up;
