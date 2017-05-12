@@ -19,7 +19,7 @@ class Theme_Example_Shortcode extends Theme_Shortcode {
 		parent::__construct();
 	}
 
-	public function shortcode( $atts ) {
+	public function shortcode( $atts, $content, $tag ) {
 		return Theme::get_template_part( 'partials/shortcodes/example', $atts );
 	}
 }
