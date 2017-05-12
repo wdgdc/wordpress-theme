@@ -5,6 +5,8 @@ import debug from 'bows';
 // example of ES2015 modules loading & tree shaking
 import { emptyLinks } from './_links';
 
+import fitvid from './_fitvid';
+
 const $window   = $(window);
 const $document = $(document);
 const log       = debug('site');
@@ -17,6 +19,10 @@ class Site {
 
 	domReady() {
 		const log = debug('site:domReady');
+
+		// initialize fitvid videos
+		fitvid();
+
 		log('dom.ready');
 	}
 
