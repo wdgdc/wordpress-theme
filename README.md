@@ -327,7 +327,7 @@ We encourage you to use the following plugins for development:
 * [Enhanced Media Library](https://wordpress.org/plugins/enhanced-media-library/) for Media Library taxonomies and mime types
 * [Gravity Forms](http://www.gravityforms.com/) for form management
 * [Redirection](https://wordpress.org/plugins/redirection/) for managing redirects
-* [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) for managing redirects
+* [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) for providing an interface to redis
 * [Shortcake (Shortcode UI)](https://wordpress.org/plugins/shortcode-ui/) for a shortcode user interface
 * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) for cache management
 * [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) or [The SEO Framework](https://wordpress.org/plugins/autodescription/) for search engine optimization
