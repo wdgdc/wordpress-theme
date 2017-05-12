@@ -8,31 +8,33 @@ This is a *very* opinionated base theme for WordPress, build from several iterat
 * PHP classes and helper functions for your WordPress theme
     * Constants for URIs and server paths
     * Custom post types & Taxonomies default options and auto generated labels
-		* Breadcrumbs
+        * Breadcrumbs
     * Attachments
         * Get Average colors from images
         * Get paths and urls with attachment ids
         * SVG parsing and rendering with a rasterized image fallback
     * Menus: Additional CSS classes and sensitive defaults
+    * Shortcodes:
+        * Classes to ease the development of shortcodes with a UI integrated with [Shortcake](https://wordpress.org/plugins/shortcode-ui/)
     * String functions with Doctrine's [inflector](https://github.com/doctrine/inflector)
-		* Autoloading of classes & Composer packages
-		* Vendor packages using [Composer](https://getcomposer.org/) & [Packagist](https://packagist.org/)
-		* Enforced linting and [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) with [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
+        * Autoloading of classes & Composer packages
+        * Vendor packages using [Composer](https://getcomposer.org/) & [Packagist](https://packagist.org/)
+        * Enforced linting and [WordPress coding standards](https://github.com/xwp/WordPress-Coding-Standards) with [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/)
 * Assets structure and build tools
-	* CSS goodies like:
-	    * [SASS (SCSS syntax)](http://sass-lang.com/): CSS pre-processor
-	    * [Autoprefixer](https://github.com/postcss/autoprefixer): Automatically prefixed vendor properties
-	    * [Bourbon](http://bourbon.io/) & [Neat](http://neat.bourbon.io/): SASS & Grid library
-	    * [stylelint](http://stylelint.io/) & [CSScomb](http://csscomb.com/): Linting and coding standards
-	* JavaScript goodies like:
-	    * ES2015 syntax with [Bublé](https://gitlab.com/Rich-Harris/buble)
-	    * ES2015 modules with [Rollup](http://rollupjs.org/)
-	    * [ESLint](http://eslint.org/): Linting and coding standards
-	* Vendor modules
-	  * Copied automatically from `node_modules` to `assets/vendor`
-	  * Custom Modernizr generated from your SCSS & JS files
-	* [Browsersync](https://browsersync.io/) support
-	* [Gulp](http://gulpjs.com/) tasks to build/compile and watch for asset changes
+    * CSS goodies like:
+        * [SASS (SCSS syntax)](http://sass-lang.com/): CSS pre-processor
+        * [Autoprefixer](https://github.com/postcss/autoprefixer): Automatically prefixed vendor properties
+        * [Bourbon](http://bourbon.io/) & [Neat](http://neat.bourbon.io/): SASS & Grid library
+        * [stylelint](http://stylelint.io/) & [CSScomb](http://csscomb.com/): Linting and coding standards
+    * JavaScript goodies like:
+        * ES2015 syntax with [Bublé](https://gitlab.com/Rich-Harris/buble)
+        * ES2015 modules with [Rollup](http://rollupjs.org/)
+        * [ESLint](http://eslint.org/): Linting and coding standards
+    * Vendor modules
+      * Copied automatically from `node_modules` to `assets/vendor`
+      * Custom Modernizr generated from your SCSS & JS files
+    * [Browsersync](https://browsersync.io/) support
+    * [Gulp](http://gulpjs.com/) tasks to build/compile and watch for asset changes
 
 ---
 
@@ -115,9 +117,9 @@ Inside the `rollup` task, add your 3rd party dependencies as follows:
 
 ```javascript
 globals: {
-	bows: 'bows',
-	jquery: 'jQuery',
-	modernizr: 'Modernizr'
+    bows: 'bows',
+    jquery: 'jQuery',
+    modernizr: 'Modernizr'
 },
 ```
 
@@ -317,22 +319,28 @@ We encourage you to use the following plugins for development:
 
 **Development**
 
-* [Advanced Custom Fields](http://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
+* [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
 * [Black Studio TinyMCE Widget](https://wordpress.org/plugins/black-studio-tinymce-widget/) for a standard WordPress TinyMCE widget
-* [Carbon Fields](http://carbonfields.net) as an alternative to Advanced Custom Fields
+* [Carbon Fields](https://carbonfields.net) as an alternative to Advanced Custom Fields
+* [Download Monitor](https://wordpress.org/plugins/download-monitor/) for managing and versioning protected assets
+* [Easy WP SMTP](https://wordpress.org/plugins/easy-wp-smtp/) for configuring SMTP email delivery
 * [Enhanced Media Library](https://wordpress.org/plugins/enhanced-media-library/) for Media Library taxonomies and mime types
 * [Gravity Forms](http://www.gravityforms.com/) for form management
 * [Redirection](https://wordpress.org/plugins/redirection/) for managing redirects
+* [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) for managing redirects
 * [Shortcake (Shortcode UI)](https://wordpress.org/plugins/shortcode-ui/) for a shortcode user interface
 * [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) for cache management
-* [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) for search engine optimization
+* [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) or [The SEO Framework](https://wordpress.org/plugins/autodescription/) for search engine optimization
 
 **Administration**
 
-* [Bulk Creator](https://wordpress.org/plugins/bulk-creator/) for initial content creation
-* [Jarvis](https://wordpress.org/plugins/jarvis/) for fast lookups of the admin menus
-* [Google Analytics by Monster Insights](https://wordpress.org/plugins/google-analytics-for-wordpress/) for Google Analytics installation and admin user exclusion
+* [Admin Columns]() for customizing the columns in WP_List_Table
 * [Admin Column View](https://wordpress.org/plugins/admin-column-view/) for a hierarchical view of pages
+* [Bulk Creator](https://wordpress.org/plugins/bulk-creator/) for initial content creation
+* [Duplicate Post](https://wordpress.org/plugins/duplicate-post/) for duplicating content
+* [Google Analytics by Monster Insights](https://wordpress.org/plugins/google-analytics-for-wordpress/) for Google Analytics installation and admin user exclusion
+* [Jarvis](https://wordpress.org/plugins/jarvis/) for fast lookups of the admin menus
+* [Revisionize](https://wordpress.org/plugins/revisionize/) for creating drafts of already published content
 
 **Debugging**
 
