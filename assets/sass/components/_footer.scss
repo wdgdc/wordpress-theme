@@ -1,4 +1,9 @@
 .footer {
 	background-color: $html-bg-color;
 	color: $html-text-color;
+
+	// add the gutters to the content element - refer to neat grid
+	&__content {
+		@include grid-column($grid-columns);
+	}
 }

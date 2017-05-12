@@ -3,8 +3,10 @@
 
 <footer class="footer">
 	<div class="footer__wrap wrap">
-		<?php echo Theme::nav( 'footer' ); ?>
-		<p class="footer__copyright">&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
+		<div class="footer__content">
+			<?php echo Theme::nav( 'footer' ); ?>
+			<p class="footer__copyright">&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?>.</p>
+		</div>
 	</div>
 </footer>
 

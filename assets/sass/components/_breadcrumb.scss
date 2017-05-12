@@ -1,5 +1,10 @@
 .breadcrumb {
 	font-size: 0.9em;
+	@include grid-container();
+
+	&__list {
+		@include grid-column($grid-columns);
+	}
 
 	&__list-item {
 		display: inline-block;

@@ -1,6 +1,11 @@
 .header {
 	background-color: $silver;
 
+	// add the gutters to the content element - refer to neat grid
+	&__content {
+		@include grid-column($grid-columns);
+	}
+
 	&__logo {
 		margin: 0;
 

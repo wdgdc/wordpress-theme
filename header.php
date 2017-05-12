@@ -12,17 +12,19 @@
 
 <header class="header">
 	<div class="header__wrap wrap">
-		<p class="header__logo">
-			<a href="<?php bloginfo( 'url' ); ?>">
-				<?php echo Theme_SVG::render( THEME_IMG_PATH . '/wdg-logo.svg' ); ?>
-				<?php bloginfo( 'name' ); ?>
-			</a>
-		</p>
+		<div class="header__content">
+			<p class="header__logo">
+				<a href="<?php bloginfo( 'url' ); ?>">
+					<?php echo Theme_SVG::render( THEME_IMG_PATH . '/wdg-logo.svg' ); ?>
+					<?php bloginfo( 'name' ); ?>
+				</a>
+			</p>
 
-		<?php echo Theme::nav( 'primary' ); ?>
-		<?php echo Theme::nav( 'utility' ); ?>
+			<?php echo Theme::nav( 'primary' ); ?>
+			<?php echo Theme::nav( 'utility' ); ?>
 
-		<?php get_search_form(); ?>
+			<?php get_search_form(); ?>
+		</div>
 	</div>
 </header><!-- end .header -->
 

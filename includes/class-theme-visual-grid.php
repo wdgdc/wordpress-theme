@@ -71,7 +71,7 @@ class Theme_Visual_Grid {
 				'title' => '<span>Visual Grid</span>' . self::$icons['grid_on'] . self::$icons['grid_off'],
 				'href'  => '#toggle-visual-grid',
 				'meta'  => array(
-					'class' => 'visual-grid',
+					'class' => 'visual-grid-toggle',
 					'title' => 'Toggle Visual Grid',
 				),
 				'parent' => 'top-secondary',
