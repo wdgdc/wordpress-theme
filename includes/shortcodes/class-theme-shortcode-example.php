@@ -1,6 +1,6 @@
 <?php
 
-class Theme_Example_Shortcode extends Theme_Shortcode {
+class Theme_Shortcode_Example extends Theme_Shortcode {
 
 	protected $shortcode = 'example';
 	protected $shortcode_ui = array(

@@ -90,9 +90,11 @@ class Theme extends WDG {
 	}
 
 	public static function setup_shortcodes() {
-		// include and intiialize your short codes w/ shortcake support classes here
-		// require_once THEME_INCLUDES_PATH . '/shortcodes/class-theme-example-shortcode.php';
-		// new Theme_Example_Shortcode();
+		// intiialize your short codes w/ shortcake support classes here
+		// any file inside the shortcodes folder that matches class-theme-shortcode-name.php will be autoloaded
+		// example new Theme_Shortcode_Example(); will autoload theme-path/includes/shortcodes/class-theme-shortcode-example.php
+
+		// new Theme_Shortcode_Example();
 	}
 
 	public static function setup_widgets() {
