@@ -269,8 +269,8 @@ if (browserSync) {
 	gulp.task('watch:sync', () => {
 		const { execSync } = require('child_process');
 
-		// get the URL from wp-config-env.php
-		const proxy = execSync(`php -r "require '../../../wp-config-env.php'; echo \\$host;"`, { encoding: 'utf8' });
+		// get the URL WP_SITEURL from wp-config.php
+		const proxy = execSync(`php -r "require '../../../wp-config.php'; echo \\WP_SITEURL;"`, { encoding: 'utf8' });
 
 		// BrowserSync
 		browserSync.init({ proxy });
