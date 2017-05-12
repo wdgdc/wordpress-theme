@@ -61,7 +61,7 @@ class Theme extends WDG {
 		self::register_script( 'jquery', THEME_VENDOR_URI . '/jquery/dist/jquery.min.js' );
 		self::register_script( 'bows', THEME_VENDOR_URI . '/bows/dist/bows.min.js' );
 		self::register_script( 'site', THEME_DIST_URI . '/site.js', array( 'modernizr', 'jquery', 'bows' ) );
-		self::register_script_inline( 'site', 'window.site = new Site();' );
+		self::register_script_inline( 'site', 'window.site = new Site.default();' );
 
 		// enqueue scripts
 		self::enqueue_script( 'site' );
