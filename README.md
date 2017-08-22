@@ -320,7 +320,6 @@ We encourage you to use the following plugins for development:
 **Development**
 
 * [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) (Pro) for fields
-* [Black Studio TinyMCE Widget](https://wordpress.org/plugins/black-studio-tinymce-widget/) for a standard WordPress TinyMCE widget
 * [Carbon Fields](https://carbonfields.net) as an alternative to Advanced Custom Fields
 * [Download Monitor](https://wordpress.org/plugins/download-monitor/) for managing and versioning protected assets
 * [Easy WP SMTP](https://wordpress.org/plugins/easy-wp-smtp/) for configuring SMTP email delivery
